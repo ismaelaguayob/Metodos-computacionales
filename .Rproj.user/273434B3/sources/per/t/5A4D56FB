@@ -3,7 +3,7 @@
     "path": "~/GitHub/Metodos computacionales/qmd1.qmd",
     "project_path": "qmd1.qmd",
     "type": "quarto_markdown",
-    "hash": "0",
+    "hash": "2299207923",
     "contents": "",
     "dirty": false,
     "created": 1729880206305.0,
@@ -15,18 +15,18 @@
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "10,0",
+        "cursorPosition": "23,0",
         "scrollLine": "0",
         "docOutlineVisible": "1",
         "rmdVisualCollapsedChunks": "",
-        "rmdVisualModeLocation": "233:126.4000015258789"
+        "rmdVisualModeLocation": "429:907.2000122070312"
     },
     "folds": "",
-    "lastKnownWriteTime": 1729881262,
+    "lastKnownWriteTime": 1729891714,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1729881262391,
+    "last_content_update": 1729891714123,
     "read_only": false,
     "read_only_alternatives": []
 }
