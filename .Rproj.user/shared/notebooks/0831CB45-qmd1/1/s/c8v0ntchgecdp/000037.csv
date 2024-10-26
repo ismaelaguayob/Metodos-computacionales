@@ -1,0 +1,52 @@
+"0","# Loop para extraer todas las páginas de resultados
+while (offset < total_results) {
+  # Construye la URL de la API con los parámetros actuales
+  url <- paste0(
+    ""https://www.biobiochile.cl/lista/api/buscador?offset="", offset,
+    ""&search="", URLencode(search_query),
+    ""&intervalo=&orden=ultimas""
+  )
+  
+  # Realiza la solicitud a la API
+  response <- GET(url)
+  
+  # Verifica que la solicitud sea exitosa
+  if (status_code(response) == 200) {
+    # Procesa el JSON y extrae los enlaces
+    data <- content(response, ""text"", encoding = ""UTF-8"")
+    json_data <- fromJSON(data, flatten = TRUE)
+    
+    # Extrae las URLs de cada artículo y las añade a la lista de enlaces
+    if (!is.null(json_data$notas) && length(json_data$notas) > 0) {
+      # Filtra solo aquellos elementos que tienen `post_URL`
+      page_links <- sapply(json_data$notas, function(nota) {
+        if (!is.null(nota[[""post_URL""]])) {
+          return(nota[[""post_URL""]])
+        } else {
+          return(NA)  # Asigna NA si no tiene `post_URL`
+        }
+      })
+      
+      # Agrega los links válidos y elimina NAs
+      all_links <- c(all_links, na.omit(page_links))
+      
+      # Muestra el progreso
+      cat(""Procesados"", length(all_links), ""resultados\n"")
+    } else {
+      cat(""No se encontraron más notas en esta página.\n"")
+    }
+    
+    # Actualiza el total de resultados si es necesario
+    if (!is.null(json_data$total)) {
+      total_results <- as.numeric(json_data$total)
+    }
+    
+    # Aumenta el offset para la próxima página
+    offset <- offset + 20
+  } else {
+    cat(""Error en la solicitud: código de estado"", status_code(response), ""\n"")
+  }
+}
+"
+"2","Error en nota[[""post_URL""]]: subíndice fuera de  los límites
+"

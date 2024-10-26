@@ -1,7 +1,10 @@
 "0","p_load(
   rvest,
   tidyverse,
-  rselenium
+  rselenium,
+  httr,
+  jsonlite
+
 )
 "
 "2","Installing package into ‘C:/Users/ismae/AppData/Local/R/win-library/4.4’
