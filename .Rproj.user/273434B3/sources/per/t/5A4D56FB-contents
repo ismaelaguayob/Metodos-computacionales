@@ -15,12 +15,10 @@ El siguiente documento dinámico presentará el proceso de web-scapping que se r
 library(pacman)
 
 p_load(
-  rvest,
   tidyverse,
-  rselenium,
   httr,
-  jsonlite
-
+  jsonlite,
+  dplyr
 )
 
 rm(list = ls()) 
@@ -28,14 +26,11 @@ rm(list = ls())
 
 ```{r}
 
-library(httr)
-library(jsonlite)
-
-# Configura los parámetros básicos
-search_query <- "inteligencia artificial"
-offset <- 0  # Inicia desde el primer artículo
-all_links <- c()  # Almacena todas las URLs
-total_results <- Inf  # Se inicializa con un valor alto para empezar el bucle
+## Parámetros básicos
+search_query <- "inteligencia artificial" # Palabra clave para obtener los artículos
+offset <- 0  # Seteamos en 0 para que comience por el primer artículo
+total_results <- 2132  # Numero de búsquedas total al ingresar la palabra clave en bíobío.cl
+all_data <- data.frame() # Creamos data.frame vacío para almacenar todo el contenido
 
 # Encabezados para la solicitud
 headers <- c(
@@ -45,57 +40,24 @@ headers <- c(
   `Content-Type` = "application/json; charset=UTF-8"
 )
 
-# Loop para extraer todas las páginas de resultados
+## Iteramos hasta que el offset sea menor al total de resultados
+
 while (offset < total_results) {
-  # Construye la URL de la API con los parámetros actuales
+  # Construimos el link para cada iteración (lo más importante es que el offset vaya aumentando)
   url <- paste0(
     "https://www.biobiochile.cl/lista/api/buscador?offset=", offset,
     "&search=", URLencode(search_query),
     "&intervalo=&orden=ultimas"
   )
-  
-  # Realiza la solicitud a la API
-  response <- GET(url)
-  
-  # Verifica que la solicitud sea exitosa
-  if (status_code(response) == 200) {
-    # Procesa el JSON y extrae los enlaces
-    data <- content(response, "text", encoding = "UTF-8")
-    json_data <- fromJSON(data, flatten = TRUE)
-    
-    # Extrae las URLs de cada artículo y las añade a la lista de enlaces
-    if (!is.null(json_data$notas) && length(json_data$notas) > 0) {
-      # Filtra solo aquellos elementos que tienen `post_URL`
-      page_links <- sapply(json_data$notas, function(nota) {
-        if (!is.null(nota[["post_URL"]])) {
-          return(nota[["post_URL"]])
-        } else {
-          return(NA)  # Asigna NA si no tiene `post_URL`
-        }
-      })
-      
-      # Agrega los links válidos y elimina NAs
-      all_links <- c(all_links, na.omit(page_links))
-      
-      # Muestra el progreso
-      cat("Procesados", length(all_links), "resultados\n")
-    } else {
-      cat("No se encontraron más notas en esta página.\n")
-    }
-    
-    # Actualiza el total de resultados si es necesario
-    if (!is.null(json_data$total)) {
-      total_results <- as.numeric(json_data$total)
-    }
-    
-    # Aumenta el offset para la próxima página
-    offset <- offset + 20
-  } else {
-    cat("Error en la solicitud: código de estado", status_code(response), "\n")
-  }
+    offset <- offset + 20 # Se aumenta el offset para cada iteración (después de que se construya el link)
+  response <- GET(url) # Realizamos la solicitud
+    data <- content(response, "text", encoding = "UTF-8") # Transformamos el cuerpo de "response" en texto en formato UTF-8 
+    json_data <- fromJSON(data, flatten = TRUE) #Convertimos el JSON en una lista leíble en R
+    json_notas <- c(json_data$notas) # Creamos un data frame donde solo esté la información relevante
+    all_data <- bind_rows(all_data, json_notas)
+      cat("Procesados", dim(all_data)) #Mostrar progreso
 }
 
-# Realiza la solicitud a la API
 
 # Muestra o guarda todas las URLs
 print(all_links)

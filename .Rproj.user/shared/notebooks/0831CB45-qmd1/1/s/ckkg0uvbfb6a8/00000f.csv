@@ -1,0 +1,56 @@
+"0","p_load(
+  rvest,
+  tidyverse,
+  rselenium,
+  httr,
+  jsonlite,
+  dplyr,
+  panda
+
+)
+"
+"2","Installing package into ‘C:/Users/ismae/AppData/Local/R/win-library/4.4’
+(as ‘lib’ is unspecified)
+"
+"2","Aviso: package ‘rselenium’ is not available for this version of R
+
+A version of this package for your version of R might be available elsewhere,
+see the ideas at
+https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages"
+"2","Aviso: Perhaps you meant ‘RSelenium’ ?"
+"2","Aviso: downloaded length 0 != reported length 281"
+"2","Aviso: cannot open URL 'https://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.4/PACKAGES.rds': HTTP status was '404 Not Found'"
+"2","Aviso: downloaded length 0 != reported length 281"
+"2","Aviso: cannot open URL 'https://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.4/PACKAGES.gz': HTTP status was '404 Not Found'"
+"2","Aviso: downloaded length 0 != reported length 281"
+"2","Aviso: cannot open URL 'https://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.4/PACKAGES': HTTP status was '404 Not Found'"
+"2","Aviso: unable to access index for repository http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.4:
+  no fue posible abrir la URL 'http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.4/PACKAGES'"
+"2","Aviso: 'BiocManager' not available.  Could not check Bioconductor.
+
+Please use `install.packages('BiocManager')` and then retry."
+"2","Aviso: "
+"2","Aviso: no hay paquete llamado ‘rselenium’"
+"2","Installing package into ‘C:/Users/ismae/AppData/Local/R/win-library/4.4’
+(as ‘lib’ is unspecified)
+"
+"2","Aviso: package ‘panda’ is not available for this version of R
+
+A version of this package for your version of R might be available elsewhere,
+see the ideas at
+https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages"
+"2","Aviso: downloaded length 0 != reported length 281"
+"2","Aviso: cannot open URL 'https://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.4/PACKAGES.rds': HTTP status was '404 Not Found'"
+"2","Aviso: downloaded length 0 != reported length 281"
+"2","Aviso: cannot open URL 'https://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.4/PACKAGES.gz': HTTP status was '404 Not Found'"
+"2","Aviso: downloaded length 0 != reported length 281"
+"2","Aviso: cannot open URL 'https://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.4/PACKAGES': HTTP status was '404 Not Found'"
+"2","Aviso: unable to access index for repository http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.4:
+  no fue posible abrir la URL 'http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.4/PACKAGES'"
+"2","Aviso: 'BiocManager' not available.  Could not check Bioconductor.
+
+Please use `install.packages('BiocManager')` and then retry."
+"2","Aviso: "
+"2","Aviso: no hay paquete llamado ‘panda’"
+"2","Aviso: Failed to install/load:
+rselenium, panda"

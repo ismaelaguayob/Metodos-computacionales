@@ -1,0 +1,21 @@
+"0","while (offset < total_results) {
+  # Construye la URL de la API con los parámetros actuales
+  url <- paste0(
+    ""https://www.biobiochile.cl/lista/api/buscador?offset="", offset,
+    ""&search="", URLencode(search_query),
+    ""&intervalo=&orden=ultimas""
+  )
+      
+    # Aumenta el offset para la próxima página
+    offset <- offset + 20
+  # Realiza la solicitud a la API
+  response <- GET(url)
+    data <- content(response, ""text"", encoding = ""UTF-8"")
+    json_data <- fromJSON(data, flatten = TRUE)
+      # Muestra el progreso
+      cat(""Procesados"", length(data1), ""resultados\n"")
+    # Actualiza el total de resultados si es necesario
+}
+"
+"2","Error: objeto 'data1' no encontrado
+"
