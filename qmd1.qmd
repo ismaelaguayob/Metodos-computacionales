@@ -59,7 +59,4 @@ while (offset < total_results) {
 }
 
 
-# Muestra o guarda todas las URLs
-print(all_links)
-
 ```

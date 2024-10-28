@@ -1,0 +1,13 @@
+"0","# Muestra o guarda todas las URLs
+summary(all_data$post_exerpt)
+"
+"1","Length "
+"1"," Class "
+"1","  Mode "
+"1","
+"
+"1","     0 "
+"1","  NULL "
+"1","  NULL "
+"1","
+"
