@@ -22,10 +22,14 @@ p_load(
   jsonlite,
   dplyr,
   tidytext,
-  ggplot2
+  ggplot2,
+  rvest,
+  stringr,
+  xml2
 )
 
 rm(list = ls()) 
+setwd("~/GitHub/Metodos-computacionales")
 ```
 
 ## Obtenemos el texto de las noticias con la búsqueda "Inteligencia Artificial" en medio Bío Bío
@@ -33,10 +37,13 @@ rm(list = ls())
 ```{r}
 
 ## Parámetros básicos
-search_query <- "Inteligencia Artificial" # Palabra clave para obtener los artículos
-offset <- 0  # Seteamos en 0 para que comience por el primer artículo
-total_results <- 2020  # Numero de búsquedas total al ingresar la palabra clave en bíobío.cl
-all_data <- data.frame() # Creamos data.frame vacío para almacenar todo el contenido
+search_query <- "Inteligencia Artificial" # Frase a buscar
+offset <- 0  # En 0 para que comience por el primer artículo, así funciona la API
+
+# Numero de búsquedas total al ingresar la palabra clave en bíobío.cl (hay datos que al parecer están codificados de otra forma, así que pusimos un número menor al total, que toma notas de prensa desde el año 2016 en adelante, tiene que ser múltiplo de 20)
+total_results <- 2020  
+
+all_data <- data.frame() # Creamos data.frame vacío para luego extraer los datos de la API
 
 # Encabezados para la solicitud
 headers <- c(
@@ -61,62 +68,86 @@ while (offset < total_results) {
     json_data <- fromJSON(data, flatten = TRUE) #Convertimos el JSON en una lista leíble en R
     json_notas <- c(json_data$notas) # Creamos un data frame donde solo esté la información relevante
     all_data <- bind_rows(all_data, json_notas)
-      cat("Procesados", dim(all_data)) #Mostrar progreso
+    #cat(" - Procesados - ", offset) #Mostrar progreso, se puede desactivar con #
 }
 
-print(all_data$post_content[1])
+# print(all_data$post_content[1]) #Ejemplo de cómo nos queda el contenido de la página
+```
+
+#### Sacamos un data frame con las columnas que nos interesen
+
+```{r}
 
 datos_proc <- all_data %>% 
   select(
     post_content, ID, post_title, year, month, day, post_category_primary.name, post_category_secondary.name
     )
-
-
 ```
 
-## Repetimos el procedimiento con medio "Emol"
+## Limpieza de las secciones "Lee también..."
+
+Aparecen algunos bloques html que ponen noticias como recomedación para leer y pueden contener las palabras "inteligencia artificial" sin que el contenido de la nota se refiera específicamente a eso. Para ello podemos usar el paquete rvest
+
+#### Necesitamos una función que se dedique a encontrar esa parte del texto y eliminarla:
 
 ```{r}
 
-## Parámetros básicos
+for (i in seq_len(nrow(datos_proc))){
+  # Convertimos el contenido a un objeto HTML para usar rvest
+  contenido_html <- rvest::read_html(datos_proc$post_content[[i]])
 
-search_query <- "Inteligencia Artificial" # Palabra clave para obtener los artículos
-from <- 0  # Seteamos en 0 para que comience por el primer artículo
-total_results <- 2000  # Numero de búsquedas total al ingresar la palabra clave en emol.cl
-procesados <- 0
-all_data_emol <- list() # Creamos lista vacía para almacenar todo el contenido (por el formato del JSON no se puede utilizar un data frame)
+  # Eliminar los divs con la clase 'lee-tambien-bbcl'
+  contenido_html %>%
+    html_nodes("div.lee-tambien-bbcl") %>%
+    xml_remove()
 
-combine_lists <- function(...) {
-  combined_list <- c(...)
-  return(combined_list)
-} #Creamos función para combinar listas
+  # Convertimos el HTML limpio a texto y eliminamos cualquier "Lee también" que quede en el contenido
+  contenido_texto <- as.character(contenido_html)
+  contenido_texto <- str_replace_all(contenido_texto, regex("Lee también.*?<\\/div>", dotall = TRUE), "")
+  
+  # Guardamos el contenido limpio de vuelta en el data frame
+  datos_proc$post_content[[i]] <- contenido_texto
 
-## Iteramos hasta que el from sea menor al total de resultados
-while (from < total_results) {
-  # Construimos el link para cada iteración (lo más importante es que el from vaya aumentando)
-  url <- paste0(
-    "https://newsapi.ecn.cl/NewsApi/emol/buscador/emol,inversiones,mediosregionales,legal,campo,blogs,guioteca,elmercurio-digital,emoltv,lasegundaprint,revistalibros,mercuriodeportes?q=inteligencia%20artificial&size=10&from=", from
-  )
-    from <- from + 10 # Se aumenta el from para cada iteración (después de que se construya el link)
-  response <- GET(url) # Realizamos la solicitud
-    data1 <- content(response, "text", encoding = "UTF-8") # Transformamos el cuerpo de "response" en texto en formato UTF-8 
-    json_data1 <- fromJSON(data1, flatten = FALSE) #Convertimos el JSON en una lista leíble en R
-    data2 <- list(json_data1[["hits"]][["hits"]][["_source"]][["texto"]]) #Seleccionamos solo el texto para construir una lista
-      all_data_emol <- combine_lists(all_data_emol, data2) # Fucionamos todas las listas
-          procesados <- procesados +10 # Contador
-          print(procesados)
+  #Revisamos el contenido HTML resultante (opcional)
+  # print(as.character(contenido_html))
 }
-
-textos_df <- tibble(texto = unlist(all_data_emol), na.omit=TRUE) #Convertimos la lista en data frame
-
-
 ```
 
-## Limpieza de texto
+#### También podemos exportar como html para ver si desaparecieron los bloques completos
 
 ```{r}
 
+# Seteamos nombre archivo salida
+out_file <- "noticia_casi.html"
 
+# Exportamos el contenido HTML de una nota aleatoria
+writeLines(as.character(datos_proc$post_content[sample(1:total_results, 1)]), con = out_file)
+
+# Mensaje de confirmación 
+cat("El contenido en bruto se ha exportado a", out_file) 
+```
+
+## Limpieza de texto general
+
+Eliminamos la parte de código que queda en el texto para convertirlo en texto plano.
+
+```{r}
+# Inicializamos variables
+contador <- 1
+html_content <- list()       # Lista para hacer nodos html
+
+# Procesar el HTML y extraer el texto
+while (contador <= total_results) {
+  # Convertir a nodo HTML
+  html_content[[contador]] <- read_html(datos_proc$post_content[[contador]])
+  
+  # Extraemos y limpiamos el texto
+  datos_proc$post_content[[contador]] <- html_content[[contador]] %>%
+    html_text2() %>% 
+    str_squish()
+  
+  contador <- contador + 1
+}
 ```
 
 ## Descriptivos de frecuencia de palabras
@@ -126,15 +157,15 @@ textos_df <- tibble(texto = unlist(all_data_emol), na.omit=TRUE) #Convertimos la
 ##Bio Bio
 
 # Seleccionamos solo la columna de texto que nos interesa
-text_data <- all_data %>% select(post_content)
+text_data <- datos_proc %>% select(post_content)
 
 # Tokenizamos el texto y lo dividimos en palabras
-words <- text_data %>%
+words <- datos_proc %>%
   unnest_tokens(word, post_content)
 
 # Cargar palabras comunes en español
-data("stop_words")
-stop_words_es <- tibble(word = c("el", "la", "de", "y", "en", "que", "a", "los", "con", "por", "div", "strong", "lee", "class", "https", "8221", "8220", "wp", "style", "las", "para", "se", "es", "href", "su", "del", "una", "es"))
+data("stop_words") # Cargar palabras comunes en inglés (desde tidytext)
+stop_words_es <- tibble(word = c("el", "la", "de", "y", "en", "que", "a", "los", "con", "por", "lee", "las", "para", "se", "es", "su",  "del", "una", "al", "como", "más", "lo", "este", "sus", "esta", "también", "entre", "fue", "han", "un", "sin", "sobre", "ya", "pero", "no", "muy", "si", "porque", "cuando", "desde", "todo", "son", "ha", "hay", "le", "ni", "cada", "me", "tanto", "hasta", "nos", "mi", "tus", "mis", "tengo", "tienes", "esa", "ese", "tan", "esa", "esos", "esa", "esas", "él", "ella", "ellos", "ellas", "nosotros", "vosotros", "vosotras", "ustedes", "uno", "una", "unos", "unas", "alguien", "quien", "cual", "cuales", "cualquier", "cualesquiera", "como", "donde", "cuanto", "demasiado", "poco", "menos", "casi", "algunos", "algunas", "aunque", "cuyo", "cuya", "cuyos", "cuyas", "ser", "haber", "estar", "tener", "hacer", "ir", "ver", "dar", "debe", "debido", "puede", "pues", "dicho", "hecho", "mientras", "luego", "además", "entonces", "así", "tal", "dicha", "mismo", "misma", "demás", "otro", "otra", "otros", "otras", "debería", "tendría", "podría", "menos", "cuándo", "dónde",  "qué", "quién", "cuyo", "la", "lo", "las", "que", "está", "según", "esto"))
 
 # Filtrar las stop words del texto
 words_clean <- words %>%
@@ -158,29 +189,4 @@ word_counts %>%
   labs(title = "Frecuencia de Palabras en Artículos",
        x = "Palabra", y = "Frecuencia") +
   theme_minimal()
-
-
-##Emol
-
-# Paso 2: Tokenizar las palabras y contar frecuencias
-frecuencia_palabras <- textos_df %>%
-  unnest_tokens(palabra, texto) %>%       # Divide el texto en palabras
-  count(palabra, sort = TRUE) 
-
-
-
-frecuencia_palabras <- frecuencia_palabras %>%
-  filter(!palabra %in% palabras_irrelevantes)
-
-# Paso 4: Graficar las frecuencias de las palabras más comunes
-ggplot(frecuencia_palabras %>% top_n(10, n), aes(x = reorder(palabra, n), y = n)) +
-  geom_col(fill = "skyblue") +
-  coord_flip() +
-  labs(title = "Frecuencia de Palabras en Textos",
-       x = "Palabra",
-       y = "Frecuencia") +
-  theme_minimal()
-
-
-
 ```
