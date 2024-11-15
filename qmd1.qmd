@@ -2,13 +2,14 @@
 title: "Tarea 1: scrapping"
 format: html
 editor: visual
-eval: false
 echo: true
 ---
 
-## Web-Scrapping
+# Web-Scrapping
 
 El siguiente documento dinámico presentará el proceso de web-scapping que se realizó para el ramo "Métodos Computacionales para las Ciencias Sociales".
+
+## Justificación
 
 ```{r}
 
@@ -29,10 +30,11 @@ p_load(
 )
 
 rm(list = ls()) 
-setwd("~/GitHub/Metodos-computacionales")
 ```
 
 ## Obtenemos el texto de las noticias con la búsqueda "Inteligencia Artificial" en medio Bío Bío
+
+Se utilizó la API de búsqueda que utiliza la web de BíoBío.cl. Esta no cuenta con documentación, por lo que a prueba y error se fueron descubriendo los parámetros necesarios para automatizar el scrappeo del contenido de la web. Los headers que se utilizaron son los mismos que arroja el get cuando uno realiza una busqueda desde el navegador.
 
 ```{r}
 
@@ -40,8 +42,8 @@ setwd("~/GitHub/Metodos-computacionales")
 search_query <- "Inteligencia Artificial" # Frase a buscar
 offset <- 0  # En 0 para que comience por el primer artículo, así funciona la API
 
-# Numero de búsquedas total al ingresar la palabra clave en bíobío.cl (hay datos que al parecer están codificados de otra forma, así que pusimos un número menor al total, que toma notas de prensa desde el año 2016 en adelante, tiene que ser múltiplo de 20)
-total_results <- 2020  
+# Numero de búsquedas total al ingresar la palabra clave en bíobío.cl (la API busca en múltiplos de a 20)
+total_results <- 3000  
 
 all_data <- data.frame() # Creamos data.frame vacío para luego extraer los datos de la API
 
@@ -56,22 +58,48 @@ headers <- c(
 ## Iteramos hasta que el offset sea menor al total de resultados
 
 while (offset < total_results) {
-  # Construimos el link para cada iteración (lo más importante es que el offset vaya aumentando)
+  # Construimos el link para cada iteración
   url <- paste0(
     "https://www.biobiochile.cl/lista/api/buscador?offset=", offset,
     "&search=", URLencode(search_query),
     "&intervalo=&orden=ultimas"
   )
-    offset <- offset + 20 # Se aumenta el offset para cada iteración (después de que se construya el link)
-  response <- GET(url) # Realizamos la solicitud
-    data <- content(response, "text", encoding = "UTF-8") # Transformamos el cuerpo de "response" en texto en formato UTF-8 
-    json_data <- fromJSON(data, flatten = TRUE) #Convertimos el JSON en una lista leíble en R
-    json_notas <- c(json_data$notas) # Creamos un data frame donde solo esté la información relevante
+  
+  # Se aumenta el offset para cada iteración (después de construido el link)
+  offset <- offset + 20
+    
+  # Realizamos la solicitud y manejamos posibles errores
+  response <- tryCatch(
+    { GET(url) },
+    error = function(e) { 
+      message("Error en la conexión: ", e) 
+      return(NULL)
+    }
+  )
+    
+  # Verificamos si `response` es nulo antes de continuar
+  if (is.null(response)) next
+  
+  # Procesamos el contenido si `response` no es nulo
+  data <- content(response, "text", encoding = "UTF-8")
+  json_data <- fromJSON(data, flatten = TRUE)
+  
+  # Verificamos que el elemento `notas` existe antes de unir datos
+  if (!is.null(json_data$notas)) {
+    json_notas <- json_data$notas %>%
+      # Convertimos a data frame y normalizar tipos
+      as.data.frame(stringsAsFactors = FALSE) %>%
+      # Convertir columnas enteras a character, si es necesario
+      mutate(across(where(is.integer), as.character)) 
+    
     all_data <- bind_rows(all_data, json_notas)
-    #cat(" - Procesados - ", offset) #Mostrar progreso, se puede desactivar con #
+  }
+  
+  cat(" - Procesados - ", offset) #Mostrar progreso
+  
 }
 
-# print(all_data$post_content[1]) #Ejemplo de cómo nos queda el contenido de la página
+print(all_data$post_content[1]) #Ejemplo de cómo nos queda el contenido de la página
 ```
 
 #### Sacamos un data frame con las columnas que nos interesen
@@ -82,11 +110,19 @@ datos_proc <- all_data %>%
   select(
     post_content, ID, post_title, year, month, day, post_category_primary.name, post_category_secondary.name
     )
+
+# Después de ejecutar el bucle y extraer todos los datos
+# Actualizamos "total_results" con el número total de filas en el data frame final
+
+total_results <- nrow(datos_proc)
+
+# Confirmación de la actualización
+cat("El número total de resultados obtenidos es:", total_results, "\n")
 ```
 
-## Limpieza de las secciones "Lee también..."
+## Limpieza de las secciones "Lee también...", Instagram y Twitter
 
-Aparecen algunos bloques html que ponen noticias como recomedación para leer y pueden contener las palabras "inteligencia artificial" sin que el contenido de la nota se refiera específicamente a eso. Para ello podemos usar el paquete rvest
+Aparecen algunos bloques html que ponen noticias como recomedación para leer y pueden contener las palabras "inteligencia artificial" sin que el contenido de la nota se refiera específicamente a eso. Para ello podemos usar el paquete rvest. Lo mismo haremos con los bloques que tienen publicaciones de X (ex Twitter) o de Instagram. Así, mantendremos solo el texto de la noticia y eliminaremos las noticias que se agregaron sin que sean relevantes.
 
 #### Necesitamos una función que se dedique a encontrar esa parte del texto y eliminarla:
 
@@ -96,9 +132,19 @@ for (i in seq_len(nrow(datos_proc))){
   # Convertimos el contenido a un objeto HTML para usar rvest
   contenido_html <- rvest::read_html(datos_proc$post_content[[i]])
 
-  # Eliminar los divs con la clase 'lee-tambien-bbcl'
+  # Eliminamos los divs con la clase 'lee-tambien-bbcl'
   contenido_html %>%
     html_nodes("div.lee-tambien-bbcl") %>%
+    xml_remove()
+
+  # Eliminamos los divs de publicaciones de Instagram
+  contenido_html %>%
+    html_nodes("blockquote.instagram-media") %>%
+    xml_remove()
+
+  # Eliminamos los divs de publicaciones de Twitter
+  contenido_html %>%
+    html_nodes("blockquote.twitter-tweet") %>%
     xml_remove()
 
   # Convertimos el HTML limpio a texto y eliminamos cualquier "Lee también" que quede en el contenido
@@ -111,6 +157,22 @@ for (i in seq_len(nrow(datos_proc))){
   #Revisamos el contenido HTML resultante (opcional)
   # print(as.character(contenido_html))
 }
+
+```
+
+#### Ahora eliminamos todas las notas que no mencionen Inteligencia Artificial por lo menos una vez:
+
+```{r}
+
+datos_proc <- datos_proc %>%
+  filter(grepl("inteligencia artificial", post_content, ignore.case = TRUE))
+
+# Actualizamos "total_results" con el número total de filas en el data frame final
+
+total_results <- nrow(datos_proc)
+
+# Confirmación de la actualización
+cat("El número total de resultados obtenidos es:", total_results, "\n")
 ```
 
 #### También podemos exportar como html para ver si desaparecieron los bloques completos
@@ -154,7 +216,7 @@ while (contador <= total_results) {
 
 ```{r}
 
-##Bio Bio
+# Esto nos sirve sobre todo para saber si se nos coló algún bloque de código
 
 # Seleccionamos solo la columna de texto que nos interesa
 text_data <- datos_proc %>% select(post_content)
@@ -167,22 +229,22 @@ words <- datos_proc %>%
 data("stop_words") # Cargar palabras comunes en inglés (desde tidytext)
 stop_words_es <- tibble(word = c("el", "la", "de", "y", "en", "que", "a", "los", "con", "por", "lee", "las", "para", "se", "es", "su",  "del", "una", "al", "como", "más", "lo", "este", "sus", "esta", "también", "entre", "fue", "han", "un", "sin", "sobre", "ya", "pero", "no", "muy", "si", "porque", "cuando", "desde", "todo", "son", "ha", "hay", "le", "ni", "cada", "me", "tanto", "hasta", "nos", "mi", "tus", "mis", "tengo", "tienes", "esa", "ese", "tan", "esa", "esos", "esa", "esas", "él", "ella", "ellos", "ellas", "nosotros", "vosotros", "vosotras", "ustedes", "uno", "una", "unos", "unas", "alguien", "quien", "cual", "cuales", "cualquier", "cualesquiera", "como", "donde", "cuanto", "demasiado", "poco", "menos", "casi", "algunos", "algunas", "aunque", "cuyo", "cuya", "cuyos", "cuyas", "ser", "haber", "estar", "tener", "hacer", "ir", "ver", "dar", "debe", "debido", "puede", "pues", "dicho", "hecho", "mientras", "luego", "además", "entonces", "así", "tal", "dicha", "mismo", "misma", "demás", "otro", "otra", "otros", "otras", "debería", "tendría", "podría", "menos", "cuándo", "dónde",  "qué", "quién", "cuyo", "la", "lo", "las", "que", "está", "según", "esto"))
 
-# Filtrar las stop words del texto
+# Filtramos las stop words del texto
 words_clean <- words %>%
   anti_join(stop_words, by = "word") %>%
   anti_join(stop_words_es, by = "word")
 
-# Calcular frecuencia de palabras
+# Calculamos frecuencia de palabras
 word_counts <- words_clean %>%
   count(word, sort = TRUE)
 
 # Ver las 10 palabras más frecuentes
 head(word_counts, 10)
 
-# Graficar las palabras más frecuentes
+# Graficamos las palabras más frecuentes
 word_counts %>%
   filter(n > 10) %>%
-  top_n(15, n) %>%
+  slice_max(n, n = 15) %>%
   ggplot(aes(x = reorder(word, n), y = n)) +
   geom_col() +
   coord_flip() +
@@ -190,3 +252,150 @@ word_counts %>%
        x = "Palabra", y = "Frecuencia") +
   theme_minimal()
 ```
+
+## Descriptivo cantidad de notas por meses
+
+```{r}
+
+# Agrupamos los datos por año y mes, y contar las publicaciones
+publicaciones_por_mes <- datos_proc %>%
+  group_by(year, month) %>%
+  summarise(cantidad = n(), .groups = 'drop') %>%
+  mutate(fecha = as.Date(paste(year, month, "01", sep = "-"))) # Crear una fecha para el eje x
+
+# Creamos el gráfico
+ggplot(publicaciones_por_mes, aes(x = fecha, y = cantidad)) +
+  geom_line(color = "blue", linewidth = 1) + # Línea de publicaciones
+  geom_point(color = "red", size = 1) + # Puntos en cada mes
+  geom_smooth(method = "loess", color = "green", se = FALSE, linewidth = 1) + # Curva de tendencia
+  labs(title = "Cantidad de Notas sobre Inteligencia Artificial Publicadas por Mes",
+       x = "Año",
+       y = "Cantidad de Notas") +
+  theme_minimal() +
+  scale_x_date(date_labels = "%Y", date_breaks = "1 year") # Mostrar solo los años en el eje x
+```
+
+## Descriptivo cantidad de notas por categoría
+
+```{r}
+
+# Contamos las publicaciones por categoría
+publicaciones_por_categoria <- datos_proc %>%
+  group_by(post_category_primary.name) %>%
+  summarise(cantidad = n(), .groups = 'drop') %>%
+  arrange(desc(cantidad))
+
+# Filtramos para quedarnos con las 15 categorías más usadas
+top_15_categorias <- publicaciones_por_categoria %>%
+  top_n(15, cantidad)
+
+# Gráfico de Barras para las 15 categorías más usadas
+ggplot(top_15_categorias, aes(x = reorder(post_category_primary.name, -cantidad), y = cantidad, fill = post_category_primary.name)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Top 15 Categorías más Usadas en Notas",
+       x = "Categoría",
+       y = "Cantidad de Notas") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1), 
+        legend.position = "none")
+```
+
+## Web-scrapping utilizando la API de Emol
+
+Lo que sigue de aquí en adelante se encuentra incompleto, sin embargo, se consideró relevante incluirlo en la entrega para poder recibir una retroalimentación. El procedimiento es el mismo: se encontró una API no documentada que utiliza el buscador de Emol. Luego se fueron descubriendo a prueba y error los parámetros necesarios para iterar. La mayor complicación que se tuvo es que la estructura de datos que entrega la API difiere mucho en este caso.
+
+```{r}
+
+search_query <- "Inteligencia Artificial" # Palabra clave para obtener los artículos
+from <- 0  # Seteamos en 0 para que comience por el primer artículo
+total_results <- 100  # Numero de búsquedas total al ingresar la palabra clave en emol.cl
+procesados <- 0
+all_data_emol <- list() # Creamos lista vacía para almacenar todo el contenido (por el formato del JSON no se puede utilizar un data frame)
+
+combine_lists <- function(...) {
+  combined_list <- c(...)
+  return(combined_list)
+} #Creamos función para combinar listas
+
+## Iteramos hasta que el from sea menor al total de resultados
+while (from < total_results) {
+  # Construimos el link para cada iteración (lo más importante es que el from vaya aumentando)
+  url <- paste0(
+    "https://newsapi.ecn.cl/NewsApi/emol/buscador/emol,inversiones,mediosregionales,legal,campo,blogs,guioteca,elmercurio-digital,emoltv,lasegundaprint,revistalibros,mercuriodeportes?q=inteligencia%20artificial&size=10&from=", from
+  )
+    from <- from + 10 # Se aumenta el from para cada iteración (después de que se construya el link)
+   
+    response <- tryCatch(
+    { GET(url) },
+    error = function(e) { 
+      message("Error en la conexión: ", e) 
+      return(NULL)
+    }
+  )
+ if (is.null(response)) next
+    
+    data1 <- content(response, "text", encoding = "UTF-8") # Transformamos el cuerpo de "response" en texto en formato UTF-8 
+    json_data1 <- fromJSON(data1, flatten = FALSE) #Convertimos el JSON en una lista leíble en R
+    data2 <- list(c(json_data1[["hits"]][["hits"]][["_source"]][["texto"]])) 
+    
+      all_data_emol <- combine_lists(all_data_emol, data2) # Fucionamos todas las listas
+          procesados <- procesados +10 # Contador
+          print(procesados)
+}
+
+textos_df <- tibble(texto = unlist(all_data_emol), na.omit=TRUE) #Convertimos la lista en data frame
+```
+
+\`\`\`{r} PRUEBAS CON CHATGPT} library(httr) library(jsonlite) library(dplyr)
+
+##ESTRUCTURA QUE PARECE SER MEJOR
+
+json_list \<- json_data1$hits$hits
+
+# Extraer campos necesarios, utilizando `map` para acceder a elementos en `_source` y reemplazando `NULL` o `NA` cuando falten
+
+data_extracted \<- map_dfr(json_list, function(entry) { tibble( titulo = entry$`_source.title` %||% NA,
+    id = entry$`_source.id` %\|\|% NA, seccion = entry$`_source.seccion` %||% NA,
+    fechaPublicacion = entry$`_source.fechaPublicacion` %\|\|% NA, texto = entry\$`_source.texto` %\|\|% NA ) })
+
+# Parámetros de búsqueda
+
+search_query \<- "Inteligencia Artificial" from \<- 0 total_results \<- 100 procesados \<- 0 all_data_emol \<- data.frame() \# Data frame vacío para almacenar resultados
+
+# Iteración para recopilar datos
+
+while (from \< total_results) { url \<- paste0( "https://newsapi.ecn.cl/NewsApi/emol/buscador/emol,inversiones,mediosregionales,legal,campo,blogs,guioteca,elmercurio-digital,emoltv,lasegundaprint,revistalibros,mercuriodeportes?q=inteligencia%20artificial&size=10&from=", from ) from \<- from + 10
+
+\# Intento de conexión y manejo de errores response \<- tryCatch( { GET(url) }, error = function(e) { message("Error en la conexión: ", e) return(NULL) } )
+
+if (is.null(response)) next
+
+\# Procesamiento de datos data1 \<- content(response, "text", encoding = "UTF-8") json_data1 \<- fromJSON(data1, flatten = TRUE)
+
+\# Verificación de la estructura if (!is.null(json_data1$hits$hits)) { print("Estructura de json_data1$hits$hits:") print(str(json_data1$hits$hits)) \# Imprime la estructura completa de json_data1$hits$hits
+
+```         
+# Extraemos cada elemento en hits$hits y accedemos a _source
+data2 <- lapply(json_data1$hits$hits, function(x) {
+  print("Estructura de _source en elemento x:") # Depuración
+  print(str(x[["_source"]])) # Imprime la estructura de cada `_source` individualmente
+  
+  # Intento de extracción de los campos específicos dentro de _source
+  x[["_source"]]
+}) %>%
+  bind_rows() %>%
+  select(titulo, id, seccion, fechaPublicacion, texto) # Seleccionamos solo las columnas deseadas
+
+# Añadimos data2 a all_data_emol
+all_data_emol <- bind_rows(all_data_emol, data2)
+```
+
+} else { print("No se encontraron datos en json_data1$hits$hits") }
+
+procesados \<- procesados + 10 print(paste("Procesados:", procesados)) }
+
+# Ver los primeros resultados
+
+print("Estructura final de all_data_emol:") print(str(all_data_emol)) print(head(all_data_emol))
+
+\`\`\`
