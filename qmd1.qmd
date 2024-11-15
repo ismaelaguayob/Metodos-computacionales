@@ -3,13 +3,28 @@ title: "Tarea 1: scrapping"
 format: html
 editor: visual
 echo: true
+css: styles.css 
 ---
 
-# Web-Scrapping
+# Primer trabajo metodos computacionales
 
-El siguiente documento dinámico presentará el proceso de web-scapping que se realizó para el ramo "Métodos Computacionales para las Ciencias Sociales".
+## Relevancia de los datos
 
-## Justificación
+El uso de técnicas de extracción de datos por medio de APIs permite obtener grandes volúmenes de información de fuentes digitales, lo cual es particularmente valioso para las ciencias sociales, que tradicionalmente se han basado en encuestas y censos que pueden ser más costosos y limitados en tiempo y alcance.
+
+Las técnicas de web scraping permiten explorar temas actuales y en constante cambio (mientras se publican contenidos nuevos a diario). Quienes hacen investigación en ciencias sociales necesitan adaptarse a entornos digitales dinámicos. A través de este proyecto se espera aprender a integrar y desarrollar herramientas computacionales en la recolección y análisis de datos.
+
+La relevancia sociológica de los datos que se utilizarán se sostiene, en principio, en el elemento revolucionario y transformador que presenta una tecnología como la IA. Segundo, la utilización de medios masivos de comunicación como BíoBíocl y Emol, ambos los medios online más visitados en el país. Esto vinculado con el gran volumen de datos que se está utilizando, otorga validez y significancia a los análisis sociales que se van a realizar. Como se demostró en la introducción, la IA ha permeado el trabajo académico en muchos ámbitos, siendo de los más visitados entre estos desde la sociología, la educación y el trabajo. Sin embargo, se percibe una vacío académico en análisis constructivistas que perciban la tecnología no solo como un objeto técnico, sino uno imbricado socialmente con significados, prácticas, y con un gran impacto en la cultura; uno construido en un proceso simultáneamente técnico como social. En los medios, esta construcción es evidente, y tiene un impacto mayor en los significados construidos por los individuos tanto por su masividad como por su posición privilegiada en la sociedad como emisor de información con validez. 
+
+## Contexto BíoBío y Emol
+
+Para este proyecto, decidimos trabajar con Emol y Bío Bío, dos de los medios de noticias más conocidos en Chile y que tienen un gran impacto en cómo la gente entiende lo que pasa en el país. Nos interesa especialmente porque ambos cubren temas de política, economía, sociedad, tecnología y cultura, en particular sobre Inteligencia Artificial, lo que nos ayuda a explorar cómo se presentan y enmarcan temas importantes o de impacto como este.
+
+Emol es parte del grupo El Mercurio, uno de los conglomerados de medios más grandes de Chile. Este medio tiene una fuerte influencia en la opinión pública y su contenido se enfoca mucho en temas económicos, políticos y empresariales. Creemos que analizar artículos de Emol nos permite ver cómo se representan ciertos sectores de la sociedad y observar el tipo de lenguaje que usan en temas sensibles o de alto interés para la gente. El medio de comunicación El Mercurio On-Line (Emol) es parte de la empresa El Mercurio S.A.P., siendo su portal digital de noticias. Nació a mediados de los 90s con el objetivo de informar a las empresas en economía y actualidad, sin embargo, debido a la competencia de La Tercera online y Terra, se convirtió en lo que es hoy, publicando el contenido de El Mercurio, La segunda y Las Últimas Noticias (Wikipedia, 2024).
+
+Por otro lado, Bío Bío tiene un enfoque más amplio y diverso, pero sigue siendo uno de los medios más consumidos en Chile. El medio BíoBío.cl, del que se extraerán los datos del presente estudio, data de 1959. En principio era una radio, siendo la única con sede fuera de la capital. Para el año 2009 se creó la página web que se utilizará, la cual en 2020 es la página web de noticias más visitada del país, con 122 millones de usuarios únicos y 595 millones de visitas (Quiénes somos \| BioBiochile, s. f.).
+
+Ambos medios son los más visitados digitalmente en el país, estando en las posiciones primera (Emol) y segunda (BioBiocl), según el sitio web de rankings SimilarWeb (Septiembre de 2024). 
 
 ```{r}
 
@@ -39,6 +54,7 @@ Se utilizó la API de búsqueda que utiliza la web de BíoBío.cl. Esta no cuent
 ```{r}
 
 ## Parámetros básicos
+
 search_query <- "Inteligencia Artificial" # Frase a buscar
 offset <- 0  # En 0 para que comience por el primer artículo, así funciona la API
 
@@ -91,13 +107,15 @@ while (offset < total_results) {
       as.data.frame(stringsAsFactors = FALSE) %>%
       # Convertir columnas enteras a character, si es necesario
       mutate(across(where(is.integer), as.character)) 
-    
+    # Unimos los datos al data frame previamente realizado
     all_data <- bind_rows(all_data, json_notas)
   }
   
   cat(" - Procesados - ", offset) #Mostrar progreso
   
 }
+
+sum(is.na(all_data$post_title))
 
 print(all_data$post_content[1]) #Ejemplo de cómo nos queda el contenido de la página
 ```
@@ -302,13 +320,13 @@ ggplot(top_15_categorias, aes(x = reorder(post_category_primary.name, -cantidad)
 
 ## Web-scrapping utilizando la API de Emol
 
-Lo que sigue de aquí en adelante se encuentra incompleto, sin embargo, se consideró relevante incluirlo en la entrega para poder recibir una retroalimentación. El procedimiento es el mismo: se encontró una API no documentada que utiliza el buscador de Emol. Luego se fueron descubriendo a prueba y error los parámetros necesarios para iterar. La mayor complicación que se tuvo es que la estructura de datos que entrega la API difiere mucho en este caso.
+Lo que sigue de aquí en adelante se encuentra incompleto, sin embargo, se consideró relevante incluirlo en la entrega para poder recibir una retroalimentación. El procedimiento es el mismo: se encontró una API no documentada que utiliza el buscador de Emol. Luego se fueron descubriendo a prueba y error los parámetros necesarios para iterar. La mayor complicación que se tuvo es que la estructura de datos que entrega la API difiere mucho en este caso. La API entrega las noticias agrupadas de diez en diez.
 
 ```{r}
 
 search_query <- "Inteligencia Artificial" # Palabra clave para obtener los artículos
 from <- 0  # Seteamos en 0 para que comience por el primer artículo
-total_results <- 100  # Numero de búsquedas total al ingresar la palabra clave en emol.cl
+total_results <- 300  # Numero de búsquedas total al ingresar la palabra clave en emol.cl
 procesados <- 0
 all_data_emol <- list() # Creamos lista vacía para almacenar todo el contenido (por el formato del JSON no se puede utilizar un data frame)
 
@@ -343,59 +361,5 @@ while (from < total_results) {
           print(procesados)
 }
 
-textos_df <- tibble(texto = unlist(all_data_emol), na.omit=TRUE) #Convertimos la lista en data frame
+textos_df <- tibble(texto = unlist(all_data_emol)) #Convertimos la lista en data frame
 ```
-
-\`\`\`{r} PRUEBAS CON CHATGPT} library(httr) library(jsonlite) library(dplyr)
-
-##ESTRUCTURA QUE PARECE SER MEJOR
-
-json_list \<- json_data1$hits$hits
-
-# Extraer campos necesarios, utilizando `map` para acceder a elementos en `_source` y reemplazando `NULL` o `NA` cuando falten
-
-data_extracted \<- map_dfr(json_list, function(entry) { tibble( titulo = entry$`_source.title` %||% NA,
-    id = entry$`_source.id` %\|\|% NA, seccion = entry$`_source.seccion` %||% NA,
-    fechaPublicacion = entry$`_source.fechaPublicacion` %\|\|% NA, texto = entry\$`_source.texto` %\|\|% NA ) })
-
-# Parámetros de búsqueda
-
-search_query \<- "Inteligencia Artificial" from \<- 0 total_results \<- 100 procesados \<- 0 all_data_emol \<- data.frame() \# Data frame vacío para almacenar resultados
-
-# Iteración para recopilar datos
-
-while (from \< total_results) { url \<- paste0( "https://newsapi.ecn.cl/NewsApi/emol/buscador/emol,inversiones,mediosregionales,legal,campo,blogs,guioteca,elmercurio-digital,emoltv,lasegundaprint,revistalibros,mercuriodeportes?q=inteligencia%20artificial&size=10&from=", from ) from \<- from + 10
-
-\# Intento de conexión y manejo de errores response \<- tryCatch( { GET(url) }, error = function(e) { message("Error en la conexión: ", e) return(NULL) } )
-
-if (is.null(response)) next
-
-\# Procesamiento de datos data1 \<- content(response, "text", encoding = "UTF-8") json_data1 \<- fromJSON(data1, flatten = TRUE)
-
-\# Verificación de la estructura if (!is.null(json_data1$hits$hits)) { print("Estructura de json_data1$hits$hits:") print(str(json_data1$hits$hits)) \# Imprime la estructura completa de json_data1$hits$hits
-
-```         
-# Extraemos cada elemento en hits$hits y accedemos a _source
-data2 <- lapply(json_data1$hits$hits, function(x) {
-  print("Estructura de _source en elemento x:") # Depuración
-  print(str(x[["_source"]])) # Imprime la estructura de cada `_source` individualmente
-  
-  # Intento de extracción de los campos específicos dentro de _source
-  x[["_source"]]
-}) %>%
-  bind_rows() %>%
-  select(titulo, id, seccion, fechaPublicacion, texto) # Seleccionamos solo las columnas deseadas
-
-# Añadimos data2 a all_data_emol
-all_data_emol <- bind_rows(all_data_emol, data2)
-```
-
-} else { print("No se encontraron datos en json_data1$hits$hits") }
-
-procesados \<- procesados + 10 print(paste("Procesados:", procesados)) }
-
-# Ver los primeros resultados
-
-print("Estructura final de all_data_emol:") print(str(all_data_emol)) print(head(all_data_emol))
-
-\`\`\`
