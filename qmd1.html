@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -63,12 +63,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="qmd1_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="qmd1_files/libs/quarto-html/anchor.min.js"></script>
 <link href="qmd1_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="qmd1_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="qmd1_files/libs/quarto-html/quarto-syntax-highlighting-07ba0ad10f5680c660e360ac31d2f3b6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="qmd1_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="qmd1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="qmd1_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="qmd1_files/libs/bootstrap/bootstrap-b8d30c7eeda119d43de224048e70de8f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="fullcontent">
@@ -96,9 +97,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="web-scrapping" class="level2">
-<h2 class="anchored" data-anchor-id="web-scrapping">Web-Scrapping</h2>
-<p>El siguiente documento dinámico presentará el proceso de web-scapping que se realizó para el ramo “Métodos Computacionales para las Ciencias Sociales”.</p>
+<section id="primer-trabajo-metodos-computacionales" class="level1">
+<h1>Primer trabajo metodos computacionales</h1>
+<section id="relevancia-de-los-datos" class="level2">
+<h2 class="anchored" data-anchor-id="relevancia-de-los-datos">Relevancia de los datos</h2>
+<p>El uso de técnicas de extracción de datos por medio de APIs permite obtener grandes volúmenes de información de fuentes digitales, lo cual es particularmente valioso para las ciencias sociales, que tradicionalmente se han basado en encuestas y censos que pueden ser más costosos y limitados en tiempo y alcance.</p>
+<p>Las técnicas de web scraping permiten explorar temas actuales y en constante cambio (mientras se publican contenidos nuevos a diario). Quienes hacen investigación en ciencias sociales necesitan adaptarse a entornos digitales dinámicos. A través de este proyecto se espera aprender a integrar y desarrollar herramientas computacionales en la recolección y análisis de datos.</p>
+<p>La relevancia sociológica de los datos que se utilizarán se sostiene, en principio, en el elemento revolucionario y transformador que presenta una tecnología como la IA. Segundo, la utilización de medios masivos de comunicación como BíoBíocl y Emol, ambos los medios online más visitados en el país. Esto vinculado con el gran volumen de datos que se está utilizando, otorga validez y significancia a los análisis sociales que se van a realizar. Como se demostró en la introducción, la IA ha permeado el trabajo académico en muchos ámbitos, siendo de los más visitados entre estos desde la sociología, la educación y el trabajo. Sin embargo, se percibe una vacío académico en análisis constructivistas que perciban la tecnología no solo como un objeto técnico, sino uno imbricado socialmente con significados, prácticas, y con un gran impacto en la cultura; uno construido en un proceso simultáneamente técnico como social. En los medios, esta construcción es evidente, y tiene un impacto mayor en los significados construidos por los individuos tanto por su masividad como por su posición privilegiada en la sociedad como emisor de información con validez.&nbsp;</p>
+</section>
+<section id="contexto-bíobío-y-emol" class="level2">
+<h2 class="anchored" data-anchor-id="contexto-bíobío-y-emol">Contexto BíoBío y Emol</h2>
+<p>Para este proyecto, decidimos trabajar con Emol y Bío Bío, dos de los medios de noticias más conocidos en Chile y que tienen un gran impacto en cómo la gente entiende lo que pasa en el país. Nos interesa especialmente porque ambos cubren temas de política, economía, sociedad, tecnología y cultura, en particular sobre Inteligencia Artificial, lo que nos ayuda a explorar cómo se presentan y enmarcan temas importantes o de impacto como este.</p>
+<p>Emol es parte del grupo El Mercurio, uno de los conglomerados de medios más grandes de Chile. Este medio tiene una fuerte influencia en la opinión pública y su contenido se enfoca mucho en temas económicos, políticos y empresariales. Creemos que analizar artículos de Emol nos permite ver cómo se representan ciertos sectores de la sociedad y observar el tipo de lenguaje que usan en temas sensibles o de alto interés para la gente. El medio de comunicación El Mercurio On-Line (Emol) es parte de la empresa El Mercurio S.A.P., siendo su portal digital de noticias. Nació a mediados de los 90s con el objetivo de informar a las empresas en economía y actualidad, sin embargo, debido a la competencia de La Tercera online y Terra, se convirtió en lo que es hoy, publicando el contenido de El Mercurio, La segunda y Las Últimas Noticias (Wikipedia, 2024).</p>
+<p>Por otro lado, Bío Bío tiene un enfoque más amplio y diverso, pero sigue siendo uno de los medios más consumidos en Chile. El medio BíoBío.cl, del que se extraerán los datos del presente estudio, data de 1959. En principio era una radio, siendo la única con sede fuera de la capital. Para el año 2009 se creó la página web que se utilizará, la cual en 2020 es la página web de noticias más visitada del país, con 122 millones de usuarios únicos y 595 millones de visitas (Quiénes somos | BioBiochile, s. f.).</p>
+<p>Ambos medios son los más visitados digitalmente en el país, estando en las posiciones primera (Emol) y segunda (BioBiocl), según el sitio web de rankings SimilarWeb (Septiembre de 2024).&nbsp;</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Cargamos libreria</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -110,154 +122,419 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  jsonlite,</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  dplyr,</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  tidytext,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  ggplot2</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>()) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  ggplot2,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  rvest,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  stringr,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  xml2</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>()) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="obtenemos-el-texto-de-las-noticias-con-la-búsqueda-inteligencia-artificial-en-medio-bío-bío" class="level2">
 <h2 class="anchored" data-anchor-id="obtenemos-el-texto-de-las-noticias-con-la-búsqueda-inteligencia-artificial-en-medio-bío-bío">Obtenemos el texto de las noticias con la búsqueda “Inteligencia Artificial” en medio Bío Bío</h2>
+<p>Se utilizó la API de búsqueda que utiliza la web de BíoBío.cl. Esta no cuenta con documentación, por lo que a prueba y error se fueron descubriendo los parámetros necesarios para automatizar el scrappeo del contenido de la web. Los headers que se utilizaron son los mismos que arroja el get cuando uno realiza una busqueda desde el navegador.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Parámetros básicos</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>search_query <span class="ot">&lt;-</span> <span class="st">"Inteligencia Artificial"</span> <span class="co"># Palabra clave para obtener los artículos</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>offset <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># Seteamos en 0 para que comience por el primer artículo</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>total_results <span class="ot">&lt;-</span> <span class="dv">2020</span>  <span class="co"># Numero de búsquedas total al ingresar la palabra clave en bíobío.cl</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>all_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>() <span class="co"># Creamos data.frame vacío para almacenar todo el contenido</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Encabezados para la solicitud</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>headers <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">User-Agent</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0"</span>,</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Accept</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"application/json, text/plain, */*"</span>,</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Referer</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"https://www.biobiochile.cl/buscador.shtml?s=inteligencia+artificial"</span>,</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Content-Type</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"application/json; charset=UTF-8"</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Iteramos hasta que el offset sea menor al total de resultados</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (offset <span class="sc">&lt;</span> total_results) {</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Construimos el link para cada iteración (lo más importante es que el offset vaya aumentando)</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://www.biobiochile.cl/lista/api/buscador?offset="</span>, offset,</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&amp;search="</span>, <span class="fu">URLencode</span>(search_query),</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&amp;intervalo=&amp;orden=ultimas"</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    offset <span class="ot">&lt;-</span> offset <span class="sc">+</span> <span class="dv">20</span> <span class="co"># Se aumenta el offset para cada iteración (después de que se construya el link)</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  response <span class="ot">&lt;-</span> <span class="fu">GET</span>(url) <span class="co"># Realizamos la solicitud</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> <span class="fu">content</span>(response, <span class="st">"text"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>) <span class="co"># Transformamos el cuerpo de "response" en texto en formato UTF-8 </span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    json_data <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(data, <span class="at">flatten =</span> <span class="cn">TRUE</span>) <span class="co">#Convertimos el JSON en una lista leíble en R</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    json_notas <span class="ot">&lt;-</span> <span class="fu">c</span>(json_data<span class="sc">$</span>notas) <span class="co"># Creamos un data frame donde solo esté la información relevante</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    all_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(all_data, json_notas)</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cat</span>(<span class="st">"Procesados"</span>, <span class="fu">dim</span>(all_data)) <span class="co">#Mostrar progreso</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(all_data<span class="sc">$</span>post_content[<span class="dv">1</span>])</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>datos_proc <span class="ot">&lt;-</span> all_data <span class="sc">%&gt;%</span> </span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    post_content, ID, post_title, year, month, day, post_category_primary.name, post_category_secondary.name</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>search_query <span class="ot">&lt;-</span> <span class="st">"Inteligencia Artificial"</span> <span class="co"># Frase a buscar</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>offset <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># En 0 para que comience por el primer artículo, así funciona la API</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Numero de búsquedas total al ingresar la palabra clave en bíobío.cl (la API busca en múltiplos de a 20)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>total_results <span class="ot">&lt;-</span> <span class="dv">2060</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>all_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>() <span class="co"># Creamos data.frame vacío para luego extraer los datos de la API</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Encabezados para la solicitud</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>headers <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">User-Agent</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0"</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Accept</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"application/json, text/plain, */*"</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Referer</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"https://www.biobiochile.cl/buscador.shtml?s=inteligencia+artificial"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Content-Type</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"application/json; charset=UTF-8"</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="do">## Iteramos hasta que el offset sea menor al total de resultados</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (offset <span class="sc">&lt;</span> total_results) {</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Construimos el link para cada iteración</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://www.biobiochile.cl/lista/api/buscador?offset="</span>, offset,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&amp;search="</span>, <span class="fu">URLencode</span>(search_query),</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&amp;intervalo=&amp;orden=ultimas"</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Se aumenta el offset para cada iteración (después de construido el link)</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  offset <span class="ot">&lt;-</span> offset <span class="sc">+</span> <span class="dv">20</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Realizamos la solicitud y manejamos posibles errores</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  response <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    { <span class="fu">GET</span>(url) },</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">error =</span> <span class="cf">function</span>(e) { </span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>      <span class="fu">message</span>(<span class="st">"Error en la conexión: "</span>, e) </span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Verificamos si `response` es nulo antes de continuar</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(response)) <span class="cf">next</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Procesamos el contenido si `response` no es nulo</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">content</span>(response, <span class="st">"text"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  json_data <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(data, <span class="at">flatten =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Verificamos que el elemento `notas` existe antes de unir datos</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(json_data<span class="sc">$</span>notas)) {</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    json_notas <span class="ot">&lt;-</span> json_data<span class="sc">$</span>notas <span class="sc">%&gt;%</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Convertimos a data frame y normalizar tipos</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.data.frame</span>(<span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Convertir columnas enteras a character, si es necesario</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.integer), as.character)) </span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Unimos los datos al data frame previamente realizado</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>    all_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(all_data, json_notas)</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">" - Procesados - "</span>, offset) <span class="co">#Mostrar progreso</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> - Procesados -  20 - Procesados -  40 - Procesados -  60 - Procesados -  80 - Procesados -  100 - Procesados -  120 - Procesados -  140 - Procesados -  160 - Procesados -  180 - Procesados -  200 - Procesados -  220 - Procesados -  240 - Procesados -  260 - Procesados -  280 - Procesados -  300 - Procesados -  320 - Procesados -  340 - Procesados -  360 - Procesados -  380 - Procesados -  400 - Procesados -  420 - Procesados -  440 - Procesados -  460 - Procesados -  480 - Procesados -  500 - Procesados -  520 - Procesados -  540 - Procesados -  560 - Procesados -  580 - Procesados -  600 - Procesados -  620 - Procesados -  640 - Procesados -  660 - Procesados -  680 - Procesados -  700 - Procesados -  720 - Procesados -  740 - Procesados -  760 - Procesados -  780 - Procesados -  800 - Procesados -  820 - Procesados -  840 - Procesados -  860 - Procesados -  880 - Procesados -  900 - Procesados -  920 - Procesados -  940 - Procesados -  960 - Procesados -  980 - Procesados -  1000 - Procesados -  1020 - Procesados -  1040 - Procesados -  1060 - Procesados -  1080 - Procesados -  1100 - Procesados -  1120 - Procesados -  1140 - Procesados -  1160 - Procesados -  1180 - Procesados -  1200 - Procesados -  1220 - Procesados -  1240 - Procesados -  1260 - Procesados -  1280 - Procesados -  1300 - Procesados -  1320 - Procesados -  1340 - Procesados -  1360 - Procesados -  1380 - Procesados -  1400 - Procesados -  1420 - Procesados -  1440 - Procesados -  1460 - Procesados -  1480 - Procesados -  1500 - Procesados -  1520 - Procesados -  1540 - Procesados -  1560 - Procesados -  1580 - Procesados -  1600 - Procesados -  1620 - Procesados -  1640 - Procesados -  1660 - Procesados -  1680 - Procesados -  1700 - Procesados -  1720 - Procesados -  1740 - Procesados -  1760 - Procesados -  1780 - Procesados -  1800 - Procesados -  1820 - Procesados -  1840 - Procesados -  1860 - Procesados -  1880 - Procesados -  1900 - Procesados -  1920 - Procesados -  1940 - Procesados -  1960 - Procesados -  1980 - Procesados -  2000 - Procesados -  2020 - Procesados -  2040 - Procesados -  2060</code></pre>
 </div>
-</section>
-<section id="repetimos-el-procedimiento-con-medio-emol" class="level2">
-<h2 class="anchored" data-anchor-id="repetimos-el-procedimiento-con-medio-emol">Repetimos el procedimiento con medio “Emol”</h2>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(all_data<span class="sc">$</span>post_title))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(all_data<span class="sc">$</span>post_content[<span class="dv">1</span>]) <span class="co">#Ejemplo de cómo nos queda el contenido de la página</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "&lt;p&gt;En un entorno de alta competitividad, la capacidad de resolver problemas y adaptarse a los cambios son esenciales para aspirar a puestos en empresas como Meta, Microsoft o Google. Para alcanzar esa meta profesional, es necesario desarrollar &lt;span class=\"destacador\"&gt;tanto habilidades técnicas avanzadas como la capacidad para enfrentar desafíos.&lt;/span&gt;&lt;/p&gt;\n&lt;p&gt;Estas compañías buscan profesionales con competencias que demuestren tanto excelencia en el &lt;strong&gt;dominio técnico&lt;/strong&gt; como la capacidad de &lt;strong&gt;innovar y adaptarse&lt;/strong&gt; a un entorno en constante evolución. Para Camila Bouchon, Revenue Manager Latam de Le Wagon, “uno de los pilares de estas competencias es &lt;strong&gt;el desarrollo de software y la programación”.&lt;/strong&gt;&lt;/p&gt;\n&lt;h2&gt;Lenguajes de programación y ciencia de datos&lt;/h2&gt;\n&lt;p&gt;“Las empresas valoran especialmente el dominio de lenguajes de programación como &lt;strong&gt;Python, C++, y JavaScript,&lt;/strong&gt; además de experiencia en frameworks y bibliotecas modernas como &lt;strong&gt;React y Angular&lt;/strong&gt; para desarrollo front-end, Ruby on Rails en el back-end y TensorFlow para proyectos de inteligencia artificial” agregó.&lt;/p&gt;\n&lt;p&gt;Para las grandes firmas tecnológicas es fundamental tener un dominio amplio en estos lenguajes y herramientas. La inteligencia artificial y el aprendizaje automático también ocupan un rol protagónico. &lt;/p&gt;\n&lt;div class=\"lee-tambien-bbcl\"&gt;\n\t&lt;div class=\"lee-tambien-titulo\"&gt;Lee también...&lt;/div&gt;\n\t&lt;div class=\"lee-tambien-caja\"&gt;\n\t\t&lt;a href=\"https://www.biobiochile.cl/noticias/ciencia-y-tecnologia/pc-e-internet/2024/09/29/ni-los-millennials-se-salvan-estudio-revela-discriminacion-por-edad-en-empresas-tecnologicas.shtml\" aria-label=\"lee también\"&gt;\n\t\t\t&lt;div class=\"lee-tambien-img lazy\" style=\"background-image: url(https://media.biobiochile.cl/wp-content/uploads/2024/09/millennials-trabajo-320x190.jpg);\"&gt;&lt;/div&gt;\n\t\t&lt;/a&gt;\n\t\t&lt;a href=\"https://www.biobiochile.cl/noticias/ciencia-y-tecnologia/pc-e-internet/2024/09/29/ni-los-millennials-se-salvan-estudio-revela-discriminacion-por-edad-en-empresas-tecnologicas.shtml\" aria-label=\"titulo de nota lee tambien\" class=\"lee-tambien-titular\"&gt;Ni los millennials se salvan: estudio revela discriminación por edad en empresas tecnológicas&lt;/a&gt;\n\t\t&lt;span style=\"display: none\"&gt;Domingo 29 Septiembre, 2024 | 17:36&lt;/span&gt;\n\t&lt;/div&gt;\n&lt;/div&gt;\n&lt;p&gt;Las empresas tecnológicas buscan especialistas que puedan &lt;strong&gt;diseñar e implementar modelos de machine learning y deep learning,&lt;/strong&gt; capaces de abordar problemas complejos y mejorar continuamente las aplicaciones. Las técnicas avanzadas en procesamiento de lenguaje natural (NLP), redes neuronales y visión por computadora son habilidades muy cotizadas, pues potencian las soluciones y experiencias que estas empresas desarrollan para sus usuarios.&lt;/p&gt;\n&lt;p&gt;Para la experta, otra área clave es la ciencia de datos. La habilidad de interpretar y analizar grandes volúmenes de información permite a estas empresas tomar decisiones estratégicas basadas en datos. “Los profesionales con conocimientos en estadística avanzada, modelos predictivos y herramientas de análisis como &lt;strong&gt;SQL o Power Bi&lt;/strong&gt; son altamente valorados, ya que contribuyen directamente a la optimización de procesos y la innovación de productos”, comentó Bouchon.&lt;/p&gt;\n&lt;h2&gt;Una combinación de conocimientos técnicos y estratégicos&lt;/h2&gt;\n&lt;p&gt;Respecto a los perfiles profesionales más buscados por compañías como Meta, Microsoft o Google, destacan aquellos que aportan una combinación de conocimientos técnicos y estratégicos. Los &lt;strong&gt;ingenieros de software,&lt;/strong&gt; con especialización en desarrollo de aplicaciones o sistemas, son clave en estas empresas.&lt;/p&gt;\n&lt;p&gt;“Hay alta demanda tanto para &lt;strong&gt;roles backend y frontend&lt;/strong&gt; como para &lt;strong&gt;desarrolladores full-stack.&lt;/strong&gt; Los científicos y analistas de datos también son imprescindibles, ya que sus insights son fundamentales para orientar las decisiones de negocio. &lt;strong&gt;Los especialistas en inteligencia artificial y machine learning&lt;/strong&gt; ocupan un lugar central en la era de la automatización y la inteligencia avanzada”, explica Bouchon.&lt;/p&gt;\n&lt;div class=\"lee-tambien-bbcl\"&gt;\n\t&lt;div class=\"lee-tambien-titulo\"&gt;Lee también...&lt;/div&gt;\n\t&lt;div class=\"lee-tambien-caja\"&gt;\n\t\t&lt;a href=\"https://www.biobiochile.cl/noticias/economia/negocios-y-empresas/2024/08/27/trabajadores-de-microsoft-filtraron-sus-sueldos-en-eeuu-los-puestos-de-ia-son-de-lo-mejor-pagado.shtml\" aria-label=\"lee también\"&gt;\n\t\t\t&lt;div class=\"lee-tambien-img lazy\" style=\"background-image: url(https://media.biobiochile.cl/wp-content/uploads/2024/08/microsoft-sueldos-320x190.jpg);\"&gt;&lt;/div&gt;\n\t\t&lt;/a&gt;\n\t\t&lt;a href=\"https://www.biobiochile.cl/noticias/economia/negocios-y-empresas/2024/08/27/trabajadores-de-microsoft-filtraron-sus-sueldos-en-eeuu-los-puestos-de-ia-son-de-lo-mejor-pagado.shtml\" aria-label=\"titulo de nota lee tambien\" class=\"lee-tambien-titular\"&gt;Filtraron sueldos de Microsoft en EEUU: ingenieros en software para IA son de los mejores pagados&lt;/a&gt;\n\t\t&lt;span style=\"display: none\"&gt;Martes 27 Agosto, 2024 | 16:17&lt;/span&gt;\n\t&lt;/div&gt;\n&lt;/div&gt;\n&lt;p&gt;Finalmente, estudiar en programas intensivos, como los &lt;strong&gt;bootcamps,&lt;/strong&gt; es una opción efectiva para adquirir competencias prácticas en áreas clave como &lt;strong&gt;desarrollo web, ciencia de datos e inteligencia artificial. &lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;Además, el &lt;strong&gt;networking&lt;/strong&gt; es otro elemento clave. Asistir a eventos de la comunidad tecnológica, hackatones y conferencias permite a los aspirantes &lt;strong&gt;conocer a otros profesionales y establecer contactos&lt;/strong&gt; que pueden abrirles puertas en estas empresas.&lt;/p&gt;\n&lt;p&gt;&lt;strong&gt;“El desarrollo de habilidades blandas es esencial.&lt;/strong&gt; Empresas como Meta, Microsoft y Google valoran la comunicación efectiva, el trabajo en equipo y la adaptabilidad”, aseguró Camila Bouchon.&lt;/p&gt;\n"</code></pre>
+</div>
+</div>
+<section id="sacamos-un-data-frame-con-las-columnas-que-nos-interesen" class="level4">
+<h4 class="anchored" data-anchor-id="sacamos-un-data-frame-con-las-columnas-que-nos-interesen">Sacamos un data frame con las columnas que nos interesen</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Parámetros básicos</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>search_query <span class="ot">&lt;-</span> <span class="st">"Inteligencia Artificial"</span> <span class="co"># Palabra clave para obtener los artículos</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>from <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># Seteamos en 0 para que comience por el primer artículo</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>total_results <span class="ot">&lt;-</span> <span class="dv">2000</span>  <span class="co"># Numero de búsquedas total al ingresar la palabra clave en emol.cl</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>procesados <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>all_data_emol <span class="ot">&lt;-</span> <span class="fu">list</span>() <span class="co"># Creamos lista vacía para almacenar todo el contenido (por el formato del JSON no se puede utilizar un data frame)</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>combine_lists <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  combined_list <span class="ot">&lt;-</span> <span class="fu">c</span>(...)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(combined_list)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>} <span class="co">#Creamos función para combinar listas</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Iteramos hasta que el from sea menor al total de resultados</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (from <span class="sc">&lt;</span> total_results) {</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Construimos el link para cada iteración (lo más importante es que el from vaya aumentando)</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://newsapi.ecn.cl/NewsApi/emol/buscador/emol,inversiones,mediosregionales,legal,campo,blogs,guioteca,elmercurio-digital,emoltv,lasegundaprint,revistalibros,mercuriodeportes?q=inteligencia%20artificial&amp;size=10&amp;from="</span>, from</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    from <span class="ot">&lt;-</span> from <span class="sc">+</span> <span class="dv">10</span> <span class="co"># Se aumenta el from para cada iteración (después de que se construya el link)</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  response <span class="ot">&lt;-</span> <span class="fu">GET</span>(url) <span class="co"># Realizamos la solicitud</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    data1 <span class="ot">&lt;-</span> <span class="fu">content</span>(response, <span class="st">"text"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>) <span class="co"># Transformamos el cuerpo de "response" en texto en formato UTF-8 </span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    json_data1 <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(data1, <span class="at">flatten =</span> <span class="cn">FALSE</span>) <span class="co">#Convertimos el JSON en una lista leíble en R</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    data2 <span class="ot">&lt;-</span> <span class="fu">list</span>(json_data1[[<span class="st">"hits"</span>]][[<span class="st">"hits"</span>]][[<span class="st">"_source"</span>]][[<span class="st">"texto"</span>]]) <span class="co">#Seleccionamos solo el texto para construir una lista</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>      all_data_emol <span class="ot">&lt;-</span> <span class="fu">combine_lists</span>(all_data_emol, data2) <span class="co"># Fucionamos todas las listas</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>          procesados <span class="ot">&lt;-</span> procesados <span class="sc">+</span><span class="dv">10</span> <span class="co"># Contador</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>          <span class="fu">print</span>(procesados)</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>textos_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">texto =</span> <span class="fu">unlist</span>(all_data_emol), <span class="at">na.omit=</span><span class="cn">TRUE</span>) <span class="co">#Convertimos la lista en data frame</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>datos_proc <span class="ot">&lt;-</span> all_data <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    post_content, ID, post_title, year, month, day, post_category_primary.name, post_category_secondary.name</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Después de ejecutar el bucle y extraer todos los datos</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Actualizamos "total_results" con el número total de filas en el data frame final</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>total_results <span class="ot">&lt;-</span> <span class="fu">nrow</span>(datos_proc)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirmación de la actualización</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"El número total de resultados obtenidos es:"</span>, total_results, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>El número total de resultados obtenidos es: 2060 </code></pre>
+</div>
 </div>
 </section>
-<section id="limpieza-de-texto" class="level2">
-<h2 class="anchored" data-anchor-id="limpieza-de-texto">Limpieza de texto</h2>
+</section>
+<section id="limpieza-de-las-secciones-lee-también-instagram-y-twitter" class="level2">
+<h2 class="anchored" data-anchor-id="limpieza-de-las-secciones-lee-también-instagram-y-twitter">Limpieza de las secciones “Lee también…”, Instagram y Twitter</h2>
+<p>Aparecen algunos bloques html que ponen noticias como recomedación para leer y pueden contener las palabras “inteligencia artificial” sin que el contenido de la nota se refiera específicamente a eso. Para ello podemos usar el paquete rvest. Lo mismo haremos con los bloques que tienen publicaciones de X (ex Twitter) o de Instagram. Así, mantendremos solo el texto de la noticia y eliminaremos las noticias que se agregaron sin que sean relevantes.</p>
+<section id="necesitamos-una-función-que-se-dedique-a-encontrar-esa-parte-del-texto-y-eliminarla" class="level4">
+<h4 class="anchored" data-anchor-id="necesitamos-una-función-que-se-dedique-a-encontrar-esa-parte-del-texto-y-eliminarla">Necesitamos una función que se dedique a encontrar esa parte del texto y eliminarla:</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(datos_proc))){</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convertimos el contenido a un objeto HTML para usar rvest</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  contenido_html <span class="ot">&lt;-</span> rvest<span class="sc">::</span><span class="fu">read_html</span>(datos_proc<span class="sc">$</span>post_content[[i]])</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Eliminamos los divs con la clase 'lee-tambien-bbcl'</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  contenido_html <span class="sc">%&gt;%</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_nodes</span>(<span class="st">"div.lee-tambien-bbcl"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xml_remove</span>()</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Eliminamos los divs de publicaciones de Instagram</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  contenido_html <span class="sc">%&gt;%</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_nodes</span>(<span class="st">"blockquote.instagram-media"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xml_remove</span>()</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Eliminamos los divs de publicaciones de Twitter</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  contenido_html <span class="sc">%&gt;%</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_nodes</span>(<span class="st">"blockquote.twitter-tweet"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xml_remove</span>()</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convertimos el HTML limpio a texto y eliminamos cualquier "Lee también" que quede en el contenido</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  contenido_texto <span class="ot">&lt;-</span> <span class="fu">as.character</span>(contenido_html)</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  contenido_texto <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(contenido_texto, <span class="fu">regex</span>(<span class="st">"Lee también.*?&lt;</span><span class="sc">\\</span><span class="st">/div&gt;"</span>, <span class="at">dotall =</span> <span class="cn">TRUE</span>), <span class="st">""</span>)</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Guardamos el contenido limpio de vuelta en el data frame</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  datos_proc<span class="sc">$</span>post_content[[i]] <span class="ot">&lt;-</span> contenido_texto</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Revisamos el contenido HTML resultante (opcional)</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># print(as.character(contenido_html))</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ahora-eliminamos-todas-las-notas-que-no-mencionen-inteligencia-artificial-por-lo-menos-una-vez" class="level4">
+<h4 class="anchored" data-anchor-id="ahora-eliminamos-todas-las-notas-que-no-mencionen-inteligencia-artificial-por-lo-menos-una-vez">Ahora eliminamos todas las notas que no mencionen Inteligencia Artificial por lo menos una vez:</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>datos_proc <span class="ot">&lt;-</span> datos_proc <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"inteligencia artificial"</span>, post_content, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Actualizamos "total_results" con el número total de filas en el data frame final</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>total_results <span class="ot">&lt;-</span> <span class="fu">nrow</span>(datos_proc)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirmación de la actualización</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"El número total de resultados obtenidos es:"</span>, total_results, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>El número total de resultados obtenidos es: 1885 </code></pre>
+</div>
+</div>
+</section>
+<section id="también-podemos-exportar-como-html-para-ver-si-desaparecieron-los-bloques-completos" class="level4">
+<h4 class="anchored" data-anchor-id="también-podemos-exportar-como-html-para-ver-si-desaparecieron-los-bloques-completos">También podemos exportar como html para ver si desaparecieron los bloques completos</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seteamos nombre archivo salida</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>out_file <span class="ot">&lt;-</span> <span class="st">"noticia_casi.html"</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exportamos el contenido HTML de una nota aleatoria</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">as.character</span>(datos_proc<span class="sc">$</span>post_content[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>total_results, <span class="dv">1</span>)]), <span class="at">con =</span> out_file)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Mensaje de confirmación </span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"El contenido en bruto se ha exportado a"</span>, out_file) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>El contenido en bruto se ha exportado a noticia_casi.html</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="limpieza-de-texto-general" class="level2">
+<h2 class="anchored" data-anchor-id="limpieza-de-texto-general">Limpieza de texto general</h2>
+<p>Eliminamos la parte de código que queda en el texto para convertirlo en texto plano.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inicializamos variables</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>contador <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>html_content <span class="ot">&lt;-</span> <span class="fu">list</span>()       <span class="co"># Lista para hacer nodos html</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Procesar el HTML y extraer el texto</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (contador <span class="sc">&lt;=</span> total_results) {</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convertir a nodo HTML</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  html_content[[contador]] <span class="ot">&lt;-</span> <span class="fu">read_html</span>(datos_proc<span class="sc">$</span>post_content[[contador]])</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Extraemos y limpiamos el texto</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  datos_proc<span class="sc">$</span>post_content[[contador]] <span class="ot">&lt;-</span> html_content[[contador]] <span class="sc">%&gt;%</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_text2</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_squish</span>()</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  contador <span class="ot">&lt;-</span> contador <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="descriptivos-de-frecuencia-de-palabras" class="level2">
 <h2 class="anchored" data-anchor-id="descriptivos-de-frecuencia-de-palabras">Descriptivos de frecuencia de palabras</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Bio Bio</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Seleccionamos solo la columna de texto que nos interesa</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>text_data <span class="ot">&lt;-</span> all_data <span class="sc">%&gt;%</span> <span class="fu">select</span>(post_content)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenizamos el texto y lo dividimos en palabras</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>words <span class="ot">&lt;-</span> text_data <span class="sc">%&gt;%</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, post_content)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar palabras comunes en español</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"stop_words"</span>)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>stop_words_es <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">word =</span> <span class="fu">c</span>(<span class="st">"el"</span>, <span class="st">"la"</span>, <span class="st">"de"</span>, <span class="st">"y"</span>, <span class="st">"en"</span>, <span class="st">"que"</span>, <span class="st">"a"</span>, <span class="st">"los"</span>, <span class="st">"con"</span>, <span class="st">"por"</span>, <span class="st">"div"</span>, <span class="st">"strong"</span>, <span class="st">"lee"</span>, <span class="st">"class"</span>, <span class="st">"https"</span>, <span class="st">"8221"</span>, <span class="st">"8220"</span>, <span class="st">"wp"</span>, <span class="st">"style"</span>, <span class="st">"las"</span>, <span class="st">"para"</span>, <span class="st">"se"</span>, <span class="st">"es"</span>, <span class="st">"href"</span>, <span class="st">"su"</span>, <span class="st">"del"</span>, <span class="st">"una"</span>, <span class="st">"es"</span>))</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrar las stop words del texto</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>words_clean <span class="ot">&lt;-</span> words <span class="sc">%&gt;%</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words_es, <span class="at">by =</span> <span class="st">"word"</span>)</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular frecuencia de palabras</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>word_counts <span class="ot">&lt;-</span> words_clean <span class="sc">%&gt;%</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver las 10 palabras más frecuentes</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(word_counts, <span class="dv">10</span>)</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar las palabras más frecuentes</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>word_counts <span class="sc">%&gt;%</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">15</span>, n) <span class="sc">%&gt;%</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(word, n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Frecuencia de Palabras en Artículos"</span>,</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Palabra"</span>, <span class="at">y =</span> <span class="st">"Frecuencia"</span>) <span class="sc">+</span></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="do">##Emol</span></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 2: Tokenizar las palabras y contar frecuencias</span></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>frecuencia_palabras <span class="ot">&lt;-</span> textos_df <span class="sc">%&gt;%</span></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(palabra, texto) <span class="sc">%&gt;%</span>       <span class="co"># Divide el texto en palabras</span></span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(palabra, <span class="at">sort =</span> <span class="cn">TRUE</span>) </span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>frecuencia_palabras <span class="ot">&lt;-</span> frecuencia_palabras <span class="sc">%&gt;%</span></span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>palabra <span class="sc">%in%</span> palabras_irrelevantes)</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 4: Graficar las frecuencias de las palabras más comunes</span></span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(frecuencia_palabras <span class="sc">%&gt;%</span> <span class="fu">top_n</span>(<span class="dv">10</span>, n), <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(palabra, n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"skyblue"</span>) <span class="sc">+</span></span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Frecuencia de Palabras en Textos"</span>,</span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Palabra"</span>,</span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frecuencia"</span>) <span class="sc">+</span></span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Esto nos sirve sobre todo para saber si se nos coló algún bloque de código</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Seleccionamos solo la columna de texto que nos interesa</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>text_data <span class="ot">&lt;-</span> datos_proc <span class="sc">%&gt;%</span> <span class="fu">select</span>(post_content)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenizamos el texto y lo dividimos en palabras</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>words <span class="ot">&lt;-</span> datos_proc <span class="sc">%&gt;%</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, post_content)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Cantidad de palabras extraídas</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1028714</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar palabras comunes en español</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"stop_words"</span>) <span class="co"># Cargar palabras comunes en inglés (desde tidytext)</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>stop_words_es <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">word =</span> <span class="fu">c</span>(<span class="st">"el"</span>, <span class="st">"la"</span>, <span class="st">"de"</span>, <span class="st">"y"</span>, <span class="st">"en"</span>, <span class="st">"que"</span>, <span class="st">"a"</span>, <span class="st">"los"</span>, <span class="st">"con"</span>, <span class="st">"por"</span>, <span class="st">"lee"</span>, <span class="st">"las"</span>, <span class="st">"para"</span>, <span class="st">"se"</span>, <span class="st">"es"</span>, <span class="st">"su"</span>,  <span class="st">"del"</span>, <span class="st">"una"</span>, <span class="st">"al"</span>, <span class="st">"como"</span>, <span class="st">"más"</span>, <span class="st">"lo"</span>, <span class="st">"este"</span>, <span class="st">"sus"</span>, <span class="st">"esta"</span>, <span class="st">"también"</span>, <span class="st">"entre"</span>, <span class="st">"fue"</span>, <span class="st">"han"</span>, <span class="st">"un"</span>, <span class="st">"sin"</span>, <span class="st">"sobre"</span>, <span class="st">"ya"</span>, <span class="st">"pero"</span>, <span class="st">"no"</span>, <span class="st">"muy"</span>, <span class="st">"si"</span>, <span class="st">"porque"</span>, <span class="st">"cuando"</span>, <span class="st">"desde"</span>, <span class="st">"todo"</span>, <span class="st">"son"</span>, <span class="st">"ha"</span>, <span class="st">"hay"</span>, <span class="st">"le"</span>, <span class="st">"ni"</span>, <span class="st">"cada"</span>, <span class="st">"me"</span>, <span class="st">"tanto"</span>, <span class="st">"hasta"</span>, <span class="st">"nos"</span>, <span class="st">"mi"</span>, <span class="st">"tus"</span>, <span class="st">"mis"</span>, <span class="st">"tengo"</span>, <span class="st">"tienes"</span>, <span class="st">"esa"</span>, <span class="st">"ese"</span>, <span class="st">"tan"</span>, <span class="st">"esa"</span>, <span class="st">"esos"</span>, <span class="st">"esa"</span>, <span class="st">"esas"</span>, <span class="st">"él"</span>, <span class="st">"ella"</span>, <span class="st">"ellos"</span>, <span class="st">"ellas"</span>, <span class="st">"nosotros"</span>, <span class="st">"vosotros"</span>, <span class="st">"vosotras"</span>, <span class="st">"ustedes"</span>, <span class="st">"uno"</span>, <span class="st">"una"</span>, <span class="st">"unos"</span>, <span class="st">"unas"</span>, <span class="st">"alguien"</span>, <span class="st">"quien"</span>, <span class="st">"cual"</span>, <span class="st">"cuales"</span>, <span class="st">"cualquier"</span>, <span class="st">"cualesquiera"</span>, <span class="st">"como"</span>, <span class="st">"donde"</span>, <span class="st">"cuanto"</span>, <span class="st">"demasiado"</span>, <span class="st">"poco"</span>, <span class="st">"menos"</span>, <span class="st">"casi"</span>, <span class="st">"algunos"</span>, <span class="st">"algunas"</span>, <span class="st">"aunque"</span>, <span class="st">"cuyo"</span>, <span class="st">"cuya"</span>, <span class="st">"cuyos"</span>, <span class="st">"cuyas"</span>, <span class="st">"ser"</span>, <span class="st">"haber"</span>, <span class="st">"estar"</span>, <span class="st">"tener"</span>, <span class="st">"hacer"</span>, <span class="st">"ir"</span>, <span class="st">"ver"</span>, <span class="st">"dar"</span>, <span class="st">"debe"</span>, <span class="st">"debido"</span>, <span class="st">"puede"</span>, <span class="st">"pues"</span>, <span class="st">"dicho"</span>, <span class="st">"hecho"</span>, <span class="st">"mientras"</span>, <span class="st">"luego"</span>, <span class="st">"además"</span>, <span class="st">"entonces"</span>, <span class="st">"así"</span>, <span class="st">"tal"</span>, <span class="st">"dicha"</span>, <span class="st">"mismo"</span>, <span class="st">"misma"</span>, <span class="st">"demás"</span>, <span class="st">"otro"</span>, <span class="st">"otra"</span>, <span class="st">"otros"</span>, <span class="st">"otras"</span>, <span class="st">"debería"</span>, <span class="st">"tendría"</span>, <span class="st">"podría"</span>, <span class="st">"menos"</span>, <span class="st">"cuándo"</span>, <span class="st">"dónde"</span>,  <span class="st">"qué"</span>, <span class="st">"quién"</span>, <span class="st">"cuyo"</span>, <span class="st">"la"</span>, <span class="st">"lo"</span>, <span class="st">"las"</span>, <span class="st">"que"</span>, <span class="st">"está"</span>, <span class="st">"según"</span>, <span class="st">"esto"</span>))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtramos las stop words del texto</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>words_clean <span class="ot">&lt;-</span> words <span class="sc">%&gt;%</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words_es, <span class="at">by =</span> <span class="st">"word"</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculamos frecuencia de palabras</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>word_counts <span class="ot">&lt;-</span> words_clean <span class="sc">%&gt;%</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver las 10 palabras más frecuentes</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(word_counts, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           word    n
+1  inteligencia 3299
+2    artificial 3237
+3            ia 2681
+4    tecnología 1653
+5         chile 1585
+6          años 1496
+7      personas 1454
+8         mundo 1431
+9         datos 1367
+10        parte 1202</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficamos las palabras más frecuentes</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>word_counts <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">15</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(word, n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Frecuencia de Palabras en Artículos"</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Palabra"</span>, <span class="at">y =</span> <span class="st">"Frecuencia"</span>) <span class="sc">+</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="qmd1_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Se visualiza como luego de limpiar el texto y omitir palabras que no interesan, las palabras más utilizadas son: inteligencia, artificial, IA, tecnología y Chile. Cabe destacar la aparición alta de palabras como datos e información.</p>
+</section>
+<section id="descriptivo-cantidad-de-notas-por-meses" class="level2">
+<h2 class="anchored" data-anchor-id="descriptivo-cantidad-de-notas-por-meses">Descriptivo cantidad de notas por meses</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Agrupamos los datos por año y mes, y contar las publicaciones</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>publicaciones_por_mes <span class="ot">&lt;-</span> datos_proc <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">cantidad =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">'drop'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fecha =</span> <span class="fu">as.Date</span>(<span class="fu">paste</span>(year, month, <span class="st">"01"</span>, <span class="at">sep =</span> <span class="st">"-"</span>))) <span class="co"># Crear una fecha para el eje x</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Creamos el gráfico</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(publicaciones_por_mes, <span class="fu">aes</span>(<span class="at">x =</span> fecha, <span class="at">y =</span> cantidad)) <span class="sc">+</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="co"># Línea de publicaciones</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="co"># Puntos en cada mes</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">color =</span> <span class="st">"green"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="co"># Curva de tendencia</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Cantidad de Notas sobre Inteligencia Artificial Publicadas por Mes"</span>,</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Año"</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Cantidad de Notas"</span>) <span class="sc">+</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_labels =</span> <span class="st">"%Y"</span>, <span class="at">date_breaks =</span> <span class="st">"1 year"</span>) <span class="co"># Mostrar solo los años en el eje x</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="qmd1_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Se visualiza un aumento exponencial de noticias que se condice con el boom de la inteligencia artificial (IA) a fines del 2022 por la salida de ChatGPT. Luego hay picos altos y bajos, sin embargo nunca se vuelve a la frecuencia antes del boom inicial. Podría ser interesante investigar las fechas de los picos altos para ver si ocurrieron hechos importantes en relación a la IA.</p>
+</section>
+<section id="descriptivo-cantidad-de-notas-por-categoría" class="level2">
+<h2 class="anchored" data-anchor-id="descriptivo-cantidad-de-notas-por-categoría">Descriptivo cantidad de notas por categoría</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contamos las publicaciones por categoría</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>publicaciones_por_categoria <span class="ot">&lt;-</span> datos_proc <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(post_category_primary.name) <span class="sc">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">cantidad =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">'drop'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(cantidad))</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtramos para quedarnos con las 15 categorías más usadas</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>top_15_categorias <span class="ot">&lt;-</span> publicaciones_por_categoria <span class="sc">%&gt;%</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">15</span>, cantidad)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de Barras para las 15 categorías más usadas</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(top_15_categorias, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(post_category_primary.name, <span class="sc">-</span>cantidad), <span class="at">y =</span> cantidad, <span class="at">fill =</span> post_category_primary.name)) <span class="sc">+</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Top 15 Categorías más Usadas en Notas"</span>,</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Categoría"</span>,</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Cantidad de Notas"</span>) <span class="sc">+</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>), </span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="qmd1_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Como era de esperarse, el tema más recurrente es Ciencia y Tecnología, seguido de Economía, Nacional, Artes y Cultura y Opinión.</p>
+</section>
+<section id="web-scrapping-utilizando-la-api-de-emol" class="level2">
+<h2 class="anchored" data-anchor-id="web-scrapping-utilizando-la-api-de-emol">Web-scrapping utilizando la API de Emol</h2>
+<p>Lo que sigue de aquí en adelante se encuentra incompleto, sin embargo, se consideró relevante incluirlo en la entrega para poder recibir una retroalimentación. El procedimiento es el mismo: se encontró una API no documentada que utiliza el buscador de Emol. Luego se fueron descubriendo a prueba y error los parámetros necesarios para iterar. La mayor complicación que se tuvo es que la estructura de datos que entrega la API difiere mucho en este caso. La API entrega las noticias agrupadas de diez en diez.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>search_query <span class="ot">&lt;-</span> <span class="st">"Inteligencia Artificial"</span> <span class="co"># Palabra clave para obtener los artículos</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>from <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># Seteamos en 0 para que comience por el primer artículo</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>total_results <span class="ot">&lt;-</span> <span class="dv">300</span>  <span class="co"># Numero de búsquedas total al ingresar la palabra clave en emol.cl</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>procesados <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>all_data_emol <span class="ot">&lt;-</span> <span class="fu">list</span>() <span class="co"># Creamos lista vacía para almacenar todo el contenido (por el formato del JSON no se puede utilizar un data frame)</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>combine_lists <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  combined_list <span class="ot">&lt;-</span> <span class="fu">c</span>(...)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(combined_list)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>} <span class="co">#Creamos función para combinar listas</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Iteramos hasta que el from sea menor al total de resultados</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (from <span class="sc">&lt;</span> total_results) {</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Construimos el link para cada iteración (lo más importante es que el from vaya aumentando)</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://newsapi.ecn.cl/NewsApi/emol/buscador/emol,inversiones,mediosregionales,legal,campo,blogs,guioteca,elmercurio-digital,emoltv,lasegundaprint,revistalibros,mercuriodeportes?q=inteligencia%20artificial&amp;size=10&amp;from="</span>, from</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    from <span class="ot">&lt;-</span> from <span class="sc">+</span> <span class="dv">10</span> <span class="co"># Se aumenta el from para cada iteración (después de que se construya el link)</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    response <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    { <span class="fu">GET</span>(url) },</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">error =</span> <span class="cf">function</span>(e) { </span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">message</span>(<span class="st">"Error en la conexión: "</span>, e) </span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span> (<span class="fu">is.null</span>(response)) <span class="cf">next</span></span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>    data1 <span class="ot">&lt;-</span> <span class="fu">content</span>(response, <span class="st">"text"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>) <span class="co"># Transformamos el cuerpo de "response" en texto en formato UTF-8 </span></span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>    json_data1 <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(data1, <span class="at">flatten =</span> <span class="cn">FALSE</span>) <span class="co">#Convertimos el JSON en una lista leíble en R</span></span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>    data2 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(json_data1[[<span class="st">"hits"</span>]][[<span class="st">"hits"</span>]][[<span class="st">"_source"</span>]][[<span class="st">"texto"</span>]])) </span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>      all_data_emol <span class="ot">&lt;-</span> <span class="fu">combine_lists</span>(all_data_emol, data2) <span class="co"># Fucionamos todas las listas</span></span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>          procesados <span class="ot">&lt;-</span> procesados <span class="sc">+</span><span class="dv">10</span> <span class="co"># Contador</span></span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>          <span class="fu">print</span>(procesados)</span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10
+[1] 20
+[1] 30
+[1] 40
+[1] 50
+[1] 60
+[1] 70
+[1] 80
+[1] 90
+[1] 100
+[1] 110
+[1] 120
+[1] 130
+[1] 140
+[1] 150
+[1] 160
+[1] 170
+[1] 180
+[1] 190
+[1] 200
+[1] 210
+[1] 220
+[1] 230
+[1] 240
+[1] 250
+[1] 260
+[1] 270
+[1] 280
+[1] 290
+[1] 300</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>textos_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">texto =</span> <span class="fu">unlist</span>(all_data_emol)) <span class="co">#Convertimos la lista en data frame</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="referencias" class="level2">
+<h2 class="anchored" data-anchor-id="referencias">Referencias</h2>
+<ul>
+<li><p>EMOL. (2024). En Wikipedia, la enciclopedia libre.<a href="https://es.wikipedia.org/w/index.php?title=EMOL&amp;oldid=160302426">https://es.wikipedia.org/w/index.php?title=EMOL&amp;oldid=160302426</a></p></li>
+<li><p>Quiénes somos | BioBiochile. (s. f.). Recuperado 4 de noviembre de 2024, de<a href="https://www.biobiochile.cl/quienes-somos/">https://www.biobiochile.cl/quienes-somos/</a></p></li>
+<li><p>Clasificación de los principales sitios web de Editoriales de noticias y medios de comunicación en Chile en septiembre 2024. (s. f.). Similarweb. Recuperado 4 de noviembre de 2024, de<a href="https://www.similarweb.com/es/top-websites/chile/news-and-media/">https://www.similarweb.com/es/top-websites/chile/news-and-media/</a></p></li>
+</ul>
+</section>
 </section>
 
 </main>

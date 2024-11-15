@@ -59,7 +59,7 @@ search_query <- "Inteligencia Artificial" # Frase a buscar
 offset <- 0  # En 0 para que comience por el primer artículo, así funciona la API
 
 # Numero de búsquedas total al ingresar la palabra clave en bíobío.cl (la API busca en múltiplos de a 20)
-total_results <- 3000  
+total_results <- 2060
 
 all_data <- data.frame() # Creamos data.frame vacío para luego extraer los datos de la API
 
@@ -243,6 +243,10 @@ text_data <- datos_proc %>% select(post_content)
 words <- datos_proc %>%
   unnest_tokens(word, post_content)
 
+# Cantidad de palabras extraídas
+
+nrow(words)
+
 # Cargar palabras comunes en español
 data("stop_words") # Cargar palabras comunes en inglés (desde tidytext)
 stop_words_es <- tibble(word = c("el", "la", "de", "y", "en", "que", "a", "los", "con", "por", "lee", "las", "para", "se", "es", "su",  "del", "una", "al", "como", "más", "lo", "este", "sus", "esta", "también", "entre", "fue", "han", "un", "sin", "sobre", "ya", "pero", "no", "muy", "si", "porque", "cuando", "desde", "todo", "son", "ha", "hay", "le", "ni", "cada", "me", "tanto", "hasta", "nos", "mi", "tus", "mis", "tengo", "tienes", "esa", "ese", "tan", "esa", "esos", "esa", "esas", "él", "ella", "ellos", "ellas", "nosotros", "vosotros", "vosotras", "ustedes", "uno", "una", "unos", "unas", "alguien", "quien", "cual", "cuales", "cualquier", "cualesquiera", "como", "donde", "cuanto", "demasiado", "poco", "menos", "casi", "algunos", "algunas", "aunque", "cuyo", "cuya", "cuyos", "cuyas", "ser", "haber", "estar", "tener", "hacer", "ir", "ver", "dar", "debe", "debido", "puede", "pues", "dicho", "hecho", "mientras", "luego", "además", "entonces", "así", "tal", "dicha", "mismo", "misma", "demás", "otro", "otra", "otros", "otras", "debería", "tendría", "podría", "menos", "cuándo", "dónde",  "qué", "quién", "cuyo", "la", "lo", "las", "que", "está", "según", "esto"))
@@ -271,6 +275,8 @@ word_counts %>%
   theme_minimal()
 ```
 
+Se visualiza como luego de limpiar el texto y omitir palabras que no interesan, las palabras más utilizadas son: inteligencia, artificial, IA, tecnología y Chile. Cabe destacar la aparición alta de palabras como datos e información.
+
 ## Descriptivo cantidad de notas por meses
 
 ```{r}
@@ -292,6 +298,8 @@ ggplot(publicaciones_por_mes, aes(x = fecha, y = cantidad)) +
   theme_minimal() +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year") # Mostrar solo los años en el eje x
 ```
+
+Se visualiza un aumento exponencial de noticias que se condice con el boom de la inteligencia artificial (IA) a fines del 2022 por la salida de ChatGPT. Luego hay picos altos y bajos, sin embargo nunca se vuelve a la frecuencia antes del boom inicial. Podría ser interesante investigar las fechas de los picos altos para ver si ocurrieron hechos importantes en relación a la IA.
 
 ## Descriptivo cantidad de notas por categoría
 
@@ -317,6 +325,8 @@ ggplot(top_15_categorias, aes(x = reorder(post_category_primary.name, -cantidad)
   theme(axis.text.x = element_text(angle = 45, hjust = 1), 
         legend.position = "none")
 ```
+
+Como era de esperarse, el tema más recurrente es Ciencia y Tecnología, seguido de Economía, Nacional, Artes y Cultura y Opinión.
 
 ## Web-scrapping utilizando la API de Emol
 
@@ -363,3 +373,11 @@ while (from < total_results) {
 
 textos_df <- tibble(texto = unlist(all_data_emol)) #Convertimos la lista en data frame
 ```
+
+## Referencias
+
+-   EMOL. (2024). En Wikipedia, la enciclopedia libre.[ https://es.wikipedia.org/w/index.php?title=EMOL&oldid=160302426](https://es.wikipedia.org/w/index.php?title=EMOL&oldid=160302426)
+
+-   Quiénes somos \| BioBiochile. (s. f.). Recuperado 4 de noviembre de 2024, de[ https://www.biobiochile.cl/quienes-somos/](https://www.biobiochile.cl/quienes-somos/)
+
+-   Clasificación de los principales sitios web de Editoriales de noticias y medios de comunicación en Chile en septiembre 2024. (s. f.). Similarweb. Recuperado 4 de noviembre de 2024, de[ https://www.similarweb.com/es/top-websites/chile/news-and-media/](https://www.similarweb.com/es/top-websites/chile/news-and-media/)

@@ -1,74 +1,18 @@
-"0","p_load(
-  tidyverse,
-  httr,
-  jsonlite,
-  dplyr,
-  tidytext,
-  ggplot2
-)
-"
-"2","Installing package into ‘C:/Users/ismae/AppData/Local/R/win-library/4.4’
-(as ‘lib’ is unspecified)
-"
-"2","also installing the dependencies ‘SnowballC’, ‘janeaustenr’, ‘tokenizers’
-
-"
-"2","Aviso: downloaded length 0 != reported length 281"
-"2","Aviso: cannot open URL 'https://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.4/PACKAGES.rds': HTTP status was '404 Not Found'"
-"2","Aviso: downloaded length 0 != reported length 281"
-"2","Aviso: cannot open URL 'https://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.4/PACKAGES.gz': HTTP status was '404 Not Found'"
-"2","Aviso: downloaded length 0 != reported length 281"
-"2","Aviso: cannot open URL 'https://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.4/PACKAGES': HTTP status was '404 Not Found'"
-"2","Aviso: unable to access index for repository http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.4:
-  no fue posible abrir la URL 'http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.4/PACKAGES'"
-"2","probando la URL 'https://cran.rstudio.com/bin/windows/contrib/4.4/SnowballC_0.7.1.zip'
-"
-"2","Content type 'application/zip'"
-"2"," length 364644 bytes (356 KB)
-"
-"2","downloaded 356 KB
-
-"
-"2","probando la URL 'https://cran.rstudio.com/bin/windows/contrib/4.4/janeaustenr_1.0.0.zip'
-"
-"2","Content type 'application/zip'"
-"2"," length 1622369 bytes (1.5 MB)
-"
-"2","downloaded 1.5 MB
-
-"
-"2","probando la URL 'https://cran.rstudio.com/bin/windows/contrib/4.4/tokenizers_0.3.0.zip'
-"
-"2","Content type 'application/zip'"
-"2"," length 967647 bytes (944 KB)
-"
-"2","downloaded 944 KB
-
-"
-"2","probando la URL 'https://cran.rstudio.com/bin/windows/contrib/4.4/tidytext_0.4.2.zip'
-"
-"2","Content type 'application/zip'"
-"2"," length 3047203 bytes (2.9 MB)
-"
-"2","downloaded 2.9 MB
-
-"
-"1","package ‘SnowballC’ successfully unpacked and MD5 sums checked
-"
-"1","package ‘janeaustenr’ successfully unpacked and MD5 sums checked
-"
-"1","package ‘tokenizers’ successfully unpacked and MD5 sums checked
-"
-"1","package ‘tidytext’ successfully unpacked and MD5 sums checked
-"
-"1","
-"
-"1",""
-"1","The downloaded binary packages are in
-	C:\Users\ismae\AppData\Local\Temp\Rtmpc5KTXI\downloaded_packages"
-"1",""
-"1","
-"
-"2","
-tidytext installed
-"
+"0",""
+"0","#Cargamos libreria"
+"0",""
+"0","library(pacman)"
+"0",""
+"0","p_load("
+"0","  tidyverse,"
+"0","  httr,"
+"0","  jsonlite,"
+"0","  dplyr,"
+"0","  tidytext,"
+"0","  ggplot2,"
+"0","  rvest,"
+"0","  stringr,"
+"0","  xml2"
+"0",")"
+"0",""
+"0","rm(list = ls()) "
