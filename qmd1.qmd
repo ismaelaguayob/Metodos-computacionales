@@ -6,7 +6,19 @@ echo: true
 css: styles.css 
 ---
 
+# Por Hacer:
+
+-   Cambiar la iteración para que extraiga la cantidad de resultados en vez de uno que uno establezca de antes
+
+-   Explorar los modelos de 1. pregunta y 2. análisis de texto, y probar los análisis de sentimiento con los párrafos generados
+
+-   Arreglar la entrega de Opazo, unidad de análisis Technological Frame
+
+-   Limpiar las listas de párrafos sobre Inteligencia Artificial
+
 # Primer trabajo metodos computacionales
+
+#### *Integrantes: Ismael Aguayo y Exequiel Trujillo*
 
 ## Relevancia de los datos
 
@@ -41,7 +53,8 @@ p_load(
   ggplot2,
   rvest,
   stringr,
-  xml2
+  xml2,
+  wordcloud2
 )
 
 rm(list = ls()) 
@@ -118,6 +131,22 @@ while (offset < total_results) {
 sum(is.na(all_data$post_title))
 
 print(all_data$post_content[1]) #Ejemplo de cómo nos queda el contenido de la página
+
+
+# Iterar sobre cada fila del data frame
+for (i in seq_len(nrow(all_data))) {
+  # Convertir el contenido HTML en un nodo HTML
+  nodo_html <- read_html(all_data$post_content[i])
+  
+  # Extraer los párrafos del nodo HTML
+  parrafos <- nodo_html %>% html_elements("p") %>% html_text2()
+  
+  # Filtrar los párrafos que contienen "inteligencia artificial"
+  parrafos_filtrados <- parrafos[grepl("inteligencia artificial", parrafos, ignore.case = TRUE)]
+  
+  # Guardar los párrafos únicos en la columna correspondiente
+  all_data$parrafos_filtrados[i] <- list(unique(parrafos_filtrados))
+}
 ```
 
 #### Sacamos un data frame con las columnas que nos interesen
@@ -249,7 +278,7 @@ nrow(words)
 
 # Cargar palabras comunes en español
 data("stop_words") # Cargar palabras comunes en inglés (desde tidytext)
-stop_words_es <- tibble(word = c("el", "la", "de", "y", "en", "que", "a", "los", "con", "por", "lee", "las", "para", "se", "es", "su",  "del", "una", "al", "como", "más", "lo", "este", "sus", "esta", "también", "entre", "fue", "han", "un", "sin", "sobre", "ya", "pero", "no", "muy", "si", "porque", "cuando", "desde", "todo", "son", "ha", "hay", "le", "ni", "cada", "me", "tanto", "hasta", "nos", "mi", "tus", "mis", "tengo", "tienes", "esa", "ese", "tan", "esa", "esos", "esa", "esas", "él", "ella", "ellos", "ellas", "nosotros", "vosotros", "vosotras", "ustedes", "uno", "una", "unos", "unas", "alguien", "quien", "cual", "cuales", "cualquier", "cualesquiera", "como", "donde", "cuanto", "demasiado", "poco", "menos", "casi", "algunos", "algunas", "aunque", "cuyo", "cuya", "cuyos", "cuyas", "ser", "haber", "estar", "tener", "hacer", "ir", "ver", "dar", "debe", "debido", "puede", "pues", "dicho", "hecho", "mientras", "luego", "además", "entonces", "así", "tal", "dicha", "mismo", "misma", "demás", "otro", "otra", "otros", "otras", "debería", "tendría", "podría", "menos", "cuándo", "dónde",  "qué", "quién", "cuyo", "la", "lo", "las", "que", "está", "según", "esto"))
+stop_words_es <- tibble(word = c("el", "la", "de", "y", "en", "que", "a", "los", "con", "por", "lee", "las", "para", "se", "es", "su",  "del", "una", "al", "como", "más", "lo", "este", "sus", "esta", "también", "entre", "fue", "han", "un", "sin", "sobre", "ya", "pero", "no", "muy", "si", "porque", "cuando", "desde", "todo", "son", "ha", "hay", "le", "ni", "cada", "me", "tanto", "hasta", "nos", "mi", "tus", "mis", "tengo", "tienes", "esa", "ese", "tan", "esa", "esos", "esa", "esas", "él", "ella", "ellos", "ellas", "nosotros", "vosotros", "vosotras", "ustedes", "uno", "una", "unos", "unas", "alguien", "quien", "cual", "cuales", "cualquier", "cualesquiera", "como", "donde", "cuanto", "demasiado", "poco", "menos", "casi", "algunos", "algunas", "aunque", "cuyo", "cuya", "cuyos", "cuyas", "ser", "haber", "estar", "tener", "hacer", "ir", "ver", "dar", "debe", "debido", "puede", "pues", "dicho", "hecho", "mientras", "luego", "además", "entonces", "así", "tal", "dicha", "mismo", "misma", "demás", "otro", "otra", "otros", "otras", "debería", "tendría", "podría", "menos", "cuándo", "dónde",  "qué", "quién", "cuyo", "la", "lo", "las", "que", "está", "según", "esto", "inteligencia", "artificial", "ia", "tecnología", "chile", "años", "personas", "parte", "tiene", "año", "cómo", "están", "forma", "durante", "vez", "estos"))
 
 # Filtramos las stop words del texto
 words_clean <- words %>%
@@ -273,9 +302,29 @@ word_counts %>%
   labs(title = "Frecuencia de Palabras en Artículos",
        x = "Palabra", y = "Frecuencia") +
   theme_minimal()
+
+# Filtra solo palabras con una frecuencia mínima muy baja (ej. n > 5)
+word_counts_filtered <- word_counts %>% filter(n > 5) %>% slice_max(n, n = 60)
+
+wordcloud2(
+  data = word_counts_filtered, 
+  size = 0.5,              # Aumenta el tamaño general de las palabras
+  minSize = 0,             # Asegura que todas las palabras sean visibles
+  gridSize = 1,            # Ajusta la densidad de palabras
+  color = "random-dark",   # Colores para las palabras
+  backgroundColor = "white", # Fondo blanco
+  shape = "circle",        # Forma circular para compactar la nube
+  ellipticity = 1          # Elimina la elipse y fuerza un formato más centrado
+)
 ```
 
 Se visualiza como luego de limpiar el texto y omitir palabras que no interesan, las palabras más utilizadas son: inteligencia, artificial, IA, tecnología y Chile. Cabe destacar la aparición alta de palabras como datos e información.
+
+**Realizar una nube de palabras**
+
+**Excluir IA y otros**
+
+**Realizar un vector para la búsqueda de palabras**
 
 ## Descriptivo cantidad de notas por meses
 
@@ -376,8 +425,8 @@ textos_df <- tibble(texto = unlist(all_data_emol)) #Convertimos la lista en data
 
 ## Referencias
 
--   EMOL. (2024). En Wikipedia, la enciclopedia libre.[ https://es.wikipedia.org/w/index.php?title=EMOL&oldid=160302426](https://es.wikipedia.org/w/index.php?title=EMOL&oldid=160302426)
+-   EMOL. (2024). En Wikipedia, la enciclopedia libre.<https://es.wikipedia.org/w/index.php?title=EMOL&oldid=160302426>
 
--   Quiénes somos \| BioBiochile. (s. f.). Recuperado 4 de noviembre de 2024, de[ https://www.biobiochile.cl/quienes-somos/](https://www.biobiochile.cl/quienes-somos/)
+-   Quiénes somos \| BioBiochile. (s. f.). Recuperado 4 de noviembre de 2024, de<https://www.biobiochile.cl/quienes-somos/>
 
--   Clasificación de los principales sitios web de Editoriales de noticias y medios de comunicación en Chile en septiembre 2024. (s. f.). Similarweb. Recuperado 4 de noviembre de 2024, de[ https://www.similarweb.com/es/top-websites/chile/news-and-media/](https://www.similarweb.com/es/top-websites/chile/news-and-media/)
+-   Clasificación de los principales sitios web de Editoriales de noticias y medios de comunicación en Chile en septiembre 2024. (s. f.). Similarweb. Recuperado 4 de noviembre de 2024, de<https://www.similarweb.com/es/top-websites/chile/news-and-media/>
