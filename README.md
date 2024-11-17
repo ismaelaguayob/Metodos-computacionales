@@ -1,3 +1,6 @@
-# Extracción de contenido de APIS de medios de comunicación digitales
+# Construcción Social de la Inteligencia Artificial en BíoBío y Emol
 
-El repositorio incluye un archivo(qmd1.qmd) con todos los procedimientos para extraer y limpiar contenido extraído de los medios BíoBíocl y El Mercurio Digital (Emol). Además, incluye un html con una presentación de los datos encontrados. 
+El repositorio incluye los procedimientos para: 
+
+- La extracción  de contenido de BíoBío y emol a través de APIs:
+- Una Jupyter Notebook en Google Colab (https://colab.research.google.com/drive/1D9mr4PqRmCfA3PSXHVm1bqWqrUZIoCE_#scrollTo=_Ue6dMTG-3rH) con el anterior procedimiento, y análisis realizados al contenido de los medios. Esto utilizando métodos de Machine Learning no supervisado de clasificación de texto. 
