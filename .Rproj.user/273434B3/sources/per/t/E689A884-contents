@@ -1,0 +1,11 @@
+<style>
+  /* Justificar todos los párrafos */
+  p {
+    text-align: justify;
+  }
+  
+  /* Fondo general del cuerpo */
+  body {
+    background-color: #f0f4f8; /* Puedes ajustar el color aquí */
+  }
+</style>

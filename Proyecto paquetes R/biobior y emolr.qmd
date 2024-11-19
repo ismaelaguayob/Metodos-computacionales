@@ -1,0 +1,300 @@
+---
+title: "BioBior y Emolr"
+format: html
+editor: visual
+echo: true
+autor: "Ismael Aguayo y Exequiel Trujillo"
+css: styles.css 
+---
+
+El siguiente Quarto Markdown contiene los procedimientos para:
+
+-   Extraer el contenido de **BíoBíocl** en un formato amigable para R
+
+-   Extraer los párrafos de interés y agregarlos a una columna del data frame
+
+-   Limpiar códigos y ruido del texto extraído del medio
+
+-   Extraer el contenido de **Emol** en un formato amigable para R (work in progress)
+
+-   Extraer los párrafos de interés (work in progress)
+
+-   Limpiar los códigos y ruido del texto extraído del medio (work in progress)
+
+```{r}
+
+#Cargamos libreria
+
+library(pacman)
+
+p_load(
+  tidyverse,
+  httr,
+  jsonlite,
+  dplyr,
+  tidytext,
+  ggplot2,
+  rvest,
+  stringr,
+  xml2,
+  wordcloud2,
+  arrow,
+  readxl
+)
+
+rm(list = ls()) 
+```
+
+## Obtenemos el texto de las noticias con la búsqueda "Inteligencia Artificial" en medio Bío Bío
+
+Se utilizó la API de búsqueda que utiliza la web de BíoBío.cl. Esta no cuenta con documentación, por lo que a prueba y error se fueron descubriendo los parámetros necesarios para automatizar el scrappeo del contenido de la web. Los headers que se utilizaron son los mismos que arroja el get cuando uno realiza una busqueda desde el navegador.
+
+```{r}
+
+## Parámetros básicos
+
+search_query <- "Inteligencia Artificial" # Frase a buscar
+offset <- 0  # En 0 para que comience por el primer artículo, así funciona la API
+
+# Numero de búsquedas total al ingresar la palabra clave en bíobío.cl (la API busca en múltiplos de a 20)
+total_results <- 2060
+
+all_data <- data.frame() # Creamos data.frame vacío para luego extraer los datos de la API
+
+# Encabezados para la solicitud
+headers <- c(
+  `User-Agent` = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0",
+  `Accept` = "application/json, text/plain, */*",
+  `Referer` = "https://www.biobiochile.cl/buscador.shtml?s=inteligencia+artificial",
+  `Content-Type` = "application/json; charset=UTF-8"
+)
+
+## Iteramos hasta que el offset sea menor al total de resultados
+
+while (offset < total_results) {
+  # Construimos el link para cada iteración
+  url <- paste0(
+    "https://www.biobiochile.cl/lista/api/buscador?offset=", offset,
+    "&search=", URLencode(search_query),
+    "&intervalo=&orden=ultimas"
+  )
+  
+  # Se aumenta el offset para cada iteración (después de construido el link)
+  offset <- offset + 20
+    
+  # Realizamos la solicitud y manejamos posibles errores
+  response <- tryCatch(
+    { GET(url) },
+    error = function(e) { 
+      message("Error en la conexión: ", e) 
+      return(NULL)
+    }
+  )
+    
+  # Verificamos si `response` es nulo antes de continuar
+  if (is.null(response)) next
+  
+  # Procesamos el contenido si `response` no es nulo
+  data <- content(response, "text", encoding = "UTF-8")
+  json_data <- fromJSON(data, flatten = TRUE)
+  total_results <- json_data[["total"]]
+  # Verificamos que el elemento `notas` existe antes de unir datos
+  if (!is.null(json_data$notas)) {
+    json_notas <- json_data$notas %>%
+      # Convertimos a data frame y normalizar tipos
+      as.data.frame(stringsAsFactors = FALSE) %>%
+      # Convertir columnas enteras a character, si es necesario
+      mutate(across(where(is.integer), as.character)) 
+    # Unimos los datos al data frame previamente realizado
+    all_data <- bind_rows(all_data, json_notas)
+  }
+  
+  cat(" - Procesados - ", offset) #Mostrar progreso
+  
+}
+
+sum(is.na(all_data$post_title))
+
+print(all_data$post_content[1]) #Ejemplo de cómo nos queda el contenido de la página
+
+```
+
+## Extraemos los párrafos que mencionan inteligencia artificial o IA
+
+```{r}
+
+all_data$parrafos_filtrados <- NA
+
+text <- "\\binteligencia artificial\\b|\\bIA\\b"
+progress <- 0
+for (i in seq_len(nrow(all_data))) {
+  # Convertir el contenido HTML en un nodo HTML
+  nodo_html <- read_html(all_data$post_content[i])
+  
+  # Extraer los párrafos del nodo HTML
+  parrafos <- nodo_html %>% html_elements("p") %>% html_text2()
+  
+  # Filtrar los párrafos que contienen "inteligencia artificial"
+  parrafos_filtrados <- parrafos[grepl(text, parrafos, ignore.case = TRUE)]
+  
+  # Guardar los párrafos únicos en la columna correspondiente
+  all_data$parrafos_filtrados[i] <- list(unique(parrafos_filtrados))
+  progress <- progress + 1
+  cat(progress, "aplicados\n")
+}
+```
+
+#### Sacamos un data frame con las columnas que nos interesen
+
+```{r}
+
+datos_proc <- all_data %>% 
+  select(
+    post_content, ID, post_title, year, month, day, post_category_primary.name, post_category_secondary.name, parrafos_filtrados
+    )
+
+# print(datos_proc$parrafos_filtrados)
+# Después de ejecutar el bucle y extraer todos los datos
+# Actualizamos "total_results" con el número total de filas en el data frame final
+
+total_results <- nrow(datos_proc)
+
+# Confirmación de la actualización
+cat("El número total de resultados obtenidos es:", total_results, "\n")
+```
+
+## Limpieza de las secciones "Lee también...", Instagram y Twitter
+
+Aparecen algunos bloques html que ponen noticias como recomedación para leer y pueden contener las palabras "inteligencia artificial" sin que el contenido de la nota se refiera específicamente a eso. Para ello podemos usar el paquete rvest. Lo mismo haremos con los bloques que tienen publicaciones de X (ex Twitter) o de Instagram. Así, mantendremos solo el texto de la noticia y eliminaremos las noticias que se agregaron sin que sean relevantes.
+
+#### Necesitamos una función que se dedique a encontrar esa parte del texto y eliminarla:
+
+```{r}
+
+for (i in seq_len(nrow(datos_proc))){
+  # Convertimos el contenido a un objeto HTML para usar rvest
+  contenido_html <- rvest::read_html(datos_proc$post_content[[i]])
+
+  # Eliminamos los divs con la clase 'lee-tambien-bbcl'
+  contenido_html %>%
+    html_nodes("div.lee-tambien-bbcl") %>%
+    xml_remove()
+
+  # Eliminamos los divs de publicaciones de Instagram
+  contenido_html %>%
+    html_nodes("blockquote.instagram-media") %>%
+    xml_remove()
+
+  # Eliminamos los divs de publicaciones de Twitter
+  contenido_html %>%
+    html_nodes("blockquote.twitter-tweet") %>%
+    xml_remove()
+
+  # Convertimos el HTML limpio a texto y eliminamos cualquier "Lee también" que quede en el contenido
+  contenido_texto <- as.character(contenido_html)
+  contenido_texto <- str_replace_all(contenido_texto, regex("Lee también.*?<\\/div>", dotall = TRUE), "")
+  
+  # Guardamos el contenido limpio de vuelta en el data frame
+  datos_proc$post_content[[i]] <- contenido_texto
+
+  #Revisamos el contenido HTML resultante (opcional)
+  # print(as.character(contenido_html))
+}
+
+```
+
+#### Ahora eliminamos todas las notas que no mencionen Inteligencia Artificial por lo menos una vez:
+
+```{r}
+
+datos_proc <- datos_proc %>%
+  filter(grepl("inteligencia artificial", post_content, ignore.case = TRUE))
+
+# Actualizamos "total_results" con el número total de filas en el data frame final
+
+total_results <- nrow(datos_proc)
+
+# Confirmación de la actualización
+cat("El número total de resultados obtenidos es:", total_results, "\n")
+```
+
+#### También podemos exportar como html para ver si desaparecieron los bloques completos
+
+```{r}
+
+# Seteamos nombre archivo salida
+out_file <- "noticia_casi.html"
+
+# Exportamos el contenido HTML de una nota aleatoria
+writeLines(as.character(datos_proc$post_content[sample(1:total_results, 1)]), con = out_file)
+
+# Mensaje de confirmación 
+cat("El contenido en bruto se ha exportado a", out_file) 
+```
+
+## Limpieza de texto general
+
+Eliminamos la parte de código que queda en el texto para convertirlo en texto plano.
+
+```{r}
+# Inicializamos variables
+contador <- 1
+html_content <- list()       # Lista para hacer nodos html
+
+# Procesar el HTML y extraer el texto
+while (contador <= total_results) {
+  # Convertir a nodo HTML
+  html_content[[contador]] <- read_html(datos_proc$post_content[[contador]])
+  
+  # Extraemos y limpiamos el texto
+  datos_proc$post_content[[contador]] <- html_content[[contador]] %>%
+    html_text2() %>% 
+    str_squish()
+  
+  contador <- contador + 1
+}
+```
+
+# Web-scrapping utilizando la API de Emol
+
+```{r}
+
+search_query <- "Inteligencia Artificial" # Palabra clave para obtener los artículos
+from <- 0  # Seteamos en 0 para que comience por el primer artículo
+total_results <- 300  # Numero de búsquedas total al ingresar la palabra clave en emol.cl
+procesados <- 0
+all_data_emol <- list() # Creamos lista vacía para almacenar todo el contenido (por el formato del JSON no se puede utilizar un data frame)
+
+combine_lists <- function(...) {
+  combined_list <- c(...)
+  return(combined_list)
+} #Creamos función para combinar listas
+
+## Iteramos hasta que el from sea menor al total de resultados
+while (from < total_results) {
+  # Construimos el link para cada iteración (lo más importante es que el from vaya aumentando)
+  url <- paste0(
+    "https://newsapi.ecn.cl/NewsApi/emol/buscador/emol,inversiones,mediosregionales,legal,campo,blogs,guioteca,elmercurio-digital,emoltv,lasegundaprint,revistalibros,mercuriodeportes?q=inteligencia%20artificial&size=10&from=", from
+  )
+    from <- from + 10 # Se aumenta el from para cada iteración (después de que se construya el link)
+   
+    response <- tryCatch(
+    { GET(url) },
+    error = function(e) { 
+      message("Error en la conexión: ", e) 
+      return(NULL)
+    }
+  )
+ if (is.null(response)) next
+    
+    data1 <- content(response, "text", encoding = "UTF-8") # Transformamos el cuerpo de "response" en texto en formato UTF-8 
+    json_data1 <- fromJSON(data1, flatten = FALSE) #Convertimos el JSON en una lista leíble en R
+    data2 <- list(c(json_data1[["hits"]][["hits"]][["_source"]][["texto"]])) 
+    
+      all_data_emol <- combine_lists(all_data_emol, data2) # Fucionamos todas las listas
+          procesados <- procesados +10 # Contador
+          print(procesados)
+}
+
+textos_df <- tibble(texto = unlist(all_data_emol)) #Convertimos la lista en data frame
+```
