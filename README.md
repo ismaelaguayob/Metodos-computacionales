@@ -1,6 +1,6 @@
 # Construcción Social de la Inteligencia Artificial en BíoBío y Emol
 
-El repositorio contiene dos carpetas. **La primera** corresponde al proyecto de paquetes de R "biobior y emolr" (trabajo en progreso). Se espera que permita obtener para cualquier usuario todo el contenido de una búsqueda determinada en los diarios nacionales Emol y BíoBíocl. 
+El repositorio contiene dos carpetas. **La primera** corresponde al proyecto de paquetes de R "biobior y emolr" con el profesor Klaus Lehmann (trabajo en progreso). Se espera que permita obtener para cualquier usuario todo el contenido de una búsqueda determinada en los diarios nacionales Emol y BíoBíocl. 
 
 La **segunda carpeta** corresponde a un proyecto de investigación que, por el momento, se llama: *Construcción Social de la Inteligencia Artificial en Prensa Chilena*. Forman parte de esta:
 
