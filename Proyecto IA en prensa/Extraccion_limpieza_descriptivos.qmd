@@ -216,6 +216,7 @@ all_data <- all_data %>%
   )
 
 print(all_data$parrafos_filtrados[1])
+print(sum(is.na(all_data$parrafos_filtrados)))
 ```
 
 ## Limpieza de las secciones "Lee también...", Instagram y Twitter
@@ -271,6 +272,24 @@ total_results <- nrow(all_data)
 
 # Confirmación de la actualización
 cat("El número total de resultados obtenidos es:", total_results, "\n")
+
+# Identificamos las filas que NO contienen la búsqueda
+indices_no_match <- which(!grepl(search_query, all_data$post_content, ignore.case = TRUE))
+
+# Test
+# print(all_data$post_content[indices_no_match[1]])
+
+# Eliminamos las filas que no contienen el término de búsqueda usando los índices
+all_data <- all_data[-indices_no_match, ]
+
+# Actualizamos "total_results" con el número total de filas en el data frame final
+total_results <- nrow(all_data)
+
+# Confirmación de la actualización
+cat("El número total de resultados obtenidos es:", total_results, "\n")
+
+# Confirmación de las filas eliminadas
+cat("Los índices de las filas eliminadas son:", indices_no_match, "\n")
 ```
 
 #### También podemos exportar como html para ver si desaparecieron los bloques completos
