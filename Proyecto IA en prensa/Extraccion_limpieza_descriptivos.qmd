@@ -54,7 +54,7 @@ p_load(
   arrow,
   readxl,
   stopwords,
-  lubridate
+  lubridate,
 )
 
 rm(list = ls()) 
