@@ -53,7 +53,8 @@ p_load(
   wordcloud2,
   arrow,
   readxl,
-  stopwords
+  stopwords,
+  lubridate
 )
 
 rm(list = ls()) 
@@ -437,44 +438,118 @@ Lo que sigue de aquí en adelante se encuentra incompleto, sin embargo, se consi
 
 ```{r}
 
-search_query <- "Inteligencia Artificial" # Palabra clave para obtener los artículos
-from <- 0  # Seteamos en 0 para que comience por el primer artículo
-total_results <- 300  # Numero de búsquedas total al ingresar la palabra clave en emol.cl
-procesados <- 0
-all_data_emol <- list() # Creamos lista vacía para almacenar todo el contenido (por el formato del JSON no se puede utilizar un data frame)
+# Parámetros básicos
+search_query <- "Inteligencia Artificial"  # Palabra clave para obtener los artículos
+offset <- 0  # Seteamos en 0 para que comience por el primer artículo
+total_results_emol <- 0  # Número total de resultados de la búsqueda
 
-combine_lists <- function(...) {
-  combined_list <- c(...)
-  return(combined_list)
-} #Creamos función para combinar listas
+# Definir URL base y parámetros de la consulta
+base_url <- "https://newsapi.ecn.cl/NewsApi/emol/buscador/emol,inversiones,mediosregionales,legal,campo,blogs,guioteca,elmercurio-digital,emoltv,lasegundaprint,revistalibros,mercuriodeportes"
+size <- 10  # Número de artículos por página
 
-## Iteramos hasta que el from sea menor al total de resultados
-while (from < total_results) {
-  # Construimos el link para cada iteración (lo más importante es que el from vaya aumentando)
+# Inicializar el data frame vacío
+all_data_emol <- data.frame(
+  ID = character(),  # Definimos las columnas vacías
+  post_content = character(),
+  post_title = character(),
+  year = integer(),  # Año como entero
+  month = integer(),  # Mes como entero
+  day = integer(),  # Día como entero
+  seccion = character(),
+  subSeccion = character(),
+  stringsAsFactors = FALSE  # Inicializamos el data frame sin factores
+)
+
+# Obtener el número total de resultados
+url_initial <- paste0(
+  base_url, 
+  "?q=", URLencode(search_query), 
+  "&size=1&from=0"
+)
+
+response_initial <- GET(url_initial)
+if (status_code(response_initial) == 200) {
+  data_initial <- content(response_initial, "text", encoding = "UTF-8") %>%
+    fromJSON(flatten = TRUE)
+  
+  if (!is.null(data_initial$hits$total)) {
+    total_results_emol <- as.numeric(data_initial$hits$total)
+    message("Número total de resultados: ", total_results_emol)
+  } else {
+    stop("No se encontró el parámetro 'total' en la respuesta.")
+  }
+} else {
+  stop("Error en la solicitud inicial. Código de estado: ", status_code(response_initial))
+}
+
+# Iterar por todas las páginas de resultados
+while (offset < total_results_emol) {
+  # Construir la URL para cada iteración
   url <- paste0(
-    "https://newsapi.ecn.cl/NewsApi/emol/buscador/emol,inversiones,mediosregionales,legal,campo,blogs,guioteca,elmercurio-digital,emoltv,lasegundaprint,revistalibros,mercuriodeportes?q=inteligencia%20artificial&size=10&from=", from
+    base_url, 
+    "?q=", URLencode(search_query), 
+    "&size=", size, 
+    "&from=", offset
   )
-    from <- from + 10 # Se aumenta el from para cada iteración (después de que se construya el link)
-   
-    response <- tryCatch(
+  
+  # Aumentar el offset para la siguiente iteración
+  offset <- offset + size
+  
+  # Realizar la solicitud y manejar posibles errores
+  response <- tryCatch(
     { GET(url) },
     error = function(e) { 
       message("Error en la conexión: ", e) 
       return(NULL)
     }
   )
- if (is.null(response)) next
+  
+  if (is.null(response)) next
+  
+  # Procesar el contenido si la respuesta es válida
+  data <- content(response, "text", encoding = "UTF-8")
+  json_data <- fromJSON(data, flatten = TRUE)
+  
+  # Verificar si hay datos en `hits$hits` antes de procesar
+  if (!is.null(json_data$hits$hits)) {
+    noticias <- json_data$hits$hits  # Esto es un data.frame, no una lista
     
-    data1 <- content(response, "text", encoding = "UTF-8") # Transformamos el cuerpo de "response" en texto en formato UTF-8 
-    json_data1 <- fromJSON(data1, flatten = FALSE) #Convertimos el JSON en una lista leíble en R
-    data2 <- list(c(json_data1[["hits"]][["hits"]][["_source"]][["texto"]])) 
+    # Filtrar los artículos de tipo "noticia"
+    noticias <- noticias[noticias$`_type` == "noticia", ]
     
-      all_data_emol <- combine_lists(all_data_emol, data2) # Fucionamos todas las listas
-          procesados <- procesados +10 # Contador
-          print(procesados)
+    # Extraer datos de manera adecuada desde el data.frame
+    for (i in 1:nrow(noticias)) {
+      temp <- noticias[i, ]
+      
+      # Verificar que temp tenga los datos necesarios antes de procesar
+      if (!is.null(temp$`_source.id`) && !is.null(temp$`_source.texto`) && !is.null(temp$`_source.titulo`) && !is.null(temp$`_source.fechaPublicacion`)) {
+        # Extraemos los datos de las columnas adecuadas
+        all_data_emol <- rbind(all_data_emol, data.frame(
+          ID = as.character(temp$`_source.id`),
+          post_content = as.character(temp$`_source.texto`),
+          post_title = as.character(temp$`_source.titulo`),
+          year = as.integer(ymd_hms(temp$`_source.fechaPublicacion`) %>% year()),
+          month = as.integer(ymd_hms(temp$`_source.fechaPublicacion`) %>% month()),
+          day = as.integer(ymd_hms(temp$`_source.fechaPublicacion`) %>% day()),
+          seccion = as.character(temp$`_source.seccion`),
+          subSeccion = as.character(temp$`_source.subSeccion`),
+          stringsAsFactors = FALSE
+        ))
+      }
+    }
+  }
+  
+all_data_emol <- all_data_emol %>%
+  filter(!is.na(post_content) & post_content != "")
+  
+  # Mostrar progreso de las iteraciones
+  cat(" - Procesados - ", offset, "\n") # Mostrar progreso
 }
 
-textos_df <- tibble(texto = unlist(all_data_emol)) #Convertimos la lista en data frame
+# Verificar el primer contenido extraído
+print(all_data_emol$post_content[1])
+
+total_results_emol <- nrow(all_data_emol)
 ```
 
 ## Referencias
