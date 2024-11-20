@@ -187,13 +187,14 @@ print(all_data$post_content[1]) #Ejemplo de cómo nos queda el contenido de la p
 
 ```{r}
 
+# Crear vector con sinónimos en caso de que sea necesario
+sinonimos_search_query <- c("IA", "AI")
+
 # (?i): Activamos la insensibilidad a mayúsculas y minúsculas
 # \\b: Aseguramos que las palabras coincidan completas, evitando falsos positivos en palabras como "parcial" que contiene "IA".
+pattern <- paste0("(?i)\\b(", search_query, "|", paste(sinonimos_search_query, collapse = "|"), ")\\b")
 
-# Falta, hacer que ahí dentro vaya search_query y además un vector de palabras que se agreguen para la búsqueda, palabras de interés
-pattern <- "(?i)\\b(inteligencia artificial|IA)\\b" 
-
-# Expresión regular optimizada para buscar "inteligencia artificial" o "IA"
+# Expresión regular optimizada para buscar la search_query o sinónimos
 all_data <- all_data %>%
   mutate(
     parrafos_filtrados = map(post_content, ~ {
@@ -260,8 +261,8 @@ for (i in seq_len(nrow(all_data))){
 
 ```{r}
 
-# Identificamos las filas que NO contienen la búsqueda
-indices_no_match <- which(!grepl(search_query, all_data$post_content, ignore.case = TRUE))
+# Identificamos las filas que NO contienen la búsqueda o sus sinónimos
+indices_no_match <- which(!grepl(pattern, all_data$post_content, ignore.case = TRUE))
 
 # Test
 # print(all_data$post_content[indices_no_match[1]])
@@ -354,7 +355,7 @@ word_counts <- words_clean %>%
 # Ver las 10 palabras más frecuentes
 head(word_counts, 10)
 
-# Realizamos nube de palabras ,ás frecuentes
+# Realizamos nube de palabras, más frecuentes
 
 word_counts_filtered <- word_counts %>% filter(n > 200) %>% slice_max(n, n = 70)
 
@@ -368,9 +369,9 @@ wordcloud2(
   shape = "circle",        # Forma circular para compactar la nube
   ellipticity = 1          # Elimina la elipse y fuerza un formato más centrado
 )
-
-
 ```
+
+# Esto probablemente no debería estar acá
 
 ```{r}
 ruta_archivo <- "./sentiment_analysis_resultsaaaaa1.xlsx"
@@ -378,14 +379,6 @@ datos <- readxl::read_excel(ruta_archivo)
 
 texto <- filter(datos)
 ```
-
-Se visualiza como luego de limpiar el texto y omitir palabras que no interesan, las palabras más utilizadas son: inteligencia, artificial, IA, tecnología y Chile. Cabe destacar la aparición alta de palabras como datos e información.
-
-**Realizar una nube de palabras**
-
-**Excluir IA y otros**
-
-**Realizar un vector para la búsqueda de palabras**
 
 ## Descriptivo cantidad de notas por meses
 
