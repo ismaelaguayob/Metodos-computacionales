@@ -155,9 +155,9 @@ while (offset < total_results) {
     json_notas <- json_data$notas %>%
       # Verificamos si las columnas existen y les asignamos valores o NA
   mutate(
-    post_category_primary.name = ifelse("post_category_primary.name" %in% names(json_data$notas), 
+    post_category_primary.name = ifelse("post_category_primary.name" %in% names(.), 
                                    json_data$notas$post_category_primary.name, NA),
-    post_category_secondary.name = ifelse("post_category_secondary.name" %in% names(json_data$notas), 
+    post_category_secondary.name = ifelse("post_category_secondary.name" %in% names(.), 
                                      json_data$notas$post_category_secondary.name, NA)
   ) %>%
       select(ID,  
@@ -182,8 +182,6 @@ while (offset < total_results) {
   cat(" - Procesados - ", offset, "\n") # Mostrar progreso
 }
 
-sum(is.na(all_data$post_title))
-
 print(all_data$post_content[1]) #Ejemplo de cómo nos queda el contenido de la página
 
 ```
@@ -192,25 +190,32 @@ print(all_data$post_content[1]) #Ejemplo de cómo nos queda el contenido de la p
 
 ```{r}
 
-all_data$parrafos_filtrados <- NA
+# (?i): Activamos la insensibilidad a mayúsculas y minúsculas
+# \\b: Aseguramos que las palabras coincidan completas, evitando falsos positivos en palabras como "parcial" que contiene "IA".
 
-text <- "\\binteligencia artificial\\b|\\bIA\\b"
-progress <- 0
-for (i in seq_len(nrow(all_data))) {
-  # Convertir el contenido HTML en un nodo HTML
-  nodo_html <- read_html(all_data$post_content[i])
-  
-  # Extraer los párrafos del nodo HTML
-  parrafos <- nodo_html %>% html_elements("p") %>% html_text2()
-  
-  # Filtrar los párrafos que contienen "inteligencia artificial"
-  parrafos_filtrados <- parrafos[grepl(text, parrafos, ignore.case = TRUE)]
-  
-  # Guardar los párrafos únicos en la columna correspondiente
-  all_data$parrafos_filtrados[i] <- list(unique(parrafos_filtrados))
-  progress <- progress + 1
-  cat(progress, "aplicados\n")
-}
+# Falta, hacer que ahí dentro vaya search_query y además un vector de palabras que se agreguen para la búsqueda, palabras de interés
+pattern <- "(?i)\\b(inteligencia artificial|IA)\\b" 
+
+# Expresión regular optimizada para buscar "inteligencia artificial" o "IA"
+all_data <- all_data %>%
+  mutate(
+    parrafos_filtrados = map(post_content, ~ {
+      
+      # (.x): Seleccionamos el elemento actual de post_content dentro de la iteración
+      # Con try catch para que sea NA en caso de error y no detenga la iteración
+      nodo_html <- tryCatch(read_html(.x), error = function(e) return(NA))
+      
+      # Verificamos que el nodo HTML fue leído correctamente.
+      if (!is.na(nodo_html)) {
+        parrafos <- nodo_html %>% html_elements("p") %>% html_text2()
+        parrafos[grepl(pattern, parrafos)]
+      } else {
+        NA # En caso de que hubo un error al leer el html
+      }
+    })
+  )
+
+print(all_data$parrafos_filtrados[1])
 ```
 
 ## Limpieza de las secciones "Lee también...", Instagram y Twitter
