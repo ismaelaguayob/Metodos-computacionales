@@ -371,15 +371,6 @@ wordcloud2(
 )
 ```
 
-# Esto probablemente no debería estar acá
-
-```{r}
-ruta_archivo <- "./sentiment_analysis_resultsaaaaa1.xlsx"
-datos <- readxl::read_excel(ruta_archivo)
-
-texto <- filter(datos)
-```
-
 ## Descriptivo cantidad de notas por meses
 
 ```{r}
@@ -424,7 +415,7 @@ top_15_categorias <- publicaciones_por_categoria %>%
 # Gráfico de Barras para las 15 categorías más usadas
 ggplot(top_15_categorias, aes(x = reorder(post_category_primary.name, -cantidad), y = cantidad, fill = post_category_primary.name)) +
   geom_bar(stat = "identity") +
-  labs(title = paste("Top 15 categorías más usadas en notas sobre", search_query),
+  labs(title = paste("15 categorías más usadas en notas de Bío-Bío sobre", search_query),
        x = "Categoría",
        y = "Cantidad de Notas") +
   theme_minimal() +
