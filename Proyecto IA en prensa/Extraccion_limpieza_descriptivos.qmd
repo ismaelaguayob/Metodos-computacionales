@@ -8,9 +8,13 @@ css: styles.css
 
 # Por Hacer:
 
--   Explorar los modelos de 1. pregunta y 2. análisis de texto, y probar los análisis de sentimiento con los párrafos generados
+-   Explorar los modelos de pregunta, con los párrafos generados (Google colab)
 
 -   Arreglar la entrega de Opazo, unidad de análisis Technological Frame
+
+-   Hacer que el total_results se obtenga antes de comenzar a iterar
+
+-   Hacer el select dentro de la iteración, definiendo las clases de las variables y poniendo en NA los category_primary.name y second cuando estas columnas no existan.
 
 # Primer trabajo metodos computacionales
 
@@ -70,17 +74,52 @@ search_query <- "Inteligencia Artificial" # Frase a buscar
 offset <- 0  # En 0 para que comience por el primer artículo, así funciona la API
 
 # Numero de búsquedas total al ingresar la palabra clave en bíobío.cl (la API busca en múltiplos de a 20)
-total_results <- 2060
+total_results <- 0
 
-all_data <- data.frame() # Creamos data.frame vacío para luego extraer los datos de la API
+all_data <- data.frame(ID = character(),  # Definimos columnas vacías
+                       post_content = character(),
+                       post_title = character(),
+                       year = integer(),  # Año como entero
+                       month = integer(),  # Mes como entero
+                       day = integer(),  # Día como entero
+                       post_category_primary.name = character(),
+                       post_category_secondary.name = character(),
+                       stringsAsFactors = FALSE)  # Inicializamos dataframe vacío
 
 # Encabezados para la solicitud
 headers <- c(
   `User-Agent` = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0",
   `Accept` = "application/json, text/plain, */*",
-  `Referer` = "https://www.biobiochile.cl/buscador.shtml?s=inteligencia+artificial",
+  `Referer` = paste0("https://www.biobiochile.cl/buscador.shtml?s=", URLencode(search_query)),
   `Content-Type` = "application/json; charset=UTF-8"
 )
+
+# URL de la solicitud inicial
+url_initial <- paste0(
+  "https://www.biobiochile.cl/lista/api/buscador?offset=", offset,
+  "&search=", URLencode(search_query),
+  "&intervalo=&orden=ultimas"
+)
+
+# Realizar la solicitud
+response_initial <- GET(url_initial, add_headers(.headers = headers))
+
+# Procesar la respuesta
+if (response_initial$status_code == 200) {
+  # Convertir el contenido a texto y luego a JSON
+  data_initial <- content(response_initial, "text", encoding = "UTF-8") %>%
+    fromJSON(flatten = TRUE)
+  
+  # Extraer el total de resultados
+  if (!is.null(data_initial$total)) {
+    total_results <- as.numeric(data_initial$total)
+    message("Número total de resultados disponibles: ", total_results)
+  } else {
+    stop("No se encontró el parámetro 'total' en la respuesta.")
+  }
+} else {
+  stop("Error al realizar la solicitud inicial. Código de estado: ", response_initial$status_code)
+}
 
 ## Iteramos hasta que el offset sea menor al total de resultados
 
@@ -110,20 +149,37 @@ while (offset < total_results) {
   # Procesamos el contenido si `response` no es nulo
   data <- content(response, "text", encoding = "UTF-8")
   json_data <- fromJSON(data, flatten = TRUE)
-  total_results <- json_data[["total"]]
+
   # Verificamos que el elemento `notas` existe antes de unir datos
   if (!is.null(json_data$notas)) {
     json_notas <- json_data$notas %>%
-      # Convertimos a data frame y normalizar tipos
-      as.data.frame(stringsAsFactors = FALSE) %>%
-      # Convertir columnas enteras a character, si es necesario
-      mutate(across(where(is.integer), as.character)) 
-    # Unimos los datos al data frame previamente realizado
+      # Verificamos si las columnas existen y les asignamos valores o NA
+  mutate(
+    post_category_primary.name = ifelse("post_category_primary.name" %in% names(json_data$notas), 
+                                   json_data$notas$post_category_primary.name, NA),
+    post_category_secondary.name = ifelse("post_category_secondary.name" %in% names(json_data$notas), 
+                                     json_data$notas$post_category_secondary.name, NA)
+  ) %>%
+      select(ID,  
+             post_content, 
+             post_title,  
+             year, 
+             month,  
+             day, 
+             post_category_primary.name,  
+             post_category_secondary.name) %>%
+      mutate(
+        across(everything(), as.character),  # Convertimos todo a caracteres primero
+        year = as.integer(year),  # Convertimos 'year' a entero
+        month = as.integer(month),  # Convertimos 'month' a entero
+        day = as.integer(day)  # Convertimos 'day' a entero
+      )
+    
+    # Combinamos los nuevos datos con los datos existentes
     all_data <- bind_rows(all_data, json_notas)
   }
   
-  cat(" - Procesados - ", offset) #Mostrar progreso
-  
+  cat(" - Procesados - ", offset, "\n") # Mostrar progreso
 }
 
 sum(is.na(all_data$post_title))
@@ -157,25 +213,6 @@ for (i in seq_len(nrow(all_data))) {
 }
 ```
 
-#### Sacamos un data frame con las columnas que nos interesen
-
-```{r}
-
-datos_proc <- all_data %>% 
-  select(
-    post_content, ID, post_title, year, month, day, post_category_primary.name, post_category_secondary.name, parrafos_filtrados
-    )
-
-# print(datos_proc$parrafos_filtrados)
-# Después de ejecutar el bucle y extraer todos los datos
-# Actualizamos "total_results" con el número total de filas en el data frame final
-
-total_results <- nrow(datos_proc)
-
-# Confirmación de la actualización
-cat("El número total de resultados obtenidos es:", total_results, "\n")
-```
-
 ## Limpieza de las secciones "Lee también...", Instagram y Twitter
 
 Aparecen algunos bloques html que ponen noticias como recomedación para leer y pueden contener las palabras "inteligencia artificial" sin que el contenido de la nota se refiera específicamente a eso. Para ello podemos usar el paquete rvest. Lo mismo haremos con los bloques que tienen publicaciones de X (ex Twitter) o de Instagram. Así, mantendremos solo el texto de la noticia y eliminaremos las noticias que se agregaron sin que sean relevantes.
@@ -184,9 +221,9 @@ Aparecen algunos bloques html que ponen noticias como recomedación para leer y 
 
 ```{r}
 
-for (i in seq_len(nrow(datos_proc))){
+for (i in seq_len(nrow(all_data))){
   # Convertimos el contenido a un objeto HTML para usar rvest
-  contenido_html <- rvest::read_html(datos_proc$post_content[[i]])
+  contenido_html <- rvest::read_html(all_data$post_content[[i]])
 
   # Eliminamos los divs con la clase 'lee-tambien-bbcl'
   contenido_html %>%
@@ -208,7 +245,7 @@ for (i in seq_len(nrow(datos_proc))){
   contenido_texto <- str_replace_all(contenido_texto, regex("Lee también.*?<\\/div>", dotall = TRUE), "")
   
   # Guardamos el contenido limpio de vuelta en el data frame
-  datos_proc$post_content[[i]] <- contenido_texto
+  all_data$post_content[[i]] <- contenido_texto
 
   #Revisamos el contenido HTML resultante (opcional)
   # print(as.character(contenido_html))
@@ -220,12 +257,12 @@ for (i in seq_len(nrow(datos_proc))){
 
 ```{r}
 
-datos_proc <- datos_proc %>%
+all_data <- all_data %>%
   filter(grepl("inteligencia artificial", post_content, ignore.case = TRUE))
 
 # Actualizamos "total_results" con el número total de filas en el data frame final
 
-total_results <- nrow(datos_proc)
+total_results <- nrow(all_data)
 
 # Confirmación de la actualización
 cat("El número total de resultados obtenidos es:", total_results, "\n")
@@ -239,7 +276,7 @@ cat("El número total de resultados obtenidos es:", total_results, "\n")
 out_file <- "noticia_casi.html"
 
 # Exportamos el contenido HTML de una nota aleatoria
-writeLines(as.character(datos_proc$post_content[sample(1:total_results, 1)]), con = out_file)
+writeLines(as.character(all_data$post_content[sample(1:total_results, 1)]), con = out_file)
 
 # Mensaje de confirmación 
 cat("El contenido en bruto se ha exportado a", out_file) 
@@ -257,10 +294,10 @@ html_content <- list()       # Lista para hacer nodos html
 # Procesar el HTML y extraer el texto
 while (contador <= total_results) {
   # Convertir a nodo HTML
-  html_content[[contador]] <- read_html(datos_proc$post_content[[contador]])
+  html_content[[contador]] <- read_html(all_data$post_content[[contador]])
   
   # Extraemos y limpiamos el texto
-  datos_proc$post_content[[contador]] <- html_content[[contador]] %>%
+  all_data$post_content[[contador]] <- html_content[[contador]] %>%
     html_text2() %>% 
     str_squish()
   
@@ -275,10 +312,10 @@ while (contador <= total_results) {
 # Esto nos sirve sobre todo para saber si se nos coló algún bloque de código
 
 # Seleccionamos solo la columna de texto que nos interesa
-text_data <- datos_proc %>% select(post_content)
+text_data <- all_data %>% select(post_content)
 
 # Tokenizamos el texto y lo dividimos en palabras
-words <- datos_proc %>%
+words <- all_data %>%
   unnest_tokens(word, post_content)
 
 # Cantidad de palabras extraídas
@@ -339,7 +376,7 @@ Se visualiza como luego de limpiar el texto y omitir palabras que no interesan, 
 ```{r}
 
 # Agrupamos los datos por año y mes, y contar las publicaciones
-publicaciones_por_mes <- datos_proc %>%
+publicaciones_por_mes <- all_data %>%
   group_by(year, month) %>%
   summarise(cantidad = n(), .groups = 'drop') %>%
   mutate(fecha = as.Date(paste(year, month, "01", sep = "-"))) # Crear una fecha para el eje x
@@ -363,7 +400,7 @@ Se visualiza un aumento exponencial de noticias que se condice con el boom de la
 ```{r}
 
 # Contamos las publicaciones por categoría
-publicaciones_por_categoria <- datos_proc %>%
+publicaciones_por_categoria <- all_data %>%
   group_by(post_category_primary.name) %>%
   summarise(cantidad = n(), .groups = 'drop') %>%
   arrange(desc(cantidad))
@@ -388,10 +425,8 @@ Como era de esperarse, el tema más recurrente es Ciencia y Tecnología, seguido
 ## Guardamos el data frame procesado en formato parquet
 
 ```{r}
-arrow::write_parquet(datos_proc, "data.parquet")
+arrow::write_parquet(all_data, "data.parquet")
 ```
-
-
 
 # Web-scrapping utilizando la API de Emol
 
