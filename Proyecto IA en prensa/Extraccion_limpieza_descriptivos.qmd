@@ -12,11 +12,7 @@ css: styles.css
 
 -   Arreglar la entrega de Opazo, unidad de análisis Technological Frame
 
--   Hacer que el total_results se obtenga antes de comenzar a iterar
-
--   Hacer el select dentro de la iteración, definiendo las clases de las variables y poniendo en NA los category_primary.name y second cuando estas columnas no existan.
-
-# Primer trabajo metodos computacionales
+# Primer trabajo métodos computacionales
 
 #### *Integrantes: Ismael Aguayo y Exequiel Trujillo*
 
@@ -56,7 +52,8 @@ p_load(
   xml2,
   wordcloud2,
   arrow,
-  readxl
+  readxl,
+  stopwords
 )
 
 rm(list = ls()) 
@@ -263,16 +260,6 @@ for (i in seq_len(nrow(all_data))){
 
 ```{r}
 
-all_data <- all_data %>%
-  filter(grepl("inteligencia artificial", post_content, ignore.case = TRUE))
-
-# Actualizamos "total_results" con el número total de filas en el data frame final
-
-total_results <- nrow(all_data)
-
-# Confirmación de la actualización
-cat("El número total de resultados obtenidos es:", total_results, "\n")
-
 # Identificamos las filas que NO contienen la búsqueda
 indices_no_match <- which(!grepl(search_query, all_data$post_content, ignore.case = TRUE))
 
@@ -346,14 +333,19 @@ words <- all_data %>%
 
 nrow(words)
 
-# Cargar palabras comunes en español
+# Cargar palabras comunes en inglés y español
 data("stop_words") # Cargar palabras comunes en inglés (desde tidytext)
-stop_words_es <- tibble(word = c("el", "la", "de", "y", "en", "que", "a", "los", "con", "por", "lee", "las", "para", "se", "es", "su",  "del", "una", "al", "como", "más", "lo", "este", "sus", "esta", "también", "entre", "fue", "han", "un", "sin", "sobre", "ya", "pero", "no", "muy", "si", "porque", "cuando", "desde", "todo", "son", "ha", "hay", "le", "ni", "cada", "me", "tanto", "hasta", "nos", "mi", "tus", "mis", "tengo", "tienes", "esa", "ese", "tan", "esa", "esos", "esa", "esas", "él", "ella", "ellos", "ellas", "nosotros", "vosotros", "vosotras", "ustedes", "uno", "una", "unos", "unas", "alguien", "quien", "cual", "cuales", "cualquier", "cualesquiera", "como", "donde", "cuanto", "demasiado", "poco", "menos", "casi", "algunos", "algunas", "aunque", "cuyo", "cuya", "cuyos", "cuyas", "ser", "haber", "estar", "tener", "hacer", "ir", "ver", "dar", "debe", "debido", "puede", "pues", "dicho", "hecho", "mientras", "luego", "además", "entonces", "así", "tal", "dicha", "mismo", "misma", "demás", "otro", "otra", "otros", "otras", "debería", "tendría", "podría", "menos", "cuándo", "dónde",  "qué", "quién", "cuyo", "la", "lo", "las", "que", "está", "según", "esto", "inteligencia", "artificial", "ia", "tecnología", "chile", "años", "personas", "parte", "tiene", "año", "cómo", "están", "forma", "durante", "vez", "estos", "pueden", "todos", "eso", "dos", "través", "hace", "solo", "gran", "estas", "ahora", "manera", "dijo", "cuenta", "ejemplo", "hoy", "bien", "día", "incluso", "mayor", "mejor", "embargo", "mucho", "era", "primera", "caso", "nuevas", "sido", "tipo", "nuestro", "sino", "antes", "tras", "te", "tienen", "junto", "será", "pasado", "momento", "primer", "grandes", "crear", "trata", "algo", "sólo", "todas", "nuestra", "después", "contra", "nueva", "nuevo", "espacio", "permite", "quienes", "sí", "sea", "tres", "estamos", "lugar", "aún", "nuevos", "respecto", "medio", "muchos", "horas", "mil", "nivel", "días", "persona", "ello", "gracias", "centro", "10", "grupo", "tu", "siempre", "2", "real", "realidad", "había"))
+stop_words_es_comunes <- stopwords("es",source ="snowball")
+stop_words_es_comunes <- tibble(word = stop_words_es_comunes)
+
+# Si es necesario, crear un tibble con palabras que particularmente para un search_query específico no interesan
+stop_words_particulares <- tibble(word = c("el", "la", "de", "y", "en", "que", "a", "los", "con", "por", "lee", "las", "para", "se", "es", "su",  "del", "una", "al", "como", "más", "lo", "este", "sus", "esta", "también", "entre", "fue", "han", "un", "sin", "sobre", "ya", "pero", "no", "muy", "si", "porque", "cuando", "desde", "todo", "son", "ha", "hay", "le", "ni", "cada", "me", "tanto", "hasta", "nos", "mi", "tus", "mis", "tengo", "tienes", "esa", "ese", "tan", "esa", "esos", "esa", "esas", "él", "ella", "ellos", "ellas", "nosotros", "vosotros", "vosotras", "ustedes", "uno", "una", "unos", "unas", "alguien", "quien", "cual", "cuales", "cualquier", "cualesquiera", "como", "donde", "cuanto", "demasiado", "poco", "menos", "casi", "algunos", "algunas", "aunque", "cuyo", "cuya", "cuyos", "cuyas", "ser", "haber", "estar", "tener", "hacer", "ir", "ver", "dar", "debe", "debido", "puede", "pues", "dicho", "hecho", "mientras", "luego", "además", "entonces", "así", "tal", "dicha", "mismo", "misma", "demás", "otro", "otra", "otros", "otras", "debería", "tendría", "podría", "menos", "cuándo", "dónde",  "qué", "quién", "cuyo", "la", "lo", "las", "que", "está", "según", "esto", "inteligencia", "artificial", "ia", "tecnología", "chile", "años", "personas", "parte", "tiene", "año", "cómo", "están", "forma", "durante", "vez", "estos", "pueden", "todos", "eso", "dos", "través", "hace", "solo", "gran", "estas", "ahora", "manera", "dijo", "cuenta", "ejemplo", "hoy", "bien", "día", "incluso", "mayor", "mejor", "embargo", "mucho", "era", "primera", "caso", "nuevas", "sido", "tipo", "nuestro", "sino", "antes", "tras", "te", "tienen", "junto", "será", "pasado", "momento", "primer", "grandes", "crear", "trata", "algo", "sólo", "todas", "nuestra", "después", "contra", "nueva", "nuevo", "espacio", "permite", "quienes", "sí", "sea", "tres", "estamos", "lugar", "aún", "nuevos", "respecto", "medio", "muchos", "horas", "mil", "nivel", "días", "persona", "ello", "gracias", "centro", "10", "grupo", "tu", "siempre", "2", "real", "realidad", "había", "5"))
 
 # Filtramos las stop words del texto
 words_clean <- words %>%
   anti_join(stop_words, by = "word") %>%
-  anti_join(stop_words_es, by = "word")
+  anti_join(stop_words_es_comunes, by = "word") %>%
+  anti_join(stop_words_particulares)
 
 # Calculamos frecuencia de palabras
 word_counts <- words_clean %>%
