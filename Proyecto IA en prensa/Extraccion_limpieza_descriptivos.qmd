@@ -390,12 +390,15 @@ publicaciones_por_mes <- all_data %>%
   summarise(cantidad = n(), .groups = 'drop') %>%
   mutate(fecha = as.Date(paste(year, month, "01", sep = "-"))) # Crear una fecha para el eje x
 
+# Crear título dinámico usando search_query
+titulo_grafico <- paste("Cantidad de Notas sobre", search_query, "publicadas por mes")
+
 # Creamos el gráfico
 ggplot(publicaciones_por_mes, aes(x = fecha, y = cantidad)) +
   geom_line(color = "blue", linewidth = 1) + # Línea de publicaciones
   geom_point(color = "red", size = 1) + # Puntos en cada mes
-  geom_smooth(method = "loess", color = "green", se = FALSE, linewidth = 1) + # Curva de tendencia
-  labs(title = "Cantidad de Notas sobre Inteligencia Artificial Publicadas por Mes",
+  geom_smooth(method = "loess", color = "green", se = FALSE, linewidth = 1) + #   Curva de tendencia
+  labs(title = titulo_grafico, # Usamos el título dinámico
        x = "Año",
        y = "Cantidad de Notas") +
   theme_minimal() +
@@ -421,7 +424,7 @@ top_15_categorias <- publicaciones_por_categoria %>%
 # Gráfico de Barras para las 15 categorías más usadas
 ggplot(top_15_categorias, aes(x = reorder(post_category_primary.name, -cantidad), y = cantidad, fill = post_category_primary.name)) +
   geom_bar(stat = "identity") +
-  labs(title = "Top 15 Categorías más Usadas en Notas",
+  labs(title = paste("Top 15 categorías más usadas en notas sobre", search_query),
        x = "Categoría",
        y = "Cantidad de Notas") +
   theme_minimal() +
