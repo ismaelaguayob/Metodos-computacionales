@@ -322,8 +322,6 @@ while (contador <= total_results) {
 
 ```{r}
 
-# Esto nos sirve sobre todo para saber si se nos coló algún bloque de código
-
 # Seleccionamos solo la columna de texto que nos interesa
 text_data <- all_data %>% select(post_content)
 
@@ -341,7 +339,7 @@ stop_words_es_comunes <- stopwords("es",source ="snowball")
 stop_words_es_comunes <- tibble(word = stop_words_es_comunes)
 
 # Si es necesario, crear un tibble con palabras que particularmente para un search_query específico no interesan
-stop_words_particulares <- tibble(word = c("el", "la", "de", "y", "en", "que", "a", "los", "con", "por", "lee", "las", "para", "se", "es", "su",  "del", "una", "al", "como", "más", "lo", "este", "sus", "esta", "también", "entre", "fue", "han", "un", "sin", "sobre", "ya", "pero", "no", "muy", "si", "porque", "cuando", "desde", "todo", "son", "ha", "hay", "le", "ni", "cada", "me", "tanto", "hasta", "nos", "mi", "tus", "mis", "tengo", "tienes", "esa", "ese", "tan", "esa", "esos", "esa", "esas", "él", "ella", "ellos", "ellas", "nosotros", "vosotros", "vosotras", "ustedes", "uno", "una", "unos", "unas", "alguien", "quien", "cual", "cuales", "cualquier", "cualesquiera", "como", "donde", "cuanto", "demasiado", "poco", "menos", "casi", "algunos", "algunas", "aunque", "cuyo", "cuya", "cuyos", "cuyas", "ser", "haber", "estar", "tener", "hacer", "ir", "ver", "dar", "debe", "debido", "puede", "pues", "dicho", "hecho", "mientras", "luego", "además", "entonces", "así", "tal", "dicha", "mismo", "misma", "demás", "otro", "otra", "otros", "otras", "debería", "tendría", "podría", "menos", "cuándo", "dónde",  "qué", "quién", "cuyo", "la", "lo", "las", "que", "está", "según", "esto", "inteligencia", "artificial", "ia", "tecnología", "chile", "años", "personas", "parte", "tiene", "año", "cómo", "están", "forma", "durante", "vez", "estos", "pueden", "todos", "eso", "dos", "través", "hace", "solo", "gran", "estas", "ahora", "manera", "dijo", "cuenta", "ejemplo", "hoy", "bien", "día", "incluso", "mayor", "mejor", "embargo", "mucho", "era", "primera", "caso", "nuevas", "sido", "tipo", "nuestro", "sino", "antes", "tras", "te", "tienen", "junto", "será", "pasado", "momento", "primer", "grandes", "crear", "trata", "algo", "sólo", "todas", "nuestra", "después", "contra", "nueva", "nuevo", "espacio", "permite", "quienes", "sí", "sea", "tres", "estamos", "lugar", "aún", "nuevos", "respecto", "medio", "muchos", "horas", "mil", "nivel", "días", "persona", "ello", "gracias", "centro", "10", "grupo", "tu", "siempre", "2", "real", "realidad", "había", "5"))
+stop_words_particulares <- tibble(word = c("el", "la", "de", "y", "en", "que", "a", "los", "con", "por", "lee", "las", "para", "se", "es", "su",  "del", "una", "al", "como", "más", "lo", "este", "sus", "esta", "también", "entre", "fue", "han", "un", "sin", "sobre", "ya", "pero", "no", "muy", "si", "porque", "cuando", "desde", "todo", "son", "ha", "hay", "le", "ni", "cada", "me", "tanto", "hasta", "nos", "mi", "tus", "mis", "tengo", "tienes", "esa", "ese", "tan", "esa", "esos", "esa", "esas", "él", "ella", "ellos", "ellas", "nosotros", "vosotros", "vosotras", "ustedes", "uno", "una", "unos", "unas", "alguien", "quien", "cual", "cuales", "cualquier", "cualesquiera", "como", "donde", "cuanto", "demasiado", "poco", "menos", "casi", "algunos", "algunas", "aunque", "cuyo", "cuya", "cuyos", "cuyas", "ser", "haber", "estar", "tener", "hacer", "ir", "ver", "dar", "debe", "debido", "puede", "pues", "dicho", "hecho", "mientras", "luego", "además", "entonces", "así", "tal", "dicha", "mismo", "misma", "demás", "otro", "otra", "otros", "otras", "debería", "tendría", "podría", "menos", "cuándo", "dónde",  "qué", "quién", "cuyo", "la", "lo", "las", "que", "está", "según", "esto", "inteligencia", "artificial", "ia", "tecnología", "chile", "años", "personas", "parte", "tiene", "año", "cómo", "están", "forma", "durante", "vez", "estos", "pueden", "todos", "eso", "dos", "través", "hace", "solo", "gran", "estas", "ahora", "manera", "dijo", "cuenta", "ejemplo", "hoy", "bien", "día", "incluso", "mayor", "mejor", "embargo", "mucho", "era", "primera", "caso", "nuevas", "sido", "tipo", "nuestro", "sino", "antes", "tras", "te", "tienen", "junto", "será", "pasado", "momento", "primer", "grandes", "crear", "trata", "algo", "sólo", "todas", "nuestra", "después", "contra", "nueva", "nuevo", "espacio", "permite", "quienes", "sí", "sea", "tres", "estamos", "lugar", "aún", "nuevos", "respecto", "medio", "muchos", "horas", "mil", "nivel", "días", "persona", "ello", "gracias", "centro", "10", "grupo", "tu", "siempre", "2", "real", "realidad", "había", "5", "12", "2023", "2021", "muchas", "va"))
 
 # Filtramos las stop words del texto
 words_clean <- words %>%
@@ -454,11 +452,11 @@ umbral_sentimiento <- 0.75
 all_data_updated <- all_data_updated %>%
   mutate(
     predominant_sentiment = sapply(sentiment, function(x) {
-      # Filtrar y calcular los puntajes de sentimientos positivos y negativos que superan el umbral
+      # Filtramos y calculamos los puntajes de sentimientos positivos y negativos que superan el umbral
       positive_score <- sum(ifelse(x$label == "Positive" & x$score > umbral_sentimiento, x$score, 0))
       negative_score <- sum(ifelse(x$label == "Negative" & x$score > umbral_sentimiento, x$score, 0))
 
-      # Determinar el sentimiento predominante basado en la suma de los puntajes
+      # Determinamos el sentimiento predominante basado en la suma de los puntajes
       if (positive_score > negative_score) {
         return("Positive")
       } else if (negative_score > positive_score) {
@@ -487,8 +485,8 @@ monthly_sentiment_count <- filtered_data %>%
   group_by(fecha, predominant_sentiment) %>%
   summarise(note_count = n(), .groups = "drop")
 
-# Crear título dinámico
-titulo_grafico <- "Cantidad de Notas por Año y Sentimiento Predominante"
+# Crear título dinámico usando search_query
+titulo_grafico <- paste("Cantidad de Notas sobre", search_query, "por Año y Sentimiento Predominante")
 
 # Graficamos
 ggplot(monthly_sentiment_count, aes(x = fecha, y = note_count, color = predominant_sentiment, group = predominant_sentiment)) +
@@ -504,6 +502,66 @@ ggplot(monthly_sentiment_count, aes(x = fecha, y = note_count, color = predomina
   scale_x_date(date_labels = "%Y", date_breaks = "1 year") +  # Mostrar solo los años en el eje x
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Mejor presentación del eje x
 
+```
+
+## Word Clouds por sentimiento predominante
+
+```{r}
+# Filtrar palabras para párrafos con sentimiento predominante "Positive"
+positive_words <- all_data_updated %>%
+  filter(predominant_sentiment == "Positive") %>%  # Filtramos solo los positivos
+  unnest_tokens(word, post_content) %>%            # Tokenizamos palabras
+  anti_join(stop_words, by = "word") %>%           # Quitamos palabras comunes en inglés
+  anti_join(stop_words_es_comunes, by = "word") %>%# Quitamos palabras comunes en español
+  anti_join(stop_words_particulares, by = "word")  # Quitamos palabras específicas irrelevantes
+
+# Calculamos frecuencia de palabras positivas
+positive_word_counts <- positive_words %>%
+  count(word, sort = TRUE)
+
+# Filtrar palabras para párrafos con sentimiento predominante "Negative"
+negative_words <- all_data_updated %>%
+  filter(predominant_sentiment == "Negative") %>%  # Filtramos solo los negativos
+  unnest_tokens(word, post_content) %>%            # Tokenizamos palabras
+  anti_join(stop_words, by = "word") %>%           # Quitamos palabras comunes en inglés
+  anti_join(stop_words_es_comunes, by = "word") %>%# Quitamos palabras comunes en español
+  anti_join(stop_words_particulares, by = "word")  # Quitamos palabras específicas irrelevantes
+
+# Calculamos frecuencia de palabras negativas
+negative_word_counts <- negative_words %>%
+  count(word, sort = TRUE)
+
+# Word cloud para palabras positivas
+positive_wordcloud_data <- positive_word_counts %>%
+  filter(n > 50) %>%               # Filtro de palabras con más de 50 apariciones (ajusta según el dataset)
+  slice_max(n, n = 70)             # Tomamos las 70 palabras más frecuentes
+
+wordcloud2(
+  data = positive_wordcloud_data, 
+  size = 0.3,
+  minSize = 0,
+  gridSize = 1,
+  color = "random-light",          # Usamos colores claros para diferenciarlas
+  backgroundColor = "black",       # Fondo negro
+  shape = "circle",
+  ellipticity = 1
+)
+
+# Word cloud para palabras negativas
+negative_wordcloud_data <- negative_word_counts %>%
+  filter(n > 30) %>%               # Filtro de palabras con más de 50 apariciones (ajusta según el dataset)
+  slice_max(n, n = 70)             # Tomamos las 70 palabras más frecuentes
+
+wordcloud2(
+  data = negative_wordcloud_data, 
+  size = 0.3,
+  minSize = 0,
+  gridSize = 1,
+  color = "random-dark",           # Usamos colores oscuros para diferenciarlas
+  backgroundColor = "white",       # Fondo blanco
+  shape = "circle",
+  ellipticity = 1
+)
 ```
 
 # Web-scrapping utilizando la API de Emol
