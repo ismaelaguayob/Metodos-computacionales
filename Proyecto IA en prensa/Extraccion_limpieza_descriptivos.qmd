@@ -47,6 +47,7 @@ p_load(
   dplyr,
   tidytext,
   ggplot2,
+  ggvenn,
   rvest,
   stringr,
   xml2,
@@ -446,7 +447,7 @@ head(all_data_updated)
 
 ```{r}
 # Definimos un umbral para considerar las valoraciones positivas o negativas
-umbral_sentimiento <- 0.75
+umbral_sentimiento <- 0.99
 
 # Calculamos el sentimiento predominante basado en los puntajes y el umbral
 all_data_updated <- all_data_updated %>%
@@ -562,6 +563,67 @@ wordcloud2(
   shape = "circle",
   ellipticity = 1
 )
+```
+
+## Graficamos los conjuntos de palabras top
+
+```{r}
+
+# Crear conjuntos para las palabras más frecuentes
+top_positive_words <- positive_word_counts %>%
+  slice_max(n, n = 50) %>% # Tomamos las 50 palabras más frecuentes
+  pull(word)
+
+top_negative_words <- negative_word_counts %>%
+  slice_max(n, n = 50) %>% # Tomamos las 50 palabras más frecuentes
+  pull(word)
+
+# Crear subconjuntos de palabras
+unique_positive <- setdiff(top_positive_words, top_negative_words) # Solo positivas
+unique_negative <- setdiff(top_negative_words, top_positive_words) # Solo negativas
+shared_words <- intersect(top_positive_words, top_negative_words)  # Compartidas
+
+# Crear lista para el gráfico de conjuntos
+word_sets <- list(
+  Positive = top_positive_words,
+  Negative = top_negative_words
+)
+
+# Crear gráfico de Venn
+ggvenn(
+  word_sets, 
+  fill_color = c("#00AFBB", "#E7B800"),  # Colores diferenciados
+  stroke_size = 0.5,                    # Grosor de las líneas
+  set_name_size = 5                     # Tamaño de los nombres
+)
+
+# Crear un data frame con las palabras y su categoría
+word_categories <- data.frame(
+  word = c(unique_positive, unique_negative, shared_words),
+  category = c(
+    rep("Positive Only", length(unique_positive)),
+    rep("Negative Only", length(unique_negative)),
+    rep("Shared", length(shared_words))
+  )
+)
+
+# Palabras solo en positivas
+unique_positive_df <- word_categories %>% filter(category == "Positive Only")
+print("Palabras únicas de positivas:")
+print(unique_positive_df)
+
+# Palabras solo en negativas
+unique_negative_df <- word_categories %>% filter(category == "Negative Only")
+print("Palabras únicas de negativas:")
+print(unique_negative_df)
+
+# Palabras compartidas
+shared_words_df <- word_categories %>% filter(category == "Shared")
+print("Palabras compartidas:")
+print(shared_words_df)
+
+# Opcional: Guardar las palabras en un archivo CSV
+# write.csv(word_categories, "word_venn_categories.csv", row.names = FALSE)
 ```
 
 # Web-scrapping utilizando la API de Emol
