@@ -432,6 +432,80 @@ Como era de esperarse, el tema más recurrente es Ciencia y Tecnología, seguido
 arrow::write_parquet(all_data, "data.parquet")
 ```
 
+## Importamos el parquet actualizado
+
+Luego de procesar en el notebook de Google Colab, importamos los resultados con análisis de sentimiento.
+
+```{r}
+# Leer el archivo Parquet exportado
+all_data_updated <- read_parquet("all_data_updated.parquet")
+
+# Verificar los datos
+head(all_data_updated)
+```
+
+## Procesamos el nuevo data frame
+
+```{r}
+# Definimos un umbral para considerar las valoraciones positivas o negativas
+umbral_sentimiento <- 0.75
+
+# Calculamos el sentimiento predominante basado en los puntajes y el umbral
+all_data_updated <- all_data_updated %>%
+  mutate(
+    predominant_sentiment = sapply(sentiment, function(x) {
+      # Filtrar y calcular los puntajes de sentimientos positivos y negativos que superan el umbral
+      positive_score <- sum(ifelse(x$label == "Positive" & x$score > umbral_sentimiento, x$score, 0))
+      negative_score <- sum(ifelse(x$label == "Negative" & x$score > umbral_sentimiento, x$score, 0))
+
+      # Determinar el sentimiento predominante basado en la suma de los puntajes
+      if (positive_score > negative_score) {
+        return("Positive")
+      } else if (negative_score > positive_score) {
+        return("Negative")
+      } else {
+        return("Neutral")  # En caso de empate o cuando ninguno supera el umbral
+      }
+    })
+  )
+
+# Verificar el resultado
+head(all_data_updated)
+```
+
+## Descriptivos con los nuevos datos
+
+```{r}
+
+# Filtramos las filas que son "Positive" o "Negative" (eliminando "Neutral")
+filtered_data <- all_data_updated %>%
+  filter(predominant_sentiment %in% c("Positive", "Negative"))
+
+# Contamos las notas por mes y sentimiento
+monthly_sentiment_count <- filtered_data %>%
+  mutate(fecha = as.Date(paste(year, month, "01", sep = "-"))) %>%  # Creamos una fecha para el eje x
+  group_by(fecha, predominant_sentiment) %>%
+  summarise(note_count = n(), .groups = "drop")
+
+# Crear título dinámico
+titulo_grafico <- "Cantidad de Notas por Año y Sentimiento Predominante"
+
+# Graficamos
+ggplot(monthly_sentiment_count, aes(x = fecha, y = note_count, color = predominant_sentiment, group = predominant_sentiment)) +
+  geom_line(linewidth = 1, alpha = 0.2) +  # Líneas con baja opacidad
+  geom_smooth(method = "loess", aes(color = predominant_sentiment), se = FALSE, size = 1.5) +  # Línea de tendencia más visible
+  labs(
+    title = titulo_grafico,
+    x = "Año",
+    y = "Cantidad de Notas",
+    color = "Sentimiento Predominante"
+  ) +
+  theme_minimal() +
+  scale_x_date(date_labels = "%Y", date_breaks = "1 year") +  # Mostrar solo los años en el eje x
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Mejor presentación del eje x
+
+```
+
 # Web-scrapping utilizando la API de Emol
 
 Lo que sigue de aquí en adelante se encuentra incompleto, sin embargo, se consideró relevante incluirlo en la entrega para poder recibir una retroalimentación. El procedimiento es el mismo: se encontró una API no documentada que utiliza el buscador de Emol. Luego se fueron descubriendo a prueba y error los parámetros necesarios para iterar. La mayor complicación que se tuvo es que la estructura de datos que entrega la API difiere mucho en este caso. La API entrega las noticias agrupadas de diez en diez.
