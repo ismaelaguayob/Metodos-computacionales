@@ -6,6 +6,16 @@ echo: true
 css: styles.css 
 ---
 
+## Paquete:
+
+-   Te permita devolver los n últimas noticias (ordenadas desde las más recientes)
+
+-   investigar parametros para ver rangos de fecha
+
+-   una vez obteniendo el contenido, realizar funciones para analizar el contenido
+
+-   Proponer una función y sus parámetros
+
 # Por Hacer:
 
 -   Explorar los modelos de pregunta, con los párrafos generados (Google colab)
@@ -69,7 +79,7 @@ Se utilizó la API de búsqueda que utiliza la web de BíoBío.cl. Esta no cuent
 
 ## Parámetros básicos
 
-search_query <- "Inteligencia Artificial" # Frase a buscar
+search_query <- "inteligencia artificial" # Frase a buscar
 offset <- 0  # En 0 para que comience por el primer artículo, así funciona la API
 
 # Numero de búsquedas total al ingresar la palabra clave en bíobío.cl (la API busca en múltiplos de a 20)
@@ -741,7 +751,10 @@ all_data_emol <- all_data_emol %>%
 }
 
 # Verificar el primer contenido extraído
-print(all_data_emol$post_content[1])
+print(all_data_emol$post_content[160])
+
+# Con expresión regular sacar todo el html resultante dentro del texto
+# 
 
 total_results_emol <- nrow(all_data_emol)
 ```
