@@ -1,28 +1,14 @@
 ---
-title: "Tarea 1: scrapping"
+title: "Trabajo 2: Web Scraping e IA"
 format: html
 editor: visual
 echo: true
 css: styles.css 
+editor_options: 
+  chunk_output_type: inline
 ---
 
-## Paquete:
-
--   Te permita devolver los n últimas noticias (ordenadas desde las más recientes)
-
--   investigar parametros para ver rangos de fecha
-
--   una vez obteniendo el contenido, realizar funciones para analizar el contenido
-
--   Proponer una función y sus parámetros
-
-# Por Hacer:
-
--   Explorar los modelos de pregunta, con los párrafos generados (Google colab)
-
--   Arreglar la entrega de Opazo, unidad de análisis Technological Frame
-
-# Primer trabajo métodos computacionales
+# Segundo trabajo Métodos Computacionales
 
 #### *Integrantes: Ismael Aguayo y Exequiel Trujillo*
 
@@ -30,9 +16,11 @@ css: styles.css
 
 El uso de técnicas de extracción de datos por medio de APIs permite obtener grandes volúmenes de información de fuentes digitales, lo cual es particularmente valioso para las ciencias sociales, que tradicionalmente se han basado en encuestas y censos que pueden ser más costosos y limitados en tiempo y alcance.
 
-Las técnicas de web scraping permiten explorar temas actuales y en constante cambio (mientras se publican contenidos nuevos a diario). Quienes hacen investigación en ciencias sociales necesitan adaptarse a entornos digitales dinámicos. A través de este proyecto se espera aprender a integrar y desarrollar herramientas computacionales en la recolección y análisis de datos.
+Las técnicas de web scraping permiten explorar temas actuales y en constante cambio (mientras se publican contenidos nuevos a diario). Quienes hacen investigación en ciencias sociales necesitan adaptarse a entornos digitales dinámicos. A través de este proyecto se utilizan herramientas computacionales en la recolección y análisis de datos, con una pretensión exploratoria por una parte y también con el objetivo de desarrollar herramientas específicas para el análisis de discurso en la prensa sobre algún tema determinado. En este caso, el tema que se usa de ejemplo es el de la Inteligencia Artificial.
 
-La relevancia sociológica de los datos que se utilizarán se sostiene, en principio, en el elemento revolucionario y transformador que presenta una tecnología como la IA. Segundo, la utilización de medios masivos de comunicación como BíoBíocl y Emol, ambos los medios online más visitados en el país. Esto vinculado con el gran volumen de datos que se está utilizando, otorga validez y significancia a los análisis sociales que se van a realizar. Como se demostró en la introducción, la IA ha permeado el trabajo académico en muchos ámbitos, siendo de los más visitados entre estos desde la sociología, la educación y el trabajo. Sin embargo, se percibe una vacío académico en análisis constructivistas que perciban la tecnología no solo como un objeto técnico, sino uno imbricado socialmente con significados, prácticas, y con un gran impacto en la cultura; uno construido en un proceso simultáneamente técnico como social. En los medios, esta construcción es evidente, y tiene un impacto mayor en los significados construidos por los individuos tanto por su masividad como por su posición privilegiada en la sociedad como emisor de información con validez. 
+La relevancia sociológica de los datos que se utilizarán se sostiene, en principio, en el elemento revolucionario y transformador que presenta una tecnología como la IA. Segundo, la utilización de medios masivos de comunicación como BíoBíocl y Emol, ambos los medios online más visitados en el país. Esto vinculado con el gran volumen de datos que se está utilizando, otorga validez y significancia a los análisis sociales que se realizan.
+
+La IA ha permeado el trabajo académico en diversos ámbitos, siendo de los más visitados entre estos desde la sociología, la educación y el trabajo. Sin embargo, se percibe una vacío académico en análisis constructivistas que perciban la tecnología no solo como un objeto técnico, sino uno imbricado socialmente con significados, prácticas, y con un gran impacto en la cultura; uno construido en un proceso simultáneamente técnico como social. En los medios, esta construcción es evidente, y tiene un impacto mayor en los significados construidos por los individuos tanto por su masividad como por su posición privilegiada en la sociedad como emisor de información con validez. 
 
 ## Contexto BíoBío y Emol
 
@@ -54,7 +42,6 @@ p_load(
   tidyverse,
   httr,
   jsonlite,
-  dplyr,
   tidytext,
   ggplot2,
   ggvenn,
@@ -63,9 +50,9 @@ p_load(
   xml2,
   wordcloud2,
   arrow,
-  readxl,
   stopwords,
   lubridate,
+  htmlwidgets
 )
 
 rm(list = ls()) 
@@ -188,10 +175,13 @@ while (offset < total_results) {
     all_data <- bind_rows(all_data, json_notas)
   }
   
-  cat(" - Procesados - ", offset, "\n") # Mostrar progreso
+  # Opcional
+  #cat(" - Procesados - ", offset, "\n") # Mostrar progreso
 }
 
-print(all_data$post_content[1]) #Ejemplo de cómo nos queda el contenido de la página
+# Opcional
+# print(all_data$post_content[1]) #Ejemplo de cómo nos queda el contenido de la página
+
 
 ```
 
@@ -226,7 +216,6 @@ all_data <- all_data %>%
   )
 
 print(all_data$parrafos_filtrados[1])
-print(sum(is.na(all_data$parrafos_filtrados)))
 ```
 
 ## Limpieza de las secciones "Lee también...", Instagram y Twitter
@@ -289,7 +278,7 @@ total_results <- nrow(all_data)
 cat("El número total de resultados obtenidos es:", total_results, "\n")
 
 # Confirmación de las filas eliminadas
-cat("Los índices de las filas eliminadas son:", indices_no_match, "\n")
+# cat("Los índices de las filas eliminadas son:", indices_no_match, "\n")
 ```
 
 #### También podemos exportar como html para ver si desaparecieron los bloques completos
@@ -327,6 +316,9 @@ while (contador <= total_results) {
   
   contador <- contador + 1
 }
+
+# Ejemplo del contenido de una nota en plano ahora
+print(all_data$post_content[sample(1:total_results, 1)])
 ```
 
 ## Descriptivos de frecuencia de palabras
@@ -352,12 +344,12 @@ stop_words_es_comunes <- tibble(word = stop_words_es_comunes)
 # Si es necesario, crear un tibble con palabras que particularmente para un search_query específico no interesan
 stop_words_particulares <- tibble(word = c("el", "la", "de", "y", "en", "que", "a", "los", "con", "por", "lee", "las", "para", "se", "es", "su",  "del", "una", "al", "como", "más", "lo", "este", "sus", "esta", "también", "entre", "fue", "han", "un", "sin", "sobre", "ya", "pero", "no", "muy", "si", "porque", "cuando", "desde", "todo", "son", "ha", "hay", "le", "ni", "cada", "me", "tanto", "hasta", "nos", "mi", "tus", "mis", "tengo", "tienes", "esa", "ese", "tan", "esa", "esos", "esa", "esas", "él", "ella", "ellos", "ellas", "nosotros", "vosotros", "vosotras", "ustedes", "uno", "una", "unos", "unas", "alguien", "quien", "cual", "cuales", "cualquier", "cualesquiera", "como", "donde", "cuanto", "demasiado", "poco", "menos", "casi", "algunos", "algunas", "aunque", "cuyo", "cuya", "cuyos", "cuyas", "ser", "haber", "estar", "tener", "hacer", "ir", "ver", "dar", "debe", "debido", "puede", "pues", "dicho", "hecho", "mientras", "luego", "además", "entonces", "así", "tal", "dicha", "mismo", "misma", "demás", "otro", "otra", "otros", "otras", "debería", "tendría", "podría", "menos", "cuándo", "dónde",  "qué", "quién", "cuyo", "la", "lo", "las", "que", "está", "según", "esto", "inteligencia", "artificial", "ia", "tecnología", "chile", "años", "personas", "parte", "tiene", "año", "cómo", "están", "forma", "durante", "vez", "estos", "pueden", "todos", "eso", "dos", "través", "hace", "solo", "gran", "estas", "ahora", "manera", "dijo", "cuenta", "ejemplo", "hoy", "bien", "día", "incluso", "mayor", "mejor", "embargo", "mucho", "era", "primera", "caso", "nuevas", "sido", "tipo", "nuestro", "sino", "antes", "tras", "te", "tienen", "junto", "será", "pasado", "momento", "primer", "grandes", "crear", "trata", "algo", "sólo", "todas", "nuestra", "después", "contra", "nueva", "nuevo", "espacio", "permite", "quienes", "sí", "sea", "tres", "estamos", "lugar", "aún", "nuevos", "respecto", "medio", "muchos", "horas", "mil", "nivel", "días", "persona", "ello", "gracias", "centro", "10", "grupo", "tu", "siempre", "2", "real", "realidad", "había", "5", "12", "2023", "2021", "muchas", "va", "1", "6", "7", "4", "3", "8", "9", "0"))
 
-# Combinamos todas las stopwords en una sola lista
-stop_words_total <- unique(c(stop_words, stop_words_es_comunes, stop_words_particulares))
 
 # Filtramos las stop words del texto
 words_clean <- words %>%
-  anti_join(stop_words_total, by = "word") %>%
+  anti_join(stop_words, by = "word") %>%
+  anti_join(stop_words_es_comunes, by = "word") %>%
+  anti_join(stop_words_particulares, by = "word")
 
 # Calculamos frecuencia de palabras
 word_counts <- words_clean %>%
@@ -489,8 +481,6 @@ all_data_updated <- all_data_updated %>%
 # Convertimos la columna sentiment a un data frame
 all_data_updated$sentiment <- as.list(all_data_updated$sentiment)
 
-# Verificar el resultado
-head(all_data_updated)
 ```
 
 ## Descriptivos con los nuevos datos
@@ -599,10 +589,16 @@ palabras_negativas_df <- tibble(word = palabras_negativas_sin_stop)
 # Contar las palabras más frecuentes en palabras positivas
 palabras_positivas_frecuentes <- palabras_positivas_df %>%
   count(word$word, sort = TRUE)
+# Renombrar la columna 'word$word' a 'word'
+palabras_positivas_frecuentes <- palabras_positivas_frecuentes %>%
+  rename(word = `word$word`)
 
+pos_freq_top <- palabras_positivas_frecuentes %>% 
+  #filter(n > 100) %>% # Esta es por si queremos poner un mínimo de veces
+  slice_max(n, n = 70) # Cantidad de resultados a mostrar
 
 wordcloud2(
-  data = palabras_positivas_frecuentes, 
+  data = pos_freq_top, 
   size = 0.3,              # Aumenta el tamaño general de las palabras
   minSize = 0,             # Asegura que todas las palabras sean visibles
   gridSize = 1,            # Ajusta la densidad de palabras
@@ -612,12 +608,20 @@ wordcloud2(
   ellipticity = 1          # Elimina la elipse y fuerza un formato más centrado
 )
 
+
 # Contar las palabras más frecuentes en palabras negativas
 palabras_negativas_frecuentes <- palabras_negativas_df %>%
   count(word$word, sort = TRUE)
+# Renombrar la columna 'word$word' a 'word'
+palabras_negativas_frecuentes <- palabras_negativas_frecuentes %>%
+  rename(word = `word$word`)
+
+neg_freq_top <- palabras_negativas_frecuentes %>% 
+  #filter(n > 100) %>% # Esta es por si queremos poner un mínimo de veces
+  slice_max(n, n = 70) # Cantidad de resultados a mostrar
 
 wordcloud2(
-  data = palabras_negativas_frecuentes, 
+  data = neg_freq_top, 
   size = 0.3,              # Aumenta el tamaño general de las palabras
   minSize = 0,             # Asegura que todas las palabras sean visibles
   gridSize = 1,            # Ajusta la densidad de palabras
@@ -631,13 +635,6 @@ wordcloud2(
 ## Creamos conjuntos de intersecciones
 
 ```{r}
-
-# Renombrar la columna 'word$word' a 'word'
-palabras_positivas_frecuentes <- palabras_positivas_frecuentes %>%
-  rename(word = `word$word`)
-
-palabras_negativas_frecuentes <- palabras_negativas_frecuentes %>%
-  rename(word = `word$word`)
 
 # Crear los tres conjuntos
 
@@ -795,7 +792,7 @@ all_data_emol <- all_data_emol %>%
   filter(!is.na(post_content) & post_content != "")
   
   # Mostrar progreso de las iteraciones
-  cat(" - Procesados - ", offset, "\n") # Mostrar progreso
+  # cat(" - Procesados - ", offset, "\n") # Mostrar progreso
 }
 
 # Verificar el primer contenido extraído
@@ -814,3 +811,13 @@ total_results_emol <- nrow(all_data_emol)
 -   Quiénes somos \| BioBiochile. (s. f.). Recuperado 4 de noviembre de 2024, de<https://www.biobiochile.cl/quienes-somos/>
 
 -   Clasificación de los principales sitios web de Editoriales de noticias y medios de comunicación en Chile en septiembre 2024. (s. f.). Similarweb. Recuperado 4 de noviembre de 2024, de<https://www.similarweb.com/es/top-websites/chile/news-and-media/>
+
+## To do list para crear Paquete:
+
+-   Función que permita devolver los n últimas noticias (ordenadas desde las más recientes)
+
+-   Investigar parámetros de la API para ver utilizar rangos de fecha
+
+-   Una vez obteniendo el contenido, realizar funciones para analizar el contenido
+
+-   Proponer una función y sus parámetros

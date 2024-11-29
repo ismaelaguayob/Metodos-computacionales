@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Trabajo 2: Web Scraping e IA</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Extraccion_limpieza_descriptivos_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Extraccion_limpieza_descriptivos_files/libs/quarto-html/quarto.js"></script>
+<script src="Extraccion_limpieza_descriptivos_files/libs/quarto-html/popper.min.js"></script>
+<script src="Extraccion_limpieza_descriptivos_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Extraccion_limpieza_descriptivos_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Extraccion_limpieza_descriptivos_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Extraccion_limpieza_descriptivos_files/libs/quarto-html/quarto-syntax-highlighting-3a01e2046221230fdceeea94b1ec5d67.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Extraccion_limpieza_descriptivos_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Extraccion_limpieza_descriptivos_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Extraccion_limpieza_descriptivos_files/libs/bootstrap/bootstrap-9b365665436b74601bfdd373904bad7c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="Extraccion_limpieza_descriptivos_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="Extraccion_limpieza_descriptivos_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<link href="Extraccion_limpieza_descriptivos_files/libs/wordcloud2-0.0.1/wordcloud.css" rel="stylesheet">
+
+<script src="Extraccion_limpieza_descriptivos_files/libs/wordcloud2-0.0.1/wordcloud2-all.js"></script>
+
+<script src="Extraccion_limpieza_descriptivos_files/libs/wordcloud2-0.0.1/hover.js"></script>
+
+<script src="Extraccion_limpieza_descriptivos_files/libs/wordcloud2-binding-0.2.1/wordcloud2.js"></script>
+
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Trabajo 2: Web Scraping e IA</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="segundo-trabajo-métodos-computacionales" class="level1">
+<h1>Segundo trabajo Métodos Computacionales</h1>
+<section id="integrantes-ismael-aguayo-y-exequiel-trujillo" class="level4">
+<h4 class="anchored" data-anchor-id="integrantes-ismael-aguayo-y-exequiel-trujillo"><em>Integrantes: Ismael Aguayo y Exequiel Trujillo</em></h4>
+</section>
+<section id="relevancia-de-los-datos" class="level2">
+<h2 class="anchored" data-anchor-id="relevancia-de-los-datos">Relevancia de los datos</h2>
+<p>El uso de técnicas de extracción de datos por medio de APIs permite obtener grandes volúmenes de información de fuentes digitales, lo cual es particularmente valioso para las ciencias sociales, que tradicionalmente se han basado en encuestas y censos que pueden ser más costosos y limitados en tiempo y alcance.</p>
+<p>Las técnicas de web scraping permiten explorar temas actuales y en constante cambio (mientras se publican contenidos nuevos a diario). Quienes hacen investigación en ciencias sociales necesitan adaptarse a entornos digitales dinámicos. A través de este proyecto se utilizan herramientas computacionales en la recolección y análisis de datos, con una pretensión exploratoria por una parte y también con el objetivo de desarrollar herramientas específicas para el análisis de discurso en la prensa sobre algún tema determinado. En este caso, el tema que se usa de ejemplo es el de la Inteligencia Artificial.</p>
+<p>La relevancia sociológica de los datos que se utilizarán se sostiene, en principio, en el elemento revolucionario y transformador que presenta una tecnología como la IA. Segundo, la utilización de medios masivos de comunicación como BíoBíocl y Emol, ambos los medios online más visitados en el país. Esto vinculado con el gran volumen de datos que se está utilizando, otorga validez y significancia a los análisis sociales que se realizan.</p>
+<p>La IA ha permeado el trabajo académico en diversos ámbitos, siendo de los más visitados entre estos desde la sociología, la educación y el trabajo. Sin embargo, se percibe una vacío académico en análisis constructivistas que perciban la tecnología no solo como un objeto técnico, sino uno imbricado socialmente con significados, prácticas, y con un gran impacto en la cultura; uno construido en un proceso simultáneamente técnico como social. En los medios, esta construcción es evidente, y tiene un impacto mayor en los significados construidos por los individuos tanto por su masividad como por su posición privilegiada en la sociedad como emisor de información con validez.&nbsp;</p>
+</section>
+<section id="contexto-bíobío-y-emol" class="level2">
+<h2 class="anchored" data-anchor-id="contexto-bíobío-y-emol">Contexto BíoBío y Emol</h2>
+<p>Para este proyecto, decidimos trabajar con Emol y Bío Bío, dos de los medios de noticias más conocidos en Chile y que tienen un gran impacto en cómo la gente entiende lo que pasa en el país. Nos interesa especialmente porque ambos cubren temas de política, economía, sociedad, tecnología y cultura, en particular sobre Inteligencia Artificial, lo que nos ayuda a explorar cómo se presentan y enmarcan temas importantes o de impacto como este.</p>
+<p>Emol es parte del grupo El Mercurio, uno de los conglomerados de medios más grandes de Chile. Este medio tiene una fuerte influencia en la opinión pública y su contenido se enfoca mucho en temas económicos, políticos y empresariales. Creemos que analizar artículos de Emol nos permite ver cómo se representan ciertos sectores de la sociedad y observar el tipo de lenguaje que usan en temas sensibles o de alto interés para la gente. El medio de comunicación El Mercurio On-Line (Emol) es parte de la empresa El Mercurio S.A.P., siendo su portal digital de noticias. Nació a mediados de los 90s con el objetivo de informar a las empresas en economía y actualidad, sin embargo, debido a la competencia de La Tercera online y Terra, se convirtió en lo que es hoy, publicando el contenido de El Mercurio, La segunda y Las Últimas Noticias (Wikipedia, 2024).</p>
+<p>Por otro lado, Bío Bío tiene un enfoque más amplio y diverso, pero sigue siendo uno de los medios más consumidos en Chile. El medio BíoBío.cl, del que se extraerán los datos del presente estudio, data de 1959. En principio era una radio, siendo la única con sede fuera de la capital. Para el año 2009 se creó la página web que se utilizará, la cual en 2020 es la página web de noticias más visitada del país, con 122 millones de usuarios únicos y 595 millones de visitas (Quiénes somos | BioBiochile, s. f.).</p>
+<p>Ambos medios son los más visitados digitalmente en el país, estando en las posiciones primera (Emol) y segunda (BioBiocl), según el sitio web de rankings SimilarWeb (Septiembre de 2024).&nbsp;</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Cargamos libreria</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  tidyverse,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  httr,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  jsonlite,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  tidytext,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  ggplot2,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  ggvenn,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  rvest,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  stringr,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  xml2,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  wordcloud2,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  arrow,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  stopwords,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  lubridate,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  htmlwidgets</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>()) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="obtenemos-el-texto-de-las-noticias-con-la-búsqueda-inteligencia-artificial-en-medio-bío-bío" class="level2">
+<h2 class="anchored" data-anchor-id="obtenemos-el-texto-de-las-noticias-con-la-búsqueda-inteligencia-artificial-en-medio-bío-bío">Obtenemos el texto de las noticias con la búsqueda “Inteligencia Artificial” en medio Bío Bío</h2>
+<p>Se utilizó la API de búsqueda que utiliza la web de BíoBío.cl. Esta no cuenta con documentación, por lo que a prueba y error se fueron descubriendo los parámetros necesarios para automatizar el scrappeo del contenido de la web. Los headers que se utilizaron son los mismos que arroja el get cuando uno realiza una busqueda desde el navegador.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Parámetros básicos</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>search_query <span class="ot">&lt;-</span> <span class="st">"inteligencia artificial"</span> <span class="co"># Frase a buscar</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>offset <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># En 0 para que comience por el primer artículo, así funciona la API</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Numero de búsquedas total al ingresar la palabra clave en bíobío.cl (la API busca en múltiplos de a 20)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>total_results <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>all_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">character</span>(),  <span class="co"># Definimos columnas vacías</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">post_content =</span> <span class="fu">character</span>(),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">post_title =</span> <span class="fu">character</span>(),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">year =</span> <span class="fu">integer</span>(),  <span class="co"># Año como entero</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                       <span class="at">month =</span> <span class="fu">integer</span>(),  <span class="co"># Mes como entero</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                       <span class="at">day =</span> <span class="fu">integer</span>(),  <span class="co"># Día como entero</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                       <span class="at">post_category_primary.name =</span> <span class="fu">character</span>(),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                       <span class="at">post_category_secondary.name =</span> <span class="fu">character</span>(),</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                       <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)  <span class="co"># Inicializamos dataframe vacío</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Encabezados para la solicitud</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>headers <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">User-Agent</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0"</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Accept</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"application/json, text/plain, */*"</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Referer</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">"https://www.biobiochile.cl/buscador.shtml?s="</span>, <span class="fu">URLencode</span>(search_query)),</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Content-Type</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"application/json; charset=UTF-8"</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co"># URL de la solicitud inicial</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>url_initial <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://www.biobiochile.cl/lista/api/buscador?offset="</span>, offset,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;search="</span>, <span class="fu">URLencode</span>(search_query),</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;intervalo=&amp;orden=ultimas"</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Realizar la solicitud</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>response_initial <span class="ot">&lt;-</span> <span class="fu">GET</span>(url_initial, <span class="fu">add_headers</span>(<span class="at">.headers =</span> headers))</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Procesar la respuesta</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (response_initial<span class="sc">$</span>status_code <span class="sc">==</span> <span class="dv">200</span>) {</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convertir el contenido a texto y luego a JSON</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  data_initial <span class="ot">&lt;-</span> <span class="fu">content</span>(response_initial, <span class="st">"text"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fromJSON</span>(<span class="at">flatten =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Extraer el total de resultados</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(data_initial<span class="sc">$</span>total)) {</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    total_results <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(data_initial<span class="sc">$</span>total)</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"Número total de resultados disponibles: "</span>, total_results)</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"No se encontró el parámetro 'total' en la respuesta."</span>)</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Error al realizar la solicitud inicial. Código de estado: "</span>, response_initial<span class="sc">$</span>status_code)</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Número total de resultados disponibles: 2201</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Iteramos hasta que el offset sea menor al total de resultados</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (offset <span class="sc">&lt;</span> total_results) {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Construimos el link para cada iteración</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://www.biobiochile.cl/lista/api/buscador?offset="</span>, offset,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&amp;search="</span>, <span class="fu">URLencode</span>(search_query),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&amp;intervalo=&amp;orden=ultimas"</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Se aumenta el offset para cada iteración (después de construido el link)</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  offset <span class="ot">&lt;-</span> offset <span class="sc">+</span> <span class="dv">20</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Realizamos la solicitud y manejamos posibles errores</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  response <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    { <span class="fu">GET</span>(url) },</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">error =</span> <span class="cf">function</span>(e) { </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">message</span>(<span class="st">"Error en la conexión: "</span>, e) </span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Verificamos si `response` es nulo antes de continuar</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(response)) <span class="cf">next</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Procesamos el contenido si `response` no es nulo</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">content</span>(response, <span class="st">"text"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  json_data <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(data, <span class="at">flatten =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Verificamos que el elemento `notas` existe antes de unir datos</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(json_data<span class="sc">$</span>notas)) {</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    json_notas <span class="ot">&lt;-</span> json_data<span class="sc">$</span>notas <span class="sc">%&gt;%</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Verificamos si las columnas existen y les asignamos valores o NA</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">post_category_primary.name =</span> <span class="fu">ifelse</span>(<span class="st">"post_category_primary.name"</span> <span class="sc">%in%</span> <span class="fu">names</span>(.), </span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>                                   json_data<span class="sc">$</span>notas<span class="sc">$</span>post_category_primary.name, <span class="cn">NA</span>),</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">post_category_secondary.name =</span> <span class="fu">ifelse</span>(<span class="st">"post_category_secondary.name"</span> <span class="sc">%in%</span> <span class="fu">names</span>(.), </span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>                                     json_data<span class="sc">$</span>notas<span class="sc">$</span>post_category_secondary.name, <span class="cn">NA</span>)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(ID,  </span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>             post_content, </span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>             post_title,  </span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>             year, </span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>             month,  </span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>             day, </span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>             post_category_primary.name,  </span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>             post_category_secondary.name) <span class="sc">%&gt;%</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>        <span class="fu">across</span>(<span class="fu">everything</span>(), as.character),  <span class="co"># Convertimos todo a caracteres primero</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>        <span class="at">year =</span> <span class="fu">as.integer</span>(year),  <span class="co"># Convertimos 'year' a entero</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>        <span class="at">month =</span> <span class="fu">as.integer</span>(month),  <span class="co"># Convertimos 'month' a entero</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>        <span class="at">day =</span> <span class="fu">as.integer</span>(day)  <span class="co"># Convertimos 'day' a entero</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Combinamos los nuevos datos con los datos existentes</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    all_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(all_data, json_notas)</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Opcional</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>  <span class="co">#cat(" - Procesados - ", offset, "\n") # Mostrar progreso</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Opcional</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="co"># print(all_data$post_content[1]) #Ejemplo de cómo nos queda el contenido de la página</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="extraemos-los-párrafos-que-mencionan-inteligencia-artificial-o-ia" class="level2">
+<h2 class="anchored" data-anchor-id="extraemos-los-párrafos-que-mencionan-inteligencia-artificial-o-ia">Extraemos los párrafos que mencionan inteligencia artificial o IA</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear vector con sinónimos en caso de que sea necesario</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sinonimos_search_query <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"IA"</span>, <span class="st">"AI"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># (?i): Activamos la insensibilidad a mayúsculas y minúsculas</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># \\b: Aseguramos que las palabras coincidan completas, evitando falsos positivos en palabras como "parcial" que contiene "IA".</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>pattern <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"(?i)</span><span class="sc">\\</span><span class="st">b("</span>, search_query, <span class="st">"|"</span>, <span class="fu">paste</span>(sinonimos_search_query, <span class="at">collapse =</span> <span class="st">"|"</span>), <span class="st">")</span><span class="sc">\\</span><span class="st">b"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Expresión regular optimizada para buscar la search_query o sinónimos</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>all_data <span class="ot">&lt;-</span> all_data <span class="sc">%&gt;%</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">parrafos_filtrados =</span> <span class="fu">map</span>(post_content, <span class="sc">~</span> {</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>      <span class="co"># (.x): Seleccionamos el elemento actual de post_content dentro de la iteración</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Con try catch para que sea NA en caso de error y no detenga la iteración</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>      nodo_html <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(<span class="fu">read_html</span>(.x), <span class="at">error =</span> <span class="cf">function</span>(e) <span class="fu">return</span>(<span class="cn">NA</span>))</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Verificamos que el nodo HTML fue leído correctamente.</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.na</span>(nodo_html)) {</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        parrafos <span class="ot">&lt;-</span> nodo_html <span class="sc">%&gt;%</span> <span class="fu">html_elements</span>(<span class="st">"p"</span>) <span class="sc">%&gt;%</span> <span class="fu">html_text2</span>()</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        parrafos[<span class="fu">grepl</span>(pattern, parrafos)]</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        <span class="cn">NA</span> <span class="co"># En caso de que hubo un error al leer el html</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(all_data<span class="sc">$</span>parrafos_filtrados[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] "“La Voz de los ’80 – Versión remasterizada”, por su parte, trae la versión que conocemos en la actualidad tras su remasterización de 2021. Su diseño, muestra la portada y las fotografías interiores “restauradas con inteligencia artificial”."</code></pre>
+</div>
+</div>
+</section>
+<section id="limpieza-de-las-secciones-lee-también-instagram-y-twitter" class="level2">
+<h2 class="anchored" data-anchor-id="limpieza-de-las-secciones-lee-también-instagram-y-twitter">Limpieza de las secciones “Lee también…”, Instagram y Twitter</h2>
+<p>Aparecen algunos bloques html que ponen noticias como recomedación para leer y pueden contener las palabras “inteligencia artificial” sin que el contenido de la nota se refiera específicamente a eso. Para ello podemos usar el paquete rvest. Lo mismo haremos con los bloques que tienen publicaciones de X (ex Twitter) o de Instagram. Así, mantendremos solo el texto de la noticia y eliminaremos las noticias que se agregaron sin que sean relevantes.</p>
+<section id="necesitamos-una-función-que-se-dedique-a-encontrar-esa-parte-del-texto-y-eliminarla" class="level4">
+<h4 class="anchored" data-anchor-id="necesitamos-una-función-que-se-dedique-a-encontrar-esa-parte-del-texto-y-eliminarla">Necesitamos una función que se dedique a encontrar esa parte del texto y eliminarla:</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(all_data))){</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convertimos el contenido a un objeto HTML para usar rvest</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  contenido_html <span class="ot">&lt;-</span> rvest<span class="sc">::</span><span class="fu">read_html</span>(all_data<span class="sc">$</span>post_content[[i]])</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Eliminamos los divs con la clase 'lee-tambien-bbcl'</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  contenido_html <span class="sc">%&gt;%</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_nodes</span>(<span class="st">"div.lee-tambien-bbcl"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xml_remove</span>()</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Eliminamos los divs de publicaciones de Instagram</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  contenido_html <span class="sc">%&gt;%</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_nodes</span>(<span class="st">"blockquote.instagram-media"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xml_remove</span>()</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Eliminamos los divs de publicaciones de Twitter</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  contenido_html <span class="sc">%&gt;%</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_nodes</span>(<span class="st">"blockquote.twitter-tweet"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xml_remove</span>()</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convertimos el HTML limpio a texto y eliminamos cualquier "Lee también" que quede en el contenido</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  contenido_texto <span class="ot">&lt;-</span> <span class="fu">as.character</span>(contenido_html)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  contenido_texto <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(contenido_texto, <span class="fu">regex</span>(<span class="st">"Lee también.*?&lt;</span><span class="sc">\\</span><span class="st">/div&gt;"</span>, <span class="at">dotall =</span> <span class="cn">TRUE</span>), <span class="st">""</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Guardamos el contenido limpio de vuelta en el data frame</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  all_data<span class="sc">$</span>post_content[[i]] <span class="ot">&lt;-</span> contenido_texto</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Revisamos el contenido HTML resultante (opcional)</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># print(as.character(contenido_html))</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ahora-eliminamos-todas-las-notas-que-no-mencionen-inteligencia-artificial-y-sinónimos-por-lo-menos-una-vez" class="level4">
+<h4 class="anchored" data-anchor-id="ahora-eliminamos-todas-las-notas-que-no-mencionen-inteligencia-artificial-y-sinónimos-por-lo-menos-una-vez">Ahora eliminamos todas las notas que no mencionen Inteligencia Artificial (y sinónimos) por lo menos una vez:</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identificamos las filas que NO contienen la búsqueda o sus sinónimos</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>indices_no_match <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="sc">!</span><span class="fu">grepl</span>(pattern, all_data<span class="sc">$</span>post_content, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Test</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># print(all_data$post_content[indices_no_match[1]])</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Eliminamos las filas que no contienen el término de búsqueda usando los índices</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>all_data <span class="ot">&lt;-</span> all_data[<span class="sc">-</span>indices_no_match, ]</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Actualizamos "total_results" con el número total de filas en el data frame final</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>total_results <span class="ot">&lt;-</span> <span class="fu">nrow</span>(all_data)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirmación de la actualización</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"El número total de resultados obtenidos es:"</span>, total_results, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>El número total de resultados obtenidos es: 2041 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirmación de las filas eliminadas</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># cat("Los índices de las filas eliminadas son:", indices_no_match, "\n")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="también-podemos-exportar-como-html-para-ver-si-desaparecieron-los-bloques-completos" class="level4">
+<h4 class="anchored" data-anchor-id="también-podemos-exportar-como-html-para-ver-si-desaparecieron-los-bloques-completos">También podemos exportar como html para ver si desaparecieron los bloques completos</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seteamos nombre archivo salida</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>out_file <span class="ot">&lt;-</span> <span class="st">"noticia_casi.html"</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exportamos el contenido HTML de una nota aleatoria</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">as.character</span>(all_data<span class="sc">$</span>post_content[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>total_results, <span class="dv">1</span>)]), <span class="at">con =</span> out_file)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Mensaje de confirmación </span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"El contenido en bruto se ha exportado a"</span>, out_file) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>El contenido en bruto se ha exportado a noticia_casi.html</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="limpieza-de-texto-general" class="level2">
+<h2 class="anchored" data-anchor-id="limpieza-de-texto-general">Limpieza de texto general</h2>
+<p>Eliminamos la parte de código que queda en el texto para convertirlo en texto plano.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inicializamos variables</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>contador <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>html_content <span class="ot">&lt;-</span> <span class="fu">list</span>()       <span class="co"># Lista para hacer nodos html</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Procesar el HTML y extraer el texto</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (contador <span class="sc">&lt;=</span> total_results) {</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convertir a nodo HTML</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  html_content[[contador]] <span class="ot">&lt;-</span> <span class="fu">read_html</span>(all_data<span class="sc">$</span>post_content[[contador]])</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Extraemos y limpiamos el texto</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  all_data<span class="sc">$</span>post_content[[contador]] <span class="ot">&lt;-</span> html_content[[contador]] <span class="sc">%&gt;%</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_text2</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_squish</span>()</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  contador <span class="ot">&lt;-</span> contador <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo del contenido de una nota en plano ahora</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(all_data<span class="sc">$</span>post_content[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>total_results, <span class="dv">1</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Lo más nuevo de los grandes modelos de lenguaje (LLM), explicado en detalle en la Parte 1/2: El Modelo, es su capacidad de aprender de manera no lineal, lo que implica un procesamiento de datos mucho mayor y por ende, resultados más precisos para distintas problemáticas de la vida. Entonces, si todo suena fantástico, ¿cuál es el problema real o riesgo con la IA? Aquí es donde aparece la guinda de la torta y se lo explicaré con una capacidad que poseemos los humanos, que usamos diariamente sin pensar: nuestra visión humana. La visión humana puede entenderse como una tarea de procesamiento de información por capas que nos permite percibir y comprender el mundo que nos rodea. Así, imagine que Ud. tiene diferentes niveles de procesamiento, tal como capas en una cebolla: – La primera capa es la captación de la luz. Nuestros ojos actúan como cámaras y capturan la luz reflejada en los objetos que vemos. – La segunda capa es la retina, que es una parte especial de nuestros ojos. Aquí, la luz se convierte en señales eléctricas que pueden ser enviadas al cerebro a través del nervio óptico. – La tercera capa es la de procesamiento en el cerebro. La información visual viaja desde la retina a través de diferentes áreas en el cerebro, como la corteza visual. Aquí es donde se realizan tareas más complejas, como reconocer formas, colores y movimiento. En las capas más profundas, nuestro cerebro combina toda esta información para construir una representación completa y significativa de lo que estamos viendo. Así, cada capa de procesamiento agrega más detalles y complejidad a nuestra percepción visual, haciendo que veamos y comprendamos nuestro entorno de una manera única. Volvamos a nuestros queridos amigos LLMs. Si Ud. realiza la analogía con nuestro ejemplo de visión humana, podrá darse cuenta de que al agregar más y más capas de procesamiento (y por tanto más parámetros a entrenar) el modelo se volverá más escalable y por tanto, su rendimiento en diferentes tareas podría ser mucho mejor. Efectivamente, los LLMs ahora son más poderosos y escalables, y fue lo que ha hecho tan popular a aplicaciones como ChatGPT y BARD, entre otros. ¿Fin de la historia y todos somos felices como las perdices? Lamentablemente, muchos científicos se percataron de que al agregar más y más capas de procesamiento, los LLMs podían aprender relaciones no lineales que comenzaron a exhibir comportamientos o habilidades emergentes. En general, un comportamiento emergente se refiere a un comportamiento o patrón que aparece cuando un grupo de elementos o individuos interactúa entre sí, pero que no puede ser atribuido a ninguno de los elementos de forma individual. Esto es como cuando se forman patrones o resultados sorprendentes a partir de la interacción y coordinación de varias personas. Este comportamiento cualitativo puede verse como entornos en los cuales las reglas del juego que guían la conducta, pueden variar drásticamente ante pequeños cambios. Un ejemplo sencillo de conducta emergente podría ser una bandada de aves volando. Cada ave sigue su propio camino y no existe un líder que les diga qué hacer, pero juntos forman patrones coordinados en el aire. Aunque cada ave actúa de manera independiente, la conducta emergente del enjambre es algo que surge de la interacción colectiva. De manera similar, en otros contextos, como en grupos de personas o incluso en sistemas naturales, pueden surgir conductas emergentes. Estas pueden incluir cosas como la formación de patrones de tráfico en una ciudad, la autoorganización de hormigas en busca de comida o la toma de decisiones colectivas en grupos grandes de personas. ¿Cuál es el problema con este comportamiento emergente en los LLMs? El problema es que estas habilidades emergentes pueden convertir los resultados de estos modelos en algo totalmente impredecible y que por tanto podría eventualmente escapar de las manos y ser dañino, en algún sentido. Estas habilidades emergentes de los LLMs no estaban presentes en los LMs más pequeños por lo que no se pueden predecir simplemente extrapolando la mejora en rendimiento en modelos más pequeños. Esto se debe a que los LLMs no se entrenaron directamente para poseer estas habilidades, las que surgen de forma rápida e impredecible. Estos comportamientos usualmente incluyen la realización de operaciones aritméticas, responder preguntas complejas, y otras que los LLMs simplemente aprenden observando el uso del lenguaje. Sin embargo, estas nuevas habilidades no están exentas de riesgos pues a medida que los LLMs crecen y se vuelven más poderosos, también pueden mostrar comportamientos dañinos o indeseables. Estos riesgos emergentes incluyen problemas como la toxicidad, el sesgo y la posibilidad de engaño. Este mismo tipo de habilidad emergente causada por la no linealidad produce que modelos como GPT-4 o similares: aunque pueden generar texto convincente, también pueden ser propensos a generar información incorrecta o sesgada. Por ejemplo, considere el caso de un LLM que se entrena sobre contenido sesgado. Cuando se prueba en una tarea relacionada con el sesgo de género, el modelo puede mostrar un comportamiento problemático. Así, este podría asociar ciertas ocupaciones con géneros específicos, como enfermeras siendo mujeres y electricistas siendo hombres. Este tipo de sesgo es un ejemplo de un riesgo emergente que surge de los datos de entrenamiento y se vuelve más pronunciado a medida que el modelo escala. La toxicidad es otro riesgo emergente con el que se debe lidiar. En algunos casos, los LLMs pueden producir respuestas tóxicas u ofensivas cuando se les solicitan ciertas entradas. El desafío es entonces mitigar estos riesgos sin sofocar la creatividad y versatilidad del modelo. Así, es importante tener en cuenta que, si bien los LLMs son poderosos, todavía son herramientas y no poseen comprensión o conocimiento profundo del mundo real. Por lo tanto, siempre es necesario revisar y verificar la información generada por el modelo para garantizar su precisión y relevancia. En consecuencia, no existe riesgo real contra la humanidad ni el fin de todas las actividades como las conocemos, ni nada por el estilo. Sin embargo, para reducir los riesgos que implican estas habilidades emergentes e impredecibles en la convivencia, seguridad y transparencia con la que se interactúa con humanos, claramente se requieren nuevas regulaciones y normativas en el desarrollo de sistemas de IA."</code></pre>
+</div>
+</div>
+</section>
+<section id="descriptivos-de-frecuencia-de-palabras" class="level2">
+<h2 class="anchored" data-anchor-id="descriptivos-de-frecuencia-de-palabras">Descriptivos de frecuencia de palabras</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seleccionamos solo la columna de texto que nos interesa</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>text_data <span class="ot">&lt;-</span> all_data <span class="sc">%&gt;%</span> <span class="fu">select</span>(post_content)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenizamos el texto y lo dividimos en palabras</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>words <span class="ot">&lt;-</span> all_data <span class="sc">%&gt;%</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, post_content)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Cantidad de palabras extraídas</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1115792</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar palabras comunes en inglés y español</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"stop_words"</span>) <span class="co"># Cargar palabras comunes en inglés (desde tidytext)</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>stop_words_es_comunes <span class="ot">&lt;-</span> <span class="fu">stopwords</span>(<span class="st">"es"</span>,<span class="at">source =</span><span class="st">"snowball"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>stop_words_es_comunes <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">word =</span> stop_words_es_comunes)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Si es necesario, crear un tibble con palabras que particularmente para un search_query específico no interesan</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>stop_words_particulares <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">word =</span> <span class="fu">c</span>(<span class="st">"el"</span>, <span class="st">"la"</span>, <span class="st">"de"</span>, <span class="st">"y"</span>, <span class="st">"en"</span>, <span class="st">"que"</span>, <span class="st">"a"</span>, <span class="st">"los"</span>, <span class="st">"con"</span>, <span class="st">"por"</span>, <span class="st">"lee"</span>, <span class="st">"las"</span>, <span class="st">"para"</span>, <span class="st">"se"</span>, <span class="st">"es"</span>, <span class="st">"su"</span>,  <span class="st">"del"</span>, <span class="st">"una"</span>, <span class="st">"al"</span>, <span class="st">"como"</span>, <span class="st">"más"</span>, <span class="st">"lo"</span>, <span class="st">"este"</span>, <span class="st">"sus"</span>, <span class="st">"esta"</span>, <span class="st">"también"</span>, <span class="st">"entre"</span>, <span class="st">"fue"</span>, <span class="st">"han"</span>, <span class="st">"un"</span>, <span class="st">"sin"</span>, <span class="st">"sobre"</span>, <span class="st">"ya"</span>, <span class="st">"pero"</span>, <span class="st">"no"</span>, <span class="st">"muy"</span>, <span class="st">"si"</span>, <span class="st">"porque"</span>, <span class="st">"cuando"</span>, <span class="st">"desde"</span>, <span class="st">"todo"</span>, <span class="st">"son"</span>, <span class="st">"ha"</span>, <span class="st">"hay"</span>, <span class="st">"le"</span>, <span class="st">"ni"</span>, <span class="st">"cada"</span>, <span class="st">"me"</span>, <span class="st">"tanto"</span>, <span class="st">"hasta"</span>, <span class="st">"nos"</span>, <span class="st">"mi"</span>, <span class="st">"tus"</span>, <span class="st">"mis"</span>, <span class="st">"tengo"</span>, <span class="st">"tienes"</span>, <span class="st">"esa"</span>, <span class="st">"ese"</span>, <span class="st">"tan"</span>, <span class="st">"esa"</span>, <span class="st">"esos"</span>, <span class="st">"esa"</span>, <span class="st">"esas"</span>, <span class="st">"él"</span>, <span class="st">"ella"</span>, <span class="st">"ellos"</span>, <span class="st">"ellas"</span>, <span class="st">"nosotros"</span>, <span class="st">"vosotros"</span>, <span class="st">"vosotras"</span>, <span class="st">"ustedes"</span>, <span class="st">"uno"</span>, <span class="st">"una"</span>, <span class="st">"unos"</span>, <span class="st">"unas"</span>, <span class="st">"alguien"</span>, <span class="st">"quien"</span>, <span class="st">"cual"</span>, <span class="st">"cuales"</span>, <span class="st">"cualquier"</span>, <span class="st">"cualesquiera"</span>, <span class="st">"como"</span>, <span class="st">"donde"</span>, <span class="st">"cuanto"</span>, <span class="st">"demasiado"</span>, <span class="st">"poco"</span>, <span class="st">"menos"</span>, <span class="st">"casi"</span>, <span class="st">"algunos"</span>, <span class="st">"algunas"</span>, <span class="st">"aunque"</span>, <span class="st">"cuyo"</span>, <span class="st">"cuya"</span>, <span class="st">"cuyos"</span>, <span class="st">"cuyas"</span>, <span class="st">"ser"</span>, <span class="st">"haber"</span>, <span class="st">"estar"</span>, <span class="st">"tener"</span>, <span class="st">"hacer"</span>, <span class="st">"ir"</span>, <span class="st">"ver"</span>, <span class="st">"dar"</span>, <span class="st">"debe"</span>, <span class="st">"debido"</span>, <span class="st">"puede"</span>, <span class="st">"pues"</span>, <span class="st">"dicho"</span>, <span class="st">"hecho"</span>, <span class="st">"mientras"</span>, <span class="st">"luego"</span>, <span class="st">"además"</span>, <span class="st">"entonces"</span>, <span class="st">"así"</span>, <span class="st">"tal"</span>, <span class="st">"dicha"</span>, <span class="st">"mismo"</span>, <span class="st">"misma"</span>, <span class="st">"demás"</span>, <span class="st">"otro"</span>, <span class="st">"otra"</span>, <span class="st">"otros"</span>, <span class="st">"otras"</span>, <span class="st">"debería"</span>, <span class="st">"tendría"</span>, <span class="st">"podría"</span>, <span class="st">"menos"</span>, <span class="st">"cuándo"</span>, <span class="st">"dónde"</span>,  <span class="st">"qué"</span>, <span class="st">"quién"</span>, <span class="st">"cuyo"</span>, <span class="st">"la"</span>, <span class="st">"lo"</span>, <span class="st">"las"</span>, <span class="st">"que"</span>, <span class="st">"está"</span>, <span class="st">"según"</span>, <span class="st">"esto"</span>, <span class="st">"inteligencia"</span>, <span class="st">"artificial"</span>, <span class="st">"ia"</span>, <span class="st">"tecnología"</span>, <span class="st">"chile"</span>, <span class="st">"años"</span>, <span class="st">"personas"</span>, <span class="st">"parte"</span>, <span class="st">"tiene"</span>, <span class="st">"año"</span>, <span class="st">"cómo"</span>, <span class="st">"están"</span>, <span class="st">"forma"</span>, <span class="st">"durante"</span>, <span class="st">"vez"</span>, <span class="st">"estos"</span>, <span class="st">"pueden"</span>, <span class="st">"todos"</span>, <span class="st">"eso"</span>, <span class="st">"dos"</span>, <span class="st">"través"</span>, <span class="st">"hace"</span>, <span class="st">"solo"</span>, <span class="st">"gran"</span>, <span class="st">"estas"</span>, <span class="st">"ahora"</span>, <span class="st">"manera"</span>, <span class="st">"dijo"</span>, <span class="st">"cuenta"</span>, <span class="st">"ejemplo"</span>, <span class="st">"hoy"</span>, <span class="st">"bien"</span>, <span class="st">"día"</span>, <span class="st">"incluso"</span>, <span class="st">"mayor"</span>, <span class="st">"mejor"</span>, <span class="st">"embargo"</span>, <span class="st">"mucho"</span>, <span class="st">"era"</span>, <span class="st">"primera"</span>, <span class="st">"caso"</span>, <span class="st">"nuevas"</span>, <span class="st">"sido"</span>, <span class="st">"tipo"</span>, <span class="st">"nuestro"</span>, <span class="st">"sino"</span>, <span class="st">"antes"</span>, <span class="st">"tras"</span>, <span class="st">"te"</span>, <span class="st">"tienen"</span>, <span class="st">"junto"</span>, <span class="st">"será"</span>, <span class="st">"pasado"</span>, <span class="st">"momento"</span>, <span class="st">"primer"</span>, <span class="st">"grandes"</span>, <span class="st">"crear"</span>, <span class="st">"trata"</span>, <span class="st">"algo"</span>, <span class="st">"sólo"</span>, <span class="st">"todas"</span>, <span class="st">"nuestra"</span>, <span class="st">"después"</span>, <span class="st">"contra"</span>, <span class="st">"nueva"</span>, <span class="st">"nuevo"</span>, <span class="st">"espacio"</span>, <span class="st">"permite"</span>, <span class="st">"quienes"</span>, <span class="st">"sí"</span>, <span class="st">"sea"</span>, <span class="st">"tres"</span>, <span class="st">"estamos"</span>, <span class="st">"lugar"</span>, <span class="st">"aún"</span>, <span class="st">"nuevos"</span>, <span class="st">"respecto"</span>, <span class="st">"medio"</span>, <span class="st">"muchos"</span>, <span class="st">"horas"</span>, <span class="st">"mil"</span>, <span class="st">"nivel"</span>, <span class="st">"días"</span>, <span class="st">"persona"</span>, <span class="st">"ello"</span>, <span class="st">"gracias"</span>, <span class="st">"centro"</span>, <span class="st">"10"</span>, <span class="st">"grupo"</span>, <span class="st">"tu"</span>, <span class="st">"siempre"</span>, <span class="st">"2"</span>, <span class="st">"real"</span>, <span class="st">"realidad"</span>, <span class="st">"había"</span>, <span class="st">"5"</span>, <span class="st">"12"</span>, <span class="st">"2023"</span>, <span class="st">"2021"</span>, <span class="st">"muchas"</span>, <span class="st">"va"</span>, <span class="st">"1"</span>, <span class="st">"6"</span>, <span class="st">"7"</span>, <span class="st">"4"</span>, <span class="st">"3"</span>, <span class="st">"8"</span>, <span class="st">"9"</span>, <span class="st">"0"</span>))</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtramos las stop words del texto</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>words_clean <span class="ot">&lt;-</span> words <span class="sc">%&gt;%</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words_es_comunes, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words_particulares, <span class="at">by =</span> <span class="st">"word"</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculamos frecuencia de palabras</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>word_counts <span class="ot">&lt;-</span> words_clean <span class="sc">%&gt;%</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver las 10 palabras más frecuentes</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(word_counts, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          word    n
+1        mundo 1566
+2        datos 1425
+3     millones 1132
+4  información 1030
+5      trabajo  987
+6   desarrollo  961
+7       futuro  955
+8       tiempo  939
+9         país  916
+10        vida  883</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Realizamos nube de palabras, más frecuentes</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>word_counts_filtered <span class="ot">&lt;-</span> word_counts <span class="sc">%&gt;%</span> <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">200</span>) <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">70</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">wordcloud2</span>(</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> word_counts_filtered, </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="fl">0.3</span>,              <span class="co"># Aumenta el tamaño general de las palabras</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">minSize =</span> <span class="dv">0</span>,             <span class="co"># Asegura que todas las palabras sean visibles</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">gridSize =</span> <span class="dv">1</span>,            <span class="co"># Ajusta la densidad de palabras</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"random-dark"</span>,   <span class="co"># Colores para las palabras</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">backgroundColor =</span> <span class="st">"white"</span>, <span class="co"># Fondo blanco</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">shape =</span> <span class="st">"circle"</span>,        <span class="co"># Forma circular para compactar la nube</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">ellipticity =</span> <span class="dv">1</span>          <span class="co"># Elimina la elipse y fuerza un formato más centrado</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="wordcloud2 html-widget html-fill-item" id="htmlwidget-048ee36bdbf0cf2984d4" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-048ee36bdbf0cf2984d4">{"x":{"word":["mundo","datos","millones","información","trabajo","desarrollo","futuro","tiempo","país","vida","universidad","empresas","empresa","sistema","digital","usuarios","google","uso","compañía","imágenes","redes","proyecto","ciencia","seguridad","sociales","humanos","unidos","investigación","programa","tecnologías","nacional","importante","equipo","salud","plataforma","facebook","dólares","innovación","director","herramientas","poder","historia","social","acuerdo","experiencia","internet","sistemas","estudio","voz","serie","países","modelo","china","mercado","aplicación","público","humano","versión","proceso","chatgpt","imagen","red","presidente","servicios","objetivo","herramienta","industria","línea","educación","cosas"],"freq":[1566,1425,1132,1030,987,961,955,939,916,883,880,849,845,844,809,809,760,753,736,721,651,635,634,618,617,594,588,574,571,559,538,535,533,522,519,517,516,514,506,505,503,500,495,494,493,486,484,474,473,472,471,470,457,456,448,441,434,429,426,423,423,422,419,414,413,408,406,406,405,401],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.03448275862068965,"backgroundColor":"white","gridSize":1,"minRotation":-0.7853981633974483,"maxRotation":0.7853981633974483,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":1,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+</div>
+</div>
+</section>
+<section id="descriptivo-cantidad-de-notas-por-meses" class="level2">
+<h2 class="anchored" data-anchor-id="descriptivo-cantidad-de-notas-por-meses">Descriptivo cantidad de notas por meses</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Agrupamos los datos por año y mes, y contar las publicaciones</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>publicaciones_por_mes <span class="ot">&lt;-</span> all_data <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">cantidad =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">'drop'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fecha =</span> <span class="fu">as.Date</span>(<span class="fu">paste</span>(year, month, <span class="st">"01"</span>, <span class="at">sep =</span> <span class="st">"-"</span>))) <span class="co"># Crear una fecha para el eje x</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear título dinámico usando search_query</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>titulo_grafico <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"Cantidad de Notas sobre"</span>, search_query, <span class="st">"publicadas por mes"</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Creamos el gráfico</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(publicaciones_por_mes, <span class="fu">aes</span>(<span class="at">x =</span> fecha, <span class="at">y =</span> cantidad)) <span class="sc">+</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="co"># Línea de publicaciones</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="co"># Puntos en cada mes</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">color =</span> <span class="st">"green"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="co">#   Curva de tendencia</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> titulo_grafico, <span class="co"># Usamos el título dinámico</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Año"</span>,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Cantidad de Notas"</span>) <span class="sc">+</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_labels =</span> <span class="st">"%Y"</span>, <span class="at">date_breaks =</span> <span class="st">"1 year"</span>) <span class="co"># Mostrar solo los años en el eje x</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Extraccion_limpieza_descriptivos_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Se visualiza un aumento exponencial de noticias que se condice con el boom de la inteligencia artificial (IA) a fines del 2022 por la salida de ChatGPT. Luego hay picos altos y bajos, sin embargo nunca se vuelve a la frecuencia antes del boom inicial. Podría ser interesante investigar las fechas de los picos altos para ver si ocurrieron hechos importantes en relación a la IA.</p>
+</section>
+<section id="descriptivo-cantidad-de-notas-por-categoría" class="level2">
+<h2 class="anchored" data-anchor-id="descriptivo-cantidad-de-notas-por-categoría">Descriptivo cantidad de notas por categoría</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contamos las publicaciones por categoría</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>publicaciones_por_categoria <span class="ot">&lt;-</span> all_data <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(post_category_primary.name) <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">cantidad =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">'drop'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(cantidad))</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtramos para quedarnos con las 15 categorías más usadas</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>top_15_categorias <span class="ot">&lt;-</span> publicaciones_por_categoria <span class="sc">%&gt;%</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">15</span>, cantidad)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de Barras para las 15 categorías más usadas</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(top_15_categorias, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(post_category_primary.name, <span class="sc">-</span>cantidad), <span class="at">y =</span> cantidad, <span class="at">fill =</span> post_category_primary.name)) <span class="sc">+</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"15 categorías más usadas en notas de Bío-Bío sobre"</span>, search_query),</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Categoría"</span>,</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Cantidad de Notas"</span>) <span class="sc">+</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>), </span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Extraccion_limpieza_descriptivos_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Como era de esperarse, el tema más recurrente es Ciencia y Tecnología, seguido de Economía, Nacional, Artes y Cultura y Opinión. Sin embargo, notamos que las categorías primaria y secundaria son puestas durante ciertos periodos de tiempo (algunos días) sin tener relación necesariamente con los tópicos importantes en las notas.</p>
+</section>
+<section id="guardamos-el-data-frame-procesado-en-formato-parquet" class="level2">
+<h2 class="anchored" data-anchor-id="guardamos-el-data-frame-procesado-en-formato-parquet">Guardamos el data frame procesado en formato parquet</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>arrow<span class="sc">::</span><span class="fu">write_parquet</span>(all_data, <span class="st">"data.parquet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="procesamiento-luego-del-análisis-de-sentimiento-en-cada-párrafo-filtrado" class="level1">
+<h1>Procesamiento luego del análisis de sentimiento en cada párrafo filtrado</h1>
+<section id="importamos-el-parquet-actualizado" class="level2">
+<h2 class="anchored" data-anchor-id="importamos-el-parquet-actualizado">Importamos el parquet actualizado</h2>
+<p>Luego de procesar en el notebook de Google Colab, importamos los resultados con análisis de sentimiento.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Leer el archivo Parquet exportado</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>all_data_updated <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(<span class="st">"all_data_updated.parquet"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar los datos</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(all_data_updated)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 10
+  ID      post_content       post_title  year month   day post_category_primar…¹
+  &lt;chr&gt;   &lt;chr&gt;              &lt;chr&gt;      &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                 
+1 6304281 “La voz de lo 80”… "\"La voz…  2024    11    28 Artes y Cultura       
+2 6302777 En una gesta atíp… "Alejandr…  2024    11    27 Artes y Cultura       
+3 6301683 El Consorcio Glob… "FOTOS | …  2024    11    26 Artes y Cultura       
+4 6301152 Wall Street cerró… "Wall Str…  2024    11    25 Artes y Cultura       
+5 6300688 Un curioso experi… "Deus in …  2024    11    25 Artes y Cultura       
+6 6299640 Una innovadora ro… "Científi…  2024    11    24 Artes y Cultura       
+# ℹ abbreviated name: ¹​post_category_primary.name
+# ℹ 3 more variables: post_category_secondary.name &lt;chr&gt;,
+#   parrafos_filtrados &lt;list&lt;character&gt;&gt;,
+#   sentiment &lt;list&lt;  tbl_df&lt;    label: character    score: double  &gt;&gt;&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="procesamos-el-nuevo-data-frame" class="level2">
+<h2 class="anchored" data-anchor-id="procesamos-el-nuevo-data-frame">Procesamos el nuevo data frame</h2>
+<p>Necesitamos restablecer la columna de parrafos_filtrados que en el parquet exportado desde el Colab no lo guarda como una lista de párrafos. Además en este punto debemos configurar un umbral desde el cual se considerarán válidas las predicciones de sentimiento (0.9 implicaría supuestamente un 90% de probabilidades de que la predicción esté bien).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Copiamos la columna 'parrafos_filtrados' de all_data a all_data_updated</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>all_data_updated<span class="sc">$</span>parrafos_filtrados <span class="ot">&lt;-</span> all_data<span class="sc">$</span>parrafos_filtrados</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Definimos un umbral para considerar las valoraciones positivas o negativas</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>umbral_sentimiento <span class="ot">&lt;-</span> <span class="fl">0.90</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculamos el sentimiento predominante basado en los puntajes y el umbral</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>all_data_updated <span class="ot">&lt;-</span> all_data_updated <span class="sc">%&gt;%</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">predominant_sentiment =</span> <span class="fu">sapply</span>(sentiment, <span class="cf">function</span>(x) {</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Filtramos y calculamos los puntajes de sentimientos positivos y negativos que superan el umbral</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>      positive_score <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">ifelse</span>(x<span class="sc">$</span>label <span class="sc">==</span> <span class="st">"Positive"</span> <span class="sc">&amp;</span> x<span class="sc">$</span>score <span class="sc">&gt;</span> umbral_sentimiento, x<span class="sc">$</span>score, <span class="dv">0</span>))</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>      negative_score <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">ifelse</span>(x<span class="sc">$</span>label <span class="sc">==</span> <span class="st">"Negative"</span> <span class="sc">&amp;</span> x<span class="sc">$</span>score <span class="sc">&gt;</span> umbral_sentimiento, x<span class="sc">$</span>score, <span class="dv">0</span>))</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Determinamos el sentimiento predominante basado en la suma de los puntajes</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (positive_score <span class="sc">&gt;</span> negative_score) {</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(<span class="st">"Positive"</span>)</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> <span class="cf">if</span> (negative_score <span class="sc">&gt;</span> positive_score) {</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(<span class="st">"Negative"</span>)</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(<span class="st">"Neutral"</span>)  <span class="co"># En caso de empate o cuando ninguno supera el umbral</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertimos la columna sentiment a un data frame</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>all_data_updated<span class="sc">$</span>sentiment <span class="ot">&lt;-</span> <span class="fu">as.list</span>(all_data_updated<span class="sc">$</span>sentiment)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="descriptivos-con-los-nuevos-datos" class="level2">
+<h2 class="anchored" data-anchor-id="descriptivos-con-los-nuevos-datos">Descriptivos con los nuevos datos</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtramos las filas que son "Positive" o "Negative" (eliminando "Neutral")</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>filtered_data <span class="ot">&lt;-</span> all_data_updated <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(predominant_sentiment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Positive"</span>, <span class="st">"Negative"</span>))</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Contamos las notas por mes y sentimiento</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>monthly_sentiment_count <span class="ot">&lt;-</span> filtered_data <span class="sc">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fecha =</span> <span class="fu">as.Date</span>(<span class="fu">paste</span>(year, month, <span class="st">"01"</span>, <span class="at">sep =</span> <span class="st">"-"</span>))) <span class="sc">%&gt;%</span>  <span class="co"># Creamos una fecha para el eje x</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(fecha, predominant_sentiment) <span class="sc">%&gt;%</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">note_count =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear título dinámico usando search_query</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>titulo_grafico <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"Cantidad de Notas sobre"</span>, search_query, <span class="st">"por Año y Sentimiento Predominante"</span>)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficamos</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(monthly_sentiment_count, <span class="fu">aes</span>(<span class="at">x =</span> fecha, <span class="at">y =</span> note_count, <span class="at">color =</span> predominant_sentiment, <span class="at">group =</span> predominant_sentiment)) <span class="sc">+</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span>  <span class="co"># Líneas con baja opacidad</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>, <span class="fu">aes</span>(<span class="at">color =</span> predominant_sentiment), <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span>  <span class="co"># Línea de tendencia más visible</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> titulo_grafico,</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Año"</span>,</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Cantidad de Notas"</span>,</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Sentimiento Predominante"</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_labels =</span> <span class="st">"%Y"</span>, <span class="at">date_breaks =</span> <span class="st">"1 year"</span>) <span class="sc">+</span>  <span class="co"># Mostrar solo los años en el eje x</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))  <span class="co"># Mejor presentación del eje x</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Extraccion_limpieza_descriptivos_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Se puede apreciar en un primer momento -más claramente desde 2015 en adelante- que el sentimiento predominante positivo “despega” primero y la pendiente crece más rápido que el negativo, que tiene un leve aumento el año 2019 pero despega definitivamente el año 2022 (coincidente con la liberación de Chat GPT) aunque con una curva menos pronunciada que las positivas, cuyo crecimiento tiene una tendencia de aceleración mayor.</p>
+</section>
+</section>
+<section id="wordclouds-por-sentimiento" class="level1">
+<h1>Wordclouds por sentimiento</h1>
+<section id="creamos-conjuntos-de-palabras-más-frecuentes-en-positivas-y-negativas" class="level2">
+<h2 class="anchored" data-anchor-id="creamos-conjuntos-de-palabras-más-frecuentes-en-positivas-y-negativas">Creamos conjuntos de palabras más frecuentes en positivas y negativas</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear listas para almacenar las palabras</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>palabras_positivas <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>palabras_negativas <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Por cada caso de noticia</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(all_data_updated)) {</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Aseguramos que 'sentiment' tiene datos para el caso</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(all_data_updated<span class="sc">$</span>sentiment[[i]]) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extraemos los datos de label y score</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    label_lst_tmp <span class="ot">&lt;-</span> all_data_updated<span class="sc">$</span>sentiment[[i]][[<span class="dv">1</span>]]</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    score_lst_tmp <span class="ot">&lt;-</span> all_data_updated<span class="sc">$</span>sentiment[[i]][[<span class="dv">2</span>]]</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Verificamos que score_lst_tmp tenga datos válidos</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(score_lst_tmp) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Recorremos score_lst_tmp usando length() si es un vector</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(score_lst_tmp)){</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Ver si es mayor que el umbral</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (score_lst_tmp[[j]] <span class="sc">&gt;</span> umbral_sentimiento){</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>          <span class="co"># Crear un tibble temporal con el texto del párrafo</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>          temp_tibble <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">text =</span> all_data_updated<span class="sc">$</span>parrafos_filtrados[[i]][[j]])</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>          <span class="co"># Tokenizamos usando unnest_tokens</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>          palabras <span class="ot">&lt;-</span> temp_tibble <span class="sc">%&gt;%</span></span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>            <span class="fu">unnest_tokens</span>(word, text) <span class="sc">%&gt;%</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>            <span class="fu">pull</span>(word)  <span class="co"># Extraer las palabras como vector</span></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>          <span class="co"># Agregar las palabras a la lista de palabras según corresponda</span></span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (label_lst_tmp[[j]] <span class="sc">==</span> <span class="st">"Positive"</span>) {</span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>            palabras_positivas <span class="ot">&lt;-</span> <span class="fu">c</span>(palabras_positivas, palabras)</span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>          } <span class="cf">else</span> <span class="cf">if</span> (label_lst_tmp[[j]] <span class="sc">==</span> <span class="st">"Negative"</span>) {</span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>            palabras_negativas <span class="ot">&lt;-</span> <span class="fu">c</span>(palabras_negativas, palabras)</span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>          <span class="co"># Es neutral</span></span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>        } </span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-42"><a href="#cb30-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir las listas de palabras en dataframes/tibbles</span></span>
+<span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a>palabras_positivas_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">word =</span> palabras_positivas)</span>
+<span id="cb30-44"><a href="#cb30-44" aria-hidden="true" tabindex="-1"></a>palabras_negativas_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">word =</span> palabras_negativas)</span>
+<span id="cb30-45"><a href="#cb30-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-46"><a href="#cb30-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-47"><a href="#cb30-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Eliminar stop words de palabras positivas y negativas</span></span>
+<span id="cb30-48"><a href="#cb30-48" aria-hidden="true" tabindex="-1"></a>palabras_positivas_sin_stop <span class="ot">&lt;-</span> palabras_positivas_df <span class="sc">%&gt;%</span></span>
+<span id="cb30-49"><a href="#cb30-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-50"><a href="#cb30-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words_es_comunes, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-51"><a href="#cb30-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words_particulares, <span class="at">by =</span> <span class="st">"word"</span>)</span>
+<span id="cb30-52"><a href="#cb30-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-53"><a href="#cb30-53" aria-hidden="true" tabindex="-1"></a>palabras_negativas_sin_stop <span class="ot">&lt;-</span> palabras_negativas_df <span class="sc">%&gt;%</span></span>
+<span id="cb30-54"><a href="#cb30-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-55"><a href="#cb30-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words_es_comunes, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-56"><a href="#cb30-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words_particulares, <span class="at">by =</span> <span class="st">"word"</span>)</span>
+<span id="cb30-57"><a href="#cb30-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-58"><a href="#cb30-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir las listas de palabras en dataframes/tibbles</span></span>
+<span id="cb30-59"><a href="#cb30-59" aria-hidden="true" tabindex="-1"></a>palabras_positivas_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">word =</span> palabras_positivas_sin_stop)</span>
+<span id="cb30-60"><a href="#cb30-60" aria-hidden="true" tabindex="-1"></a>palabras_negativas_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">word =</span> palabras_negativas_sin_stop)</span>
+<span id="cb30-61"><a href="#cb30-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-62"><a href="#cb30-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-63"><a href="#cb30-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Contar las palabras más frecuentes en palabras positivas</span></span>
+<span id="cb30-64"><a href="#cb30-64" aria-hidden="true" tabindex="-1"></a>palabras_positivas_frecuentes <span class="ot">&lt;-</span> palabras_positivas_df <span class="sc">%&gt;%</span></span>
+<span id="cb30-65"><a href="#cb30-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word<span class="sc">$</span>word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb30-66"><a href="#cb30-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Renombrar la columna 'word$word' a 'word'</span></span>
+<span id="cb30-67"><a href="#cb30-67" aria-hidden="true" tabindex="-1"></a>palabras_positivas_frecuentes <span class="ot">&lt;-</span> palabras_positivas_frecuentes <span class="sc">%&gt;%</span></span>
+<span id="cb30-68"><a href="#cb30-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">word =</span> <span class="st">`</span><span class="at">word$word</span><span class="st">`</span>)</span>
+<span id="cb30-69"><a href="#cb30-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-70"><a href="#cb30-70" aria-hidden="true" tabindex="-1"></a>pos_freq_top <span class="ot">&lt;-</span> palabras_positivas_frecuentes <span class="sc">%&gt;%</span> </span>
+<span id="cb30-71"><a href="#cb30-71" aria-hidden="true" tabindex="-1"></a>  <span class="co">#filter(n &gt; 100) %&gt;% # Esta es por si queremos poner un mínimo de veces</span></span>
+<span id="cb30-72"><a href="#cb30-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">70</span>) <span class="co"># Cantidad de resultados a mostrar</span></span>
+<span id="cb30-73"><a href="#cb30-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-74"><a href="#cb30-74" aria-hidden="true" tabindex="-1"></a><span class="fu">wordcloud2</span>(</span>
+<span id="cb30-75"><a href="#cb30-75" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> pos_freq_top, </span>
+<span id="cb30-76"><a href="#cb30-76" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="fl">0.3</span>,              <span class="co"># Aumenta el tamaño general de las palabras</span></span>
+<span id="cb30-77"><a href="#cb30-77" aria-hidden="true" tabindex="-1"></a>  <span class="at">minSize =</span> <span class="dv">0</span>,             <span class="co"># Asegura que todas las palabras sean visibles</span></span>
+<span id="cb30-78"><a href="#cb30-78" aria-hidden="true" tabindex="-1"></a>  <span class="at">gridSize =</span> <span class="dv">1</span>,            <span class="co"># Ajusta la densidad de palabras</span></span>
+<span id="cb30-79"><a href="#cb30-79" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"random-dark"</span>,   <span class="co"># Colores para las palabras</span></span>
+<span id="cb30-80"><a href="#cb30-80" aria-hidden="true" tabindex="-1"></a>  <span class="at">backgroundColor =</span> <span class="st">"white"</span>, <span class="co"># Fondo blanco</span></span>
+<span id="cb30-81"><a href="#cb30-81" aria-hidden="true" tabindex="-1"></a>  <span class="at">shape =</span> <span class="st">"circle"</span>,        <span class="co"># Forma circular para compactar la nube</span></span>
+<span id="cb30-82"><a href="#cb30-82" aria-hidden="true" tabindex="-1"></a>  <span class="at">ellipticity =</span> <span class="dv">1</span>          <span class="co"># Elimina la elipse y fuerza un formato más centrado</span></span>
+<span id="cb30-83"><a href="#cb30-83" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="wordcloud2 html-widget html-fill-item" id="htmlwidget-31cbb0d1458910340ddb" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-31cbb0d1458910340ddb">{"x":{"word":["datos","desarrollo","ai","mundo","uso","futuro","herramientas","tecnologías","empresas","sistema","google","trabajo","empresa","digital","sistemas","universidad","compañía","información","imágenes","tiempo","usuarios","innovación","vida","herramienta","humanos","openai","proyecto","chatgpt","país","plataforma","investigación","modelos","generativa","microsoft","temas","aprendizaje","mejorar","modelo","educación","objetivo","seguridad","aplicaciones","programa","voz","salud","humano","millones","meta","análisis","software","importante","servicios","director","equipo","data","avances","ciencia","robótica","sociedad","mediante","redes","anunció","capacidad","desafíos","detectar","nacional","algoritmos","aplicación","utiliza","experiencia","explicó","resultados","versión"],"freq":[280,224,186,184,181,171,168,165,156,148,142,140,134,132,126,126,117,116,114,113,113,105,104,103,103,102,101,100,98,95,94,94,92,92,91,90,87,87,86,86,86,82,82,81,80,78,78,77,76,76,75,75,74,74,73,72,72,72,72,71,71,69,69,69,68,67,65,65,65,64,64,64,64],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.1928571428571429,"backgroundColor":"white","gridSize":1,"minRotation":-0.7853981633974483,"maxRotation":0.7853981633974483,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":1,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contar las palabras más frecuentes en palabras negativas</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>palabras_negativas_frecuentes <span class="ot">&lt;-</span> palabras_negativas_df <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word<span class="sc">$</span>word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Renombrar la columna 'word$word' a 'word'</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>palabras_negativas_frecuentes <span class="ot">&lt;-</span> palabras_negativas_frecuentes <span class="sc">%&gt;%</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">word =</span> <span class="st">`</span><span class="at">word$word</span><span class="st">`</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>neg_freq_top <span class="ot">&lt;-</span> palabras_negativas_frecuentes <span class="sc">%&gt;%</span> </span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">#filter(n &gt; 100) %&gt;% # Esta es por si queremos poner un mínimo de veces</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">70</span>) <span class="co"># Cantidad de resultados a mostrar</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="fu">wordcloud2</span>(</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> neg_freq_top, </span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="fl">0.3</span>,              <span class="co"># Aumenta el tamaño general de las palabras</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">minSize =</span> <span class="dv">0</span>,             <span class="co"># Asegura que todas las palabras sean visibles</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">gridSize =</span> <span class="dv">1</span>,            <span class="co"># Ajusta la densidad de palabras</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"random-dark"</span>,   <span class="co"># Colores para las palabras</span></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">backgroundColor =</span> <span class="st">"white"</span>, <span class="co"># Fondo blanco</span></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">shape =</span> <span class="st">"circle"</span>,        <span class="co"># Forma circular para compactar la nube</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">ellipticity =</span> <span class="dv">1</span>          <span class="co"># Elimina la elipse y fuerza un formato más centrado</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="wordcloud2 html-widget html-fill-item" id="htmlwidget-4b4cb4e714893de9d705" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-4b4cb4e714893de9d705">{"x":{"word":["uso","imágenes","datos","información","desarrollo","chatgpt","sistema","mundo","humanos","redes","google","ai","usuarios","sistemas","empresas","voz","sociales","trabajo","humanidad","humano","imagen","internet","riesgo","empresa","modelos","openai","unidos","compañía","fotos","herramientas","humana","riesgos","herramienta","tecnologías","futuro","control","derechos","generativa","máquinas","avance","contenido","estudio","mediante","poder","artistas","cosas","gente","musk","países","salud","acuerdo","seguridad","utilizar","videos","casos","facebook","mercado","proyecto","tema","tiempo","utilizando","china","microsoft","millones","país","podrían","protección","ciencia","creada","generado","investigación","plataforma","pueda","reales","usuario","vida"],"freq":[96,93,82,68,63,57,56,55,54,54,53,52,51,50,48,46,45,43,42,42,38,37,37,35,35,35,35,33,33,33,33,33,32,31,30,29,29,29,29,28,28,28,28,28,27,26,26,26,26,26,25,25,25,25,24,24,24,24,24,24,24,23,23,23,23,23,23,22,22,22,22,22,22,22,22,22],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.5625,"backgroundColor":"white","gridSize":1,"minRotation":-0.7853981633974483,"maxRotation":0.7853981633974483,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":1,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+</div>
+</div>
+</section>
+<section id="creamos-conjuntos-de-intersecciones" class="level2">
+<h2 class="anchored" data-anchor-id="creamos-conjuntos-de-intersecciones">Creamos conjuntos de intersecciones</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear los tres conjuntos</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. solo_positivas: Mantener las frecuencias de las palabras solo positivas</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>solo_positivas <span class="ot">&lt;-</span> palabras_positivas_frecuentes <span class="sc">%&gt;%</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> palabras_negativas_frecuentes<span class="sc">$</span>word)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. solo_negativas: Mantener las frecuencias de las palabras solo negativas</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>solo_negativas <span class="ot">&lt;-</span> palabras_negativas_frecuentes <span class="sc">%&gt;%</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> palabras_positivas_frecuentes<span class="sc">$</span>word)</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. compartidas: Palabras que están en ambas listas (positivas y negativas)</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Realizar el inner join para obtener las palabras compartidas</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>palabras_compartidas <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(palabras_positivas_frecuentes, palabras_negativas_frecuentes, <span class="at">by =</span> <span class="st">"word"</span>)</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Sumar las frecuencias de las palabras compartidas</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>palabras_compartidas <span class="ot">&lt;-</span> palabras_compartidas <span class="sc">%&gt;%</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n =</span> n.x <span class="sc">+</span> n.y) <span class="sc">%&gt;%</span>  <span class="co"># Sumar las frecuencias</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(word, n)   <span class="co"># Mantener solo las columnas 'word' y 'n'</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir las columnas 'word' en vectores de palabras para el gráfico de Venn</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>palabras_positivas_set <span class="ot">&lt;-</span> palabras_positivas_frecuentes<span class="sc">$</span>word</span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>palabras_negativas_set <span class="ot">&lt;-</span> palabras_negativas_frecuentes<span class="sc">$</span>word</span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear lista para el gráfico de Venn</span></span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>word_sets <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">Positive =</span> palabras_positivas_set,</span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">Negative =</span> palabras_negativas_set</span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear gráfico de Venn</span></span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a><span class="fu">ggvenn</span>(</span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a>  word_sets, </span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill_color =</span> <span class="fu">c</span>(<span class="st">"#FFA07A"</span>, <span class="st">"#87CEEB"</span>),  <span class="co"># Colores diferenciados</span></span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">stroke_size =</span> <span class="fl">0.5</span>,                    <span class="co"># Grosor de las líneas</span></span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_name_size =</span> <span class="dv">5</span>                     <span class="co"># Tamaño de los nombres</span></span>
+<span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Extraccion_limpieza_descriptivos_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Opcional: Si deseas ver los conjuntos calculados</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(solo_positivas)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9,274 × 2
+   word              n
+   &lt;chr&gt;         &lt;int&gt;
+ 1 procesamiento    33
+ 2 expositores      28
+ 3 ii               22
+ 4 jornadas         22
+ 5 sentar           22
+ 6 charlas          21
+ 7 fórum            21
+ 8 medicina         21
+ 9 única            21
+10 2do              19
+# ℹ 9,264 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(solo_negativas)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3,470 × 2
+   word                n
+   &lt;chr&gt;           &lt;int&gt;
+ 1 compañeras         13
+ 2 saint              13
+ 3 desnudas           12
+ 4 engaño             11
+ 5 huelga              8
+ 6 corte               7
+ 7 falsa               7
+ 8 falsificaciones     7
+ 9 inquietante         7
+10 phishing            7
+# ℹ 3,460 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(palabras_compartidas)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4,957 × 2
+   word             n
+   &lt;chr&gt;        &lt;int&gt;
+ 1 datos          362
+ 2 desarrollo     287
+ 3 ai             238
+ 4 mundo          239
+ 5 uso            277
+ 6 futuro         201
+ 7 herramientas   201
+ 8 tecnologías    196
+ 9 empresas       204
+10 sistema        204
+# ℹ 4,947 more rows</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="web-scrapping-utilizando-la-api-de-emol" class="level1">
+<h1>Web-scrapping utilizando la API de Emol</h1>
+<p>Lo que sigue de aquí en adelante se encuentra incompleto, sin embargo, se consideró relevante incluirlo en la entrega para poder recibir una retroalimentación. El procedimiento es el mismo: se encontró una API no documentada que utiliza el buscador de Emol. Luego se fueron descubriendo a prueba y error los parámetros necesarios para iterar. La mayor complicación que se tuvo es que la estructura de datos que entrega la API difiere mucho en este caso. La API entrega las noticias agrupadas de diez en diez.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros básicos</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>search_query <span class="ot">&lt;-</span> <span class="st">"Inteligencia Artificial"</span>  <span class="co"># Palabra clave para obtener los artículos</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>offset <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># Seteamos en 0 para que comience por el primer artículo</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>total_results_emol <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># Número total de resultados de la búsqueda</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir URL base y parámetros de la consulta</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>base_url <span class="ot">&lt;-</span> <span class="st">"https://newsapi.ecn.cl/NewsApi/emol/buscador/emol,inversiones,mediosregionales,legal,campo,blogs,guioteca,elmercurio-digital,emoltv,lasegundaprint,revistalibros,mercuriodeportes"</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>size <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Número de artículos por página</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Inicializar el data frame vacío</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>all_data_emol <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">ID =</span> <span class="fu">character</span>(),  <span class="co"># Definimos las columnas vacías</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">post_content =</span> <span class="fu">character</span>(),</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">post_title =</span> <span class="fu">character</span>(),</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">integer</span>(),  <span class="co"># Año como entero</span></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">month =</span> <span class="fu">integer</span>(),  <span class="co"># Mes como entero</span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">day =</span> <span class="fu">integer</span>(),  <span class="co"># Día como entero</span></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">seccion =</span> <span class="fu">character</span>(),</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">subSeccion =</span> <span class="fu">character</span>(),</span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>  <span class="co"># Inicializamos el data frame sin factores</span></span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtener el número total de resultados</span></span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>url_initial <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>  base_url, </span>
+<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?q="</span>, <span class="fu">URLencode</span>(search_query), </span>
+<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;size=1&amp;from=0"</span></span>
+<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-30"><a href="#cb39-30" aria-hidden="true" tabindex="-1"></a>response_initial <span class="ot">&lt;-</span> <span class="fu">GET</span>(url_initial)</span>
+<span id="cb39-31"><a href="#cb39-31" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">status_code</span>(response_initial) <span class="sc">==</span> <span class="dv">200</span>) {</span>
+<span id="cb39-32"><a href="#cb39-32" aria-hidden="true" tabindex="-1"></a>  data_initial <span class="ot">&lt;-</span> <span class="fu">content</span>(response_initial, <span class="st">"text"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-33"><a href="#cb39-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fromJSON</span>(<span class="at">flatten =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb39-34"><a href="#cb39-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb39-35"><a href="#cb39-35" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(data_initial<span class="sc">$</span>hits<span class="sc">$</span>total)) {</span>
+<span id="cb39-36"><a href="#cb39-36" aria-hidden="true" tabindex="-1"></a>    total_results_emol <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(data_initial<span class="sc">$</span>hits<span class="sc">$</span>total)</span>
+<span id="cb39-37"><a href="#cb39-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"Número total de resultados: "</span>, total_results_emol)</span>
+<span id="cb39-38"><a href="#cb39-38" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb39-39"><a href="#cb39-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"No se encontró el parámetro 'total' en la respuesta."</span>)</span>
+<span id="cb39-40"><a href="#cb39-40" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb39-41"><a href="#cb39-41" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb39-42"><a href="#cb39-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Error en la solicitud inicial. Código de estado: "</span>, <span class="fu">status_code</span>(response_initial))</span>
+<span id="cb39-43"><a href="#cb39-43" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Número total de resultados: 2815</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterar por todas las páginas de resultados</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (offset <span class="sc">&lt;</span> total_results_emol) {</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Construir la URL para cada iteración</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    base_url, </span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"?q="</span>, <span class="fu">URLencode</span>(search_query), </span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&amp;size="</span>, size, </span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&amp;from="</span>, offset</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Aumentar el offset para la siguiente iteración</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  offset <span class="ot">&lt;-</span> offset <span class="sc">+</span> size</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Realizar la solicitud y manejar posibles errores</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>  response <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>    { <span class="fu">GET</span>(url) },</span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">error =</span> <span class="cf">function</span>(e) { </span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">message</span>(<span class="st">"Error en la conexión: "</span>, e) </span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(response)) <span class="cf">next</span></span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Procesar el contenido si la respuesta es válida</span></span>
+<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">content</span>(response, <span class="st">"text"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a>  json_data <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(data, <span class="at">flatten =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb41-28"><a href="#cb41-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb41-29"><a href="#cb41-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Verificar si hay datos en `hits$hits` antes de procesar</span></span>
+<span id="cb41-30"><a href="#cb41-30" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(json_data<span class="sc">$</span>hits<span class="sc">$</span>hits)) {</span>
+<span id="cb41-31"><a href="#cb41-31" aria-hidden="true" tabindex="-1"></a>    noticias <span class="ot">&lt;-</span> json_data<span class="sc">$</span>hits<span class="sc">$</span>hits  <span class="co"># Esto es un data.frame, no una lista</span></span>
+<span id="cb41-32"><a href="#cb41-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb41-33"><a href="#cb41-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filtrar los artículos de tipo "noticia"</span></span>
+<span id="cb41-34"><a href="#cb41-34" aria-hidden="true" tabindex="-1"></a>    noticias <span class="ot">&lt;-</span> noticias[noticias<span class="sc">$</span><span class="st">`</span><span class="at">_type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"noticia"</span>, ]</span>
+<span id="cb41-35"><a href="#cb41-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb41-36"><a href="#cb41-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extraer datos de manera adecuada desde el data.frame</span></span>
+<span id="cb41-37"><a href="#cb41-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(noticias)) {</span>
+<span id="cb41-38"><a href="#cb41-38" aria-hidden="true" tabindex="-1"></a>      temp <span class="ot">&lt;-</span> noticias[i, ]</span>
+<span id="cb41-39"><a href="#cb41-39" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb41-40"><a href="#cb41-40" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Verificar que temp tenga los datos necesarios antes de procesar</span></span>
+<span id="cb41-41"><a href="#cb41-41" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(temp<span class="sc">$</span><span class="st">`</span><span class="at">_source.id</span><span class="st">`</span>) <span class="sc">&amp;&amp;</span> <span class="sc">!</span><span class="fu">is.null</span>(temp<span class="sc">$</span><span class="st">`</span><span class="at">_source.texto</span><span class="st">`</span>) <span class="sc">&amp;&amp;</span> <span class="sc">!</span><span class="fu">is.null</span>(temp<span class="sc">$</span><span class="st">`</span><span class="at">_source.titulo</span><span class="st">`</span>) <span class="sc">&amp;&amp;</span> <span class="sc">!</span><span class="fu">is.null</span>(temp<span class="sc">$</span><span class="st">`</span><span class="at">_source.fechaPublicacion</span><span class="st">`</span>)) {</span>
+<span id="cb41-42"><a href="#cb41-42" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extraemos los datos de las columnas adecuadas</span></span>
+<span id="cb41-43"><a href="#cb41-43" aria-hidden="true" tabindex="-1"></a>        all_data_emol <span class="ot">&lt;-</span> <span class="fu">rbind</span>(all_data_emol, <span class="fu">data.frame</span>(</span>
+<span id="cb41-44"><a href="#cb41-44" aria-hidden="true" tabindex="-1"></a>          <span class="at">ID =</span> <span class="fu">as.character</span>(temp<span class="sc">$</span><span class="st">`</span><span class="at">_source.id</span><span class="st">`</span>),</span>
+<span id="cb41-45"><a href="#cb41-45" aria-hidden="true" tabindex="-1"></a>          <span class="at">post_content =</span> <span class="fu">as.character</span>(temp<span class="sc">$</span><span class="st">`</span><span class="at">_source.texto</span><span class="st">`</span>),</span>
+<span id="cb41-46"><a href="#cb41-46" aria-hidden="true" tabindex="-1"></a>          <span class="at">post_title =</span> <span class="fu">as.character</span>(temp<span class="sc">$</span><span class="st">`</span><span class="at">_source.titulo</span><span class="st">`</span>),</span>
+<span id="cb41-47"><a href="#cb41-47" aria-hidden="true" tabindex="-1"></a>          <span class="at">year =</span> <span class="fu">as.integer</span>(<span class="fu">ymd_hms</span>(temp<span class="sc">$</span><span class="st">`</span><span class="at">_source.fechaPublicacion</span><span class="st">`</span>) <span class="sc">%&gt;%</span> <span class="fu">year</span>()),</span>
+<span id="cb41-48"><a href="#cb41-48" aria-hidden="true" tabindex="-1"></a>          <span class="at">month =</span> <span class="fu">as.integer</span>(<span class="fu">ymd_hms</span>(temp<span class="sc">$</span><span class="st">`</span><span class="at">_source.fechaPublicacion</span><span class="st">`</span>) <span class="sc">%&gt;%</span> <span class="fu">month</span>()),</span>
+<span id="cb41-49"><a href="#cb41-49" aria-hidden="true" tabindex="-1"></a>          <span class="at">day =</span> <span class="fu">as.integer</span>(<span class="fu">ymd_hms</span>(temp<span class="sc">$</span><span class="st">`</span><span class="at">_source.fechaPublicacion</span><span class="st">`</span>) <span class="sc">%&gt;%</span> <span class="fu">day</span>()),</span>
+<span id="cb41-50"><a href="#cb41-50" aria-hidden="true" tabindex="-1"></a>          <span class="at">seccion =</span> <span class="fu">as.character</span>(temp<span class="sc">$</span><span class="st">`</span><span class="at">_source.seccion</span><span class="st">`</span>),</span>
+<span id="cb41-51"><a href="#cb41-51" aria-hidden="true" tabindex="-1"></a>          <span class="at">subSeccion =</span> <span class="fu">as.character</span>(temp<span class="sc">$</span><span class="st">`</span><span class="at">_source.subSeccion</span><span class="st">`</span>),</span>
+<span id="cb41-52"><a href="#cb41-52" aria-hidden="true" tabindex="-1"></a>          <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb41-53"><a href="#cb41-53" aria-hidden="true" tabindex="-1"></a>        ))</span>
+<span id="cb41-54"><a href="#cb41-54" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb41-55"><a href="#cb41-55" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb41-56"><a href="#cb41-56" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb41-57"><a href="#cb41-57" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb41-58"><a href="#cb41-58" aria-hidden="true" tabindex="-1"></a>all_data_emol <span class="ot">&lt;-</span> all_data_emol <span class="sc">%&gt;%</span></span>
+<span id="cb41-59"><a href="#cb41-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(post_content) <span class="sc">&amp;</span> post_content <span class="sc">!=</span> <span class="st">""</span>)</span>
+<span id="cb41-60"><a href="#cb41-60" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb41-61"><a href="#cb41-61" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Mostrar progreso de las iteraciones</span></span>
+<span id="cb41-62"><a href="#cb41-62" aria-hidden="true" tabindex="-1"></a>  <span class="co"># cat(" - Procesados - ", offset, "\n") # Mostrar progreso</span></span>
+<span id="cb41-63"><a href="#cb41-63" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb41-64"><a href="#cb41-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-65"><a href="#cb41-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar el primer contenido extraído</span></span>
+<span id="cb41-66"><a href="#cb41-66" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(all_data_emol<span class="sc">$</span>post_content[<span class="dv">160</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "El pasado 28 de agosto se inició la campaña electoral para las elecciones de octubre. En ese contexto es que han aumentado en redes sociales las imágenes, videos e información falsa generada con inteligencia artificial (IA), que involucra tanto a candidatos como a figuras políticas contingentes. Una de las imágenes generadas con IA es, por ejemplo, la de la presidenta de la Cámara de Diputados, Karol Cariola, junto con la ministra vocera de Gobierno, Camila Vallejo. La publicación en X (ex-Twitter), en que se ve a ambas embarazadas vistiendo un vestido celeste y un pañuelo verde, haciendo alusión a los movimientos provida y proaborto, acumula ya más de 20 mil visualizaciones. La misma cuenta que difundió esta imagen publicó un supuesto video en el que se puede ver al abogado Luis Hermosilla —quien recientemente ingresó a prisión preventiva en el marco del caso Audio— junto con el exalcalde de Recoleta Daniel Jadue y al fundador de la Coordinadora Arauco Malleco, Héctor Llaitul, quien fue condenado a 23 años de cárcel por delitos contemplados en la Ley de Seguridad Interior del Estado, hurto de madera y atentados contra la autoridad.También, el candidato de Chile Vamos por Santiago, Mario Desbordes, generó un video para sus redes con contenido creado con inteligencia artificial, para advertir los peligros de este tipo de desinformación.Aunque los expertos coinciden en que aún no existen herramientas que identifiquen automáticamente las imágenes creadas con IA, hay ciertos elementos comunes en este tipo de contenido que permiten que los usuarios no confundan estas imágenes falsas con la realidad.Lo primero es revisar el contexto en el que es publicada la imagen y asegurarse de que este se relacione con las personas o figuras políticas que aparezcan en ella. Por ejemplo, la diputada Karol Cariola y la ministra Camila Vallejo tienen tan solo unos meses de embarazo, no como se ve en la fotografía. Además, en los bordes de la supuesta manifestación se pueden apreciar personas caracterizadas —similares a las de películas bíblicas— que no pertenecen al contexto de una marcha en Chile.Otro detalle son las extremidades y texturas de la piel: puede que quienes aparecen en las imágenes generadas por IA presenten deformidades o tengan, por ejemplo, una cantidad incorrecta de dedos, y que su piel se vea brillante o similar a la de una figura de cera, como puede observarse en la imagen de la ministra y la diputada. De igual manera, puede haber desarmonías en las sombras, que pueden no coincidir con las de las personas u objetos de la imagen.Lo que sucede en Chile no es nuevo si se observa la experiencia de otros países, aunque en estos la generación de imágenes —por ejemplo, en EE.UU. o España— es de mejor factura que los ejemplos que se han visto en Chile.John Atkinson, académico y director del Magíster en IA de la UAI, explica que la calidad de las imágenes depende del prompt o las instrucciones que se den al programa. “Todo básicamente va en la creatividad para usar el prompt. Hay gente de acá, especialmente los que están en el área de diseño, márketing y temas audiovisuales, que son muy buenos para eso. En el fondo, aprenden a especificar bien el tema (...), depende de la delicadeza y de la astucia”.Valentina Montero, directora del Magíster en Investigación y Creación de la Imagen de la Universidad Finis Terrae, afirma que lo llamativo de esta práctica no es el objetivo, sino que “es la facilidad para realizar este tipo de imágenes”, ya que antes se necesitaba un conocimiento más sofisticado en distintas herramientas para realizar montaje de fotografías. Montero considera que mientras más imágenes se difundan, menos creíbles serán para las personas. “Creo que esta saturación que va a haber de imágenes hechas con inteligencia artificial nos va a llevar a un punto de estallido de la sospecha donde no vamos a creer en nada”. También explica que es complejo poder establecer una forma para identificar contenido, ya que los avances tecnológicos solucionan rápidamente los errores que se pueden ver hoy. Al igual que Valentina Montero, Marcelo Mendoza, académico del Departamento de Ciencia de la Computación UC e investigador principal del Centro Nacional de Inteligencia Artificial (Cenia), considera que el fenómeno de la creación de contenido con IA no es algo nuevo.Según sus investigaciones, “en las últimas tres elecciones presidenciales ya se han usado bots en Chile con mayor o menor presencia en algunas de ellas, pero en el caso de la inteligencia artificial generativa, esto es imágenes o textos generados por computadores, esto es bastante más nuevo”.Claudia López, académica de la Universidad Técnica Federico Santa María e investigadora principal del Núcleo Milenio de Investigación Futuros de la Inteligencia Artificial (FAIR), recuerda ejemplos de países como EE.UU., India o Argentina, y otros en que se ha utilizado la IA con objetivos maliciosos en política. “Ayuda en la generación de contenido útil, pero también de contenido falso. Hay harto riesgo ahí no solo en los deep fakes que llaman un montón la atención, sino que también escritos que son generados con inteligencia artificial”. La experta considera que la solución para identificar estas fotografías no es otra herramienta tecnológica, sino que “crear estándares donde los contenidos generados por inteligencia artificial transparentemente tengan que decir obligatoriamente que fueron generados por inteligencia artificial y que si no se hace eso, sea algo penable y que no está permitido”. Imagen creada con IAImagen creada con IALo que sucede en Chile no es nuevo si se observa la experiencia de otros países, aunque en estos la generación de imágenes —por ejemplo, en EE.UU. o España— es de mejor factura que los ejemplos que se han visto en Chile."</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Con expresión regular sacar todo el html resultante dentro del texto</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>total_results_emol <span class="ot">&lt;-</span> <span class="fu">nrow</span>(all_data_emol)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="referencias" class="level2">
+<h2 class="anchored" data-anchor-id="referencias">Referencias</h2>
+<ul>
+<li><p>EMOL. (2024). En Wikipedia, la enciclopedia libre.<a href="https://es.wikipedia.org/w/index.php?title=EMOL&amp;oldid=160302426" class="uri">https://es.wikipedia.org/w/index.php?title=EMOL&amp;oldid=160302426</a></p></li>
+<li><p>Quiénes somos | BioBiochile. (s. f.). Recuperado 4 de noviembre de 2024, de<a href="https://www.biobiochile.cl/quienes-somos/" class="uri">https://www.biobiochile.cl/quienes-somos/</a></p></li>
+<li><p>Clasificación de los principales sitios web de Editoriales de noticias y medios de comunicación en Chile en septiembre 2024. (s. f.). Similarweb. Recuperado 4 de noviembre de 2024, de<a href="https://www.similarweb.com/es/top-websites/chile/news-and-media/" class="uri">https://www.similarweb.com/es/top-websites/chile/news-and-media/</a></p></li>
+</ul>
+</section>
+<section id="to-do-list-para-crear-paquete" class="level2">
+<h2 class="anchored" data-anchor-id="to-do-list-para-crear-paquete">To do list para crear Paquete:</h2>
+<ul>
+<li><p>Función que permita devolver los n últimas noticias (ordenadas desde las más recientes)</p></li>
+<li><p>Investigar parámetros de la API para ver utilizar rangos de fecha</p></li>
+<li><p>Una vez obteniendo el contenido, realizar funciones para analizar el contenido</p></li>
+<li><p>Proponer una función y sus parámetros</p></li>
+</ul>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
