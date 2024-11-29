@@ -438,19 +438,22 @@ arrow::write_parquet(all_data, "data.parquet")
 
 ## Importamos el parquet actualizado
 
-Luego de procesar en el notebook de Google Colab, importamos los resultados con análisis de sentimiento.
+Luego de procesar en el notebook de Google Colab, importamos los resultados con análisis de sentimiento. Necesitamos también restablecer la columna de parrafos_filtrados que en el parquet exportado desde el Colab no lo guarda como una lista de párrafos.
 
 ```{r}
+# Leemos ambos archivos Parquet
+all_data <- read_parquet("data.parquet")
+
 # Leer el archivo Parquet exportado
 all_data_updated <- read_parquet("all_data_updated.parquet")
 
-# Verificar los datos
-head(all_data_updated)
+# Reemplazamos la columna
+all_data_updated$parrafos_filtrados <- all_data$parrafos_filtrados
 ```
 
 ## Procesamos el nuevo data frame
 
-Necesitamos restablecer la columna de parrafos_filtrados que en el parquet exportado desde el Colab no lo guarda como una lista de párrafos. Además en este punto debemos configurar un umbral desde el cual se considerarán válidas las predicciones de sentimiento (0.9 implicaría supuestamente un 90% de probabilidades de que la predicción esté bien).
+Además en este punto debemos configurar un umbral desde el cual se considerarán válidas las predicciones de sentimiento (0.9 implicaría supuestamente un 90% de probabilidades de que la predicción esté bien).
 
 ```{r}
 # Copiamos la columna 'parrafos_filtrados' de all_data a all_data_updated
@@ -584,8 +587,9 @@ palabras_negativas_sin_stop <- palabras_negativas_df %>%
 # Convertir las listas de palabras en dataframes/tibbles
 palabras_positivas_df <- tibble(word = palabras_positivas_sin_stop)
 palabras_negativas_df <- tibble(word = palabras_negativas_sin_stop)
+```
 
-
+```{r}
 # Contar las palabras más frecuentes en palabras positivas
 palabras_positivas_frecuentes <- palabras_positivas_df %>%
   count(word$word, sort = TRUE)
@@ -598,7 +602,7 @@ pos_freq_top <- palabras_positivas_frecuentes %>%
   slice_max(n, n = 70) # Cantidad de resultados a mostrar
 
 wordcloud2(
-  data = pos_freq_top, 
+  data = as.data.frame(pos_freq_top), 
   size = 0.3,              # Aumenta el tamaño general de las palabras
   minSize = 0,             # Asegura que todas las palabras sean visibles
   gridSize = 1,            # Ajusta la densidad de palabras
@@ -608,6 +612,9 @@ wordcloud2(
   ellipticity = 1          # Elimina la elipse y fuerza un formato más centrado
 )
 
+```
+
+```{r}
 
 # Contar las palabras más frecuentes en palabras negativas
 palabras_negativas_frecuentes <- palabras_negativas_df %>%
@@ -621,7 +628,7 @@ neg_freq_top <- palabras_negativas_frecuentes %>%
   slice_max(n, n = 70) # Cantidad de resultados a mostrar
 
 wordcloud2(
-  data = neg_freq_top, 
+  data = as.data.frame(neg_freq_top), 
   size = 0.3,              # Aumenta el tamaño general de las palabras
   minSize = 0,             # Asegura que todas las palabras sean visibles
   gridSize = 1,            # Ajusta la densidad de palabras
